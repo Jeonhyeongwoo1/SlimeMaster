@@ -1,0 +1,275 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Prefabs
+  m_EditorClassIdentifier: 
+  m_GroupName: Prefabs
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 30d849343399a6246b6dbf0d81a6736a
+  m_SerializeEntries:
+  - m_GUID: 0115173dc179c5344bbbb641b403ef13
+    m_Address: EnergyBolt
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 217602d80e3c47349b5c0da40b94f7be
+    m_Address: IcicleArrow
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 6908128b6f94fdf44be00b96c1b12238
+    m_Address: EletronicField
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 2ef93401a097fc84ab30ae2d81d7120a
+    m_Address: DamageFont
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: e86f358a6e6af2b4a8263f5f1b235430
+    m_Address: ExpGem
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: bd1dc81d2bcf91c4ab06eef974b5c2b6
+    m_Address: FrozenHeart
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 4479767f1227e3145b5505c2e80daa13
+    m_Address: MeteorProjectile
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 01c77cfdcdd05914bab55e1254af9fce
+    m_Address: PoisonFieldProjectile
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: a1490495b962c99428357e4675632521
+    m_Address: PoisonFieldEffect
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 8cf88abe09d62b84086c3e6fd29e4001
+    m_Address: MeteorMagicCircle
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: d415b29ca5ad7e94b837a3756204536f
+    m_Address: WindCutter
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: b786434cd1f089c4db1503db7805e3c7
+    m_Address: MeteorHitEffect
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 83c9a3dff0f9d24498e8c75d0e322c98
+    m_Address: MonsterProjectile
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 029230b60b967074f91f8a2e9d3c27cf
+    m_Address: MeteorShadow
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: d9cdb6a0f4095134bb5eb4f48df6828b
+    m_Address: Magnet
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 6ba191ec7b32dba4aa9c8a9cc27093a4
+    m_Address: Potion
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 39b176de8b08bf94287136ed4ef3f36f
+    m_Address: Soul
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 2d0c1abb18f0ebb44943b8e52d6b6086
+    m_Address: CriticalDamageFont
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 2c1ac06453d633b43b2d98dd2712111b
+    m_Address: Shuriken
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: ad644969d8d7ef346bed6455854f38ba
+    m_Address: PhotonStrike
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: a96830aa35b382c4f89bcfc9ab73134f
+    m_Address: BossProjectile
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 9fb29d6a165d8b04a8021a6ec03d429a
+    m_Address: ArrowShot
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: ec19c8e62b494ed49ab25403022d8364
+    m_Address: SavageSmash
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 432cb5b4d3dbe2043a519ab012338719
+    m_Address: EgoSword
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 2ad466566d1aa264fa5df1a2c57eeefc
+    m_Address: ChainLightning
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 90156a2aad2711f40bb9978a81d598de
+    m_Address: DropBox
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 74844a3cbde96dd4ea0d6d43ce518da5
+    m_Address: HealEffect
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 4dc4e8c058ac38c42b40ec4716b44810
+    m_Address: SkillRange
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 42f0b2260d863c5469007dede0db7603
+    m_Address: BossSmashHitEffect
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 76ab356a8f729ae468b567e14b21b614
+    m_Address: Revival
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: a636334d3d769a44da455f8d0424afb3
+    m_Address: SceneChangeAnimation_In
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: b1fb732af79c9d84a98a089a5b1e686f
+    m_Address: SceneChangeAnimation_Out
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: d8adfc81c5b128d499dd052b1dd520b5
+    m_Address: StormBladeProjectile
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 14a8e8fc03385704e8fddf4a8feb4f4a
+    m_Address: Bomb
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 0684c79d48bdaff4fad62982a610ea66
+    m_Address: EnergyBolt_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 2597b59353bc488468728e736944052e
+    m_Address: IcicleArrow_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 45d9c5808c039a640830b8cbffd4a774
+    m_Address: EletronicField_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 2f685f76a3d19ba41a8e4e596aa95e67
+    m_Address: FrozenHeart_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 2585f33c10f4daa41838248ee705a4b1
+    m_Address: MeteorProjectile_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 05a9fdec5d41191459298275a68f3289
+    m_Address: MeteorHitEffect_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: bd5772ec4d665df4dbd435b3896255be
+    m_Address: PoisonFieldProjectile_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 131229b28cd9eaf439c932cb8803bba1
+    m_Address: PoisonFieldEffect_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 23b85341b7dffb44fab9b8953e10f3e3
+    m_Address: WindCutter_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 3add185ad158d2c4b8ef6df55e367439
+    m_Address: Shuriken_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 2e672721d9648364e9c88bc96e9403f1
+    m_Address: PhotonStrike_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 3a3d248fa471eed4f933c7189d2c2f80
+    m_Address: ArrowShot_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 16b4d8a12da1eb34fbb6107304cc9e40
+    m_Address: SavageSmash_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 861449f41d0423046b195ecb85ec0042
+    m_Address: EgoSwordProjectile_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 7dc059e96d9206e4ca39125eef0356d7
+    m_Address: ChainLightning_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  - m_GUID: 0df6abe87c3a2ed4f98558607e38679d
+    m_Address: StormBladeProjectile_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: ea05dd4d5f043fa4b93db9e6de435d8f, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 1c382e07ae52ee4449e77c953f667e63, type: 2}
+    - {fileID: 11400000, guid: eb15d8a7b91ec894f9a19aeea3ed3431, type: 2}
