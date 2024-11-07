@@ -10,13 +10,15 @@ namespace SlimeMaster.InGame.Manager
         public Dictionary<int, SkillData> SkillDict { get; private set; } = new();
         public Dictionary<int, CreatureData> CreatureDict { get; private set; } = new();
         public Dictionary<int, StageData> StageDict { get; private set; } = new();
-        public Dictionary<int, WaveData> WaveDict { get; private set; } = new();
+        public Dictionary<int, LevelData> LevelDataDict { get; private set; } = new();
 
         public void Initialize()
         {
             SkillDict = LoadJson<SkillDataLoader, int, SkillData>("SkillData").MakeDict();
             CreatureDict = LoadJson<CreatureDataLoader, int, CreatureData>("CreatureData").MakeDict();
             StageDict = LoadJson<StageDataLoader, int, StageData>("StageData").MakeDict();
+            LevelDataDict = LoadJson<LevelDataLoader, int, LevelData>("LevelData").MakeDict();
+            
         }
 
         TLoader LoadJson<TLoader, TKey, TValue>(string path) where TLoader : ILoader<TKey, TValue>

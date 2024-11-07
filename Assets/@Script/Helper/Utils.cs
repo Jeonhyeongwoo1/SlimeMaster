@@ -8,6 +8,19 @@ namespace SlimeMaster.Common
 {
     public static class Utils
     {
+        public static List<T> Shuffle<T>(this List<T> shuffleList)
+        {
+            int n = shuffleList.Count;
+            while (n > 1)
+            {
+                n--;
+                int random = Random.Range(0, n + 1);
+                (shuffleList[random], shuffleList[n]) = (shuffleList[n], shuffleList[random]);
+            }
+            
+            return shuffleList;
+        }
+        
         public static void SafeCancelCancellationTokenSource(ref CancellationTokenSource cts)
         {
             if (cts != null)

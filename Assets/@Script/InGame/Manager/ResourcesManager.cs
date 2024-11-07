@@ -26,8 +26,11 @@ namespace SlimeMaster.InGame.Manager
 
             if (typeof(T) == typeof(Sprite))
             {
-                key += _defineSprite;
-                Debug.Log(key);
+                if (!key.Contains(_defineSprite))
+                {
+                    key += _defineSprite;
+                }
+                
                 if (_resourceDict.TryGetValue(key, out resource))
                 {
                     return (T)resource;
@@ -46,6 +49,7 @@ namespace SlimeMaster.InGame.Manager
             if (isPooling)
             {
                 var obj = GameManager.I.Pool.GetObject(prefab.name, prefab);
+                obj.name = prefab.name;
                 return obj;
             }
 

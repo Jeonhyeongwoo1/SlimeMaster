@@ -8,6 +8,31 @@ public interface ILoader<Key, Value>
 
 namespace SlimeMaster.Data
 {
+    
+    #region LevelData
+    [Serializable]
+    public class LevelData
+    {
+        public int Level;
+        public int TotalExp;
+        public int RequiredExp;
+    }
+
+    [Serializable]
+    public class LevelDataLoader : ILoader<int, LevelData>
+    {
+        public List<LevelData> levels = new List<LevelData>();
+        public Dictionary<int, LevelData> MakeDict()
+        {
+            Dictionary<int, LevelData> dict = new Dictionary<int, LevelData>();
+            foreach (LevelData levelData in levels)
+                dict.Add(levelData.Level, levelData);
+            return dict;
+        }
+    }
+    #endregion
+
+    
     #region CreatureData
 
     [Serializable]
@@ -178,5 +203,16 @@ namespace SlimeMaster.Data
             return dict;
         }
     }
+    #endregion
+
+    #region ContinueData
+
+    [Serializable]
+    public class ContinueData
+    {
+        public int exp;
+    }
+
+
     #endregion
 }

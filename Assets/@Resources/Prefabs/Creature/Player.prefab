@@ -1002,9 +1002,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42840b8f79c5c44da85405d01d838bf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 4529387409721076668}
+  _rigidbody: {fileID: 0}
   _indicatorTransform: {fileID: 4529387409555386079}
-  _characterSprite: {fileID: 4529387409721076668}
-  _moveSpeed: 10
+  _indicatorSpriteTransform: {fileID: 4529387408274234759}
 --- !u!1001 &1150204033572471984
 PrefabInstance:
   m_ObjectHideFlags: 0

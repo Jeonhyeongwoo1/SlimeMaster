@@ -40,6 +40,11 @@ namespace SlimeMaster.InGame.Entity
             EnemySpawnAsync(spawnInterval, monsterIdList, onceSpawnCount, firstMonsterSpanRate).Forget();
         }
 
+        public void StopMonsterSpawn()
+        {
+            Utils.SafeCancelCancellationTokenSource(ref _spawnCts);
+        }
+
         public async UniTaskVoid EnemySpawnAsync(float spawnInterval, List<int> monsterIdList, int onceSpawnCount,
             float firstMonsterSpanRate)
         {
@@ -50,22 +55,6 @@ namespace SlimeMaster.InGame.Entity
                 try
                 {
                     await UniTask.WaitForSeconds(spawnInterval, cancellationToken: _spawnCts.Token);
-                    
-                    for (int i = 0; i < onceSpawnCount; i++)
-                    {
-                        float select = Random.value;
-                        int monsterId =
-                            monsterIdList[select <= firstMonsterSpanRate ? 0 : Random.Range(0, monsterIdList.Count)];
-                        float angle = 360 / (i + 1);
-                        var spawnPosition = GetCirclePosition(angle) + _player.transform.position;
-
-                        SpawnObjectData spawnObjectData = new SpawnObjectData();
-                        spawnObjectData.spawnPosition = spawnPosition;
-                        spawnObjectData.id = monsterId;
-                        spawnObjectData.Type = typeof(MonsterController);
-                        GameManager.I.Event.Raise(GameEventType.SpawnObject, spawnObjectData);
-                    }
-                    
                 }
                 catch (Exception e) when (!(e is OperationCanceledException))
                 {
@@ -74,6 +63,21 @@ namespace SlimeMaster.InGame.Entity
                     // Debug.Log("Restart enemy spawn");
                     // EnemySpawnAsync().Forget();
                     break;
+                }
+                
+                for (int i = 0; i < onceSpawnCount; i++)
+                {
+                    float select = Random.value;
+                    int monsterId =
+                        monsterIdList[select <= firstMonsterSpanRate ? 0 : Random.Range(0, monsterIdList.Count)];
+                    float angle = 360 / (i + 1);
+                    var spawnPosition = GetCirclePosition(angle) + _player.transform.position;
+
+                    SpawnObjectData spawnObjectData = new SpawnObjectData();
+                    spawnObjectData.spawnPosition = spawnPosition;
+                    spawnObjectData.id = monsterId;
+                    spawnObjectData.Type = typeof(MonsterController);
+                    GameManager.I.Event.Raise(GameEventType.SpawnObject, spawnObjectData);
                 }
             }
         }

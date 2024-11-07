@@ -1,7 +1,14 @@
-using Cysharp.Threading.Tasks;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using SlimeMaster.Common;
+using SlimeMaster.Data;
 using SlimeMaster.InGame.Controller;
-using SlimeMaster.InGame.Entity;
+using SlimeMaster.InGame.Data;
 using SlimeMaster.InGame.Enum;
+using SlimeMaster.InGame.Popup;
+using SlimeMaster.InGame.Skill;
+using SlimeMaster.InGame.View;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -30,6 +37,7 @@ namespace SlimeMaster.InGame.Manager
         public DataManager Data => _data;
         public StageManager Stage => _stage;
         public ObjectManager Object => _object;
+        public UIManager UI => _ui;
 
         private EventManager _event;
         private PoolManager _pool;
@@ -37,7 +45,7 @@ namespace SlimeMaster.InGame.Manager
         private DataManager _data;
         private StageManager _stage;
         private ObjectManager _object;
-        
+        private UIManager _ui;
         
         private PlayerController _player;
 
@@ -46,9 +54,8 @@ namespace SlimeMaster.InGame.Manager
 
         private void Start()
         {
-            LoadData();
+            Initialize();
         }
-
         private void CreateManager()
         {
             _pool = new PoolManager();
@@ -57,21 +64,68 @@ namespace SlimeMaster.InGame.Manager
             _data = new DataManager();
             _stage = new StageManager();
             _object = new ObjectManager();
+            _ui = new UIManager();
         }
+        
 
-        private async void LoadData()
+        private async void Initialize()
         {
             CreateManager();
            
             _player = FindObjectOfType<PlayerController>();
             await Resource.LoadResourceAsync<Object>("PreLoad", null);
             _data.Initialize();
-            _object.Initialize(_event, _resource, _data, _player);
             _stage.Initialize(_stageIndex, _player);
-            
+            _object.Initialize(_player);
+            _ui.ShowUI<UI_GameScene>();
+            AddEvents();
             GameStart();
         }
 
+        private void AddEvents()
+        {
+            _event.AddEvent(GameEventType.LevelUp, OnLevelUp);
+            _event.AddEvent(GameEventType.UpgradeOrAddNewSkill, OnUpgradeOrAddNewSkill);
+        }
+
+        private void OnLevelUp(object value)
+        {
+            SkillBook skillBook = (SkillBook)value;
+            
+            /*
+             *  스킬리스트 정리
+             *  총 6개의 스킬을 얻음.
+             *  6개의 스킬을 가지고 있으면
+             *      만랩이 아닌 스킬중에서 3개를 선택
+             *  아니면
+             *  선택할 수 있는 스킬들 중에서 만랩이 아닌 스킬 3개를 선택
+             */
+
+            List<BaseSkill> skillList = skillBook.GetRecommendSkillList();
+            if (skillList.Count == 0)
+            {
+                Debug.Log($"recommend skill list {skillList.Count}");
+                return;
+            }
+            
+            var popup = _ui.OpenPopup<UI_SkillSelectPopup>();
+            popup.OpenPopup();
+            popup.UpdateUI(skillList, skillBook.ActivateSkillList);
+            
+            Time.timeScale = 0;
+        }
+
+        private void OnUpgradeOrAddNewSkill(object value)
+        {
+            int skillId = (int)value;
+            SkillData skill = _data.SkillDict[skillId];
+            _player.UpgradeOrAddSKill(skill);
+            _player.LevelUp();
+            _ui.ClosePopup();
+
+            Time.timeScale = 1;
+        }
+        
         private void GameStart()
         {
             _stage.StartStage();
@@ -84,5 +138,6 @@ namespace SlimeMaster.InGame.Manager
         }
 
         private void UpdateGameState(GameState gameState) => _gameState = gameState;
+        
     }
 }

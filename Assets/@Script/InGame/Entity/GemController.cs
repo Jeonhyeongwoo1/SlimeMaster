@@ -1,10 +1,11 @@
 using SlimeMaster.InGame.Data;
 using SlimeMaster.InGame.Enum;
+using SlimeMaster.InGame.Manager;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Entity
 {
-    public class GemBehaviour : DropItemController
+    public class GemController : DropItemController
     {
         public GemType GemType => _gemType;
         
@@ -40,6 +41,12 @@ namespace SlimeMaster.InGame.Entity
                 GemType.BlueGem => Const.BLUE_EXP_AMOUNT,
                 GemType.YellowGem => Const.YELLOW_EXP_AMOUNT,
             };
+        }
+
+        public override void Release()
+        {
+            GameManager.I.Pool.ReleaseObject(Const.ExpGem, gameObject);
+            gameObject.SetActive(false);
         }
     }
 }
