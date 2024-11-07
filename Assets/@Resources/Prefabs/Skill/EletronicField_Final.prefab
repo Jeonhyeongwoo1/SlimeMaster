@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 105983507505087786}
   - component: {fileID: 605147495719090846}
   - component: {fileID: 3065793596165881382}
-  - component: {fileID: 1722125538101863412}
   m_Layer: 8
   m_Name: EletronicField_Final
   m_TagString: MagicField
@@ -26,6 +25,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2205157345401388604}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
@@ -33,7 +33,6 @@ Transform:
   m_Children:
   - {fileID: 2878044022802635004}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &605147495719090846
 SpriteRenderer:
@@ -97,61 +96,37 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 2.03
---- !u!114 &1722125538101863412
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2205157345401388604}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1979706da63eea409a96a9d7224a8c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _skillData:
-    DataId: 0
-    Name: 
-    Description: 
-    PrefabLabel: 
-    IconLabel: 
-    SoundLabel: 
-    Category: 
-    CoolTime: 0
-    DamageMultiplier: 0
-    ProjectileSpacing: 0
-    Duration: 0
-    RecognitionRange: 0
-    NumProjectiles: 0
-    CastingSound: 
-    AngleBetweenProj: 0
-    AttackInterval: 0
-    NumBounce: 0
-    BounceSpeed: 0
-    BounceDist: 0
-    NumPenerations: 0
-    CastingEffect: 0
-    HitSoundLabel: 
-    ProbCastingEffect: 0
-    HitEffect: 0
-    ProbHitEffect: 0
-    ProjRange: 0
-    MinCoverage: 0
-    MaxCoverage: 0
-    RoatateSpeed: 0
-    ProjSpeed: 0
-    ScaleMultiplier: 0
 --- !u!1001 &4593267437844209463
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 105983507505087786}
     m_Modifications:
     - target: {fileID: 1348948561915039253, guid: b8721e45cdb8274429a6e2a5550b205b, type: 3}
@@ -299,6 +274,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8721e45cdb8274429a6e2a5550b205b, type: 3}
 --- !u!4 &2878044022802635004 stripped
 Transform:

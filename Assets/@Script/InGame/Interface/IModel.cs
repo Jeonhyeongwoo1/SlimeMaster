@@ -1,6 +1,6 @@
-namespace Script.InGame.Interface
+namespace SlimeMaster.InGame.Interface
 {
-    public class IModel
+    public interface IModel
     {
         
     }

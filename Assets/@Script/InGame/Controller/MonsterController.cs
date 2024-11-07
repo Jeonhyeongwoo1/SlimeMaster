@@ -10,43 +10,34 @@ using UnityEngine;
 
 namespace SlimeMaster.InGame.Controller
 {
-    public class MonsterController : MonoBehaviour
+    public class MonsterController : CreatureController
     {
-        private SpriteRenderer _spriteRenderer;
-        private TriggerNotifier _triggerNotifier;
-        
-        private Rigidbody2D _rigidbody;
+        [SerializeField] private int _instanceId;
         private PlayerController _playerController;
         private CancellationTokenSource _takeDamageCts;
         private CancellationTokenSource _moveCts;
-        private CreatureData _creatureData;
         
         public void Initialize(CreatureData creatureData, Sprite sprite)
         {
-            var spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-            var triggerNotifier = GetComponentInChildren<TriggerNotifier>();
-            
-            _triggerNotifier = triggerNotifier;
-            _spriteRenderer = spriteRenderer;
             _spriteRenderer.sprite = sprite;
-            
+            _instanceId = transform.GetInstanceID();
             UpdateData(creatureData);
+            IsDead = false;
         }
 
         public void UpdateData(CreatureData creatureData)
         {
             _creatureData = creatureData;
+            _currentHp = creatureData.MaxHp;
         }
 
         private void Awake()
         {
             TryGetComponent(out _rigidbody);
-            _triggerNotifier = GetComponentInChildren<TriggerNotifier>();
         }
 
         private void Start()
         {
-            _triggerNotifier.AddEvent(OnEnter, OnExit);
         }
 
         private void OnEnable()
@@ -60,6 +51,8 @@ namespace SlimeMaster.InGame.Controller
             {
                 GameManager.I?.Event?.RemoveEvent(GameEventType.GameOver, OnGameEnd);
             }
+            
+            AllCancelCancellationTokenSource();
         }
 
         private void OnGameEnd(object value)
@@ -67,7 +60,7 @@ namespace SlimeMaster.InGame.Controller
             AllCancelCancellationTokenSource();
         }
 
-        private void OnEnter(Collider2D collider2D)
+        private void OnTriggerEnter2D(Collider2D collider2D)
         {
             if (collider2D.gameObject.layer != _playerController.Layer)
             {
@@ -77,7 +70,7 @@ namespace SlimeMaster.InGame.Controller
             TakeDamageAsync().Forget();
         }
 
-        private void OnExit(Collider2D collider2D)
+        private void OnTriggerExit2D(Collider2D other)
         {
             Utils.SafeCancelCancellationTokenSource(ref _takeDamageCts);
         }
@@ -89,7 +82,6 @@ namespace SlimeMaster.InGame.Controller
 
             while (true)
             {
-                Debug.Log("TakeDmager :" + _creatureData.Atk);
                 _playerController.TakeDamage(_creatureData.Atk);
                 
                 try
@@ -131,11 +123,6 @@ namespace SlimeMaster.InGame.Controller
             }
         }
 
-        public void Dead()
-        {
-            AllCancelCancellationTokenSource();
-        }
-
         private void AllCancelCancellationTokenSource()
         {
             Utils.SafeCancelCancellationTokenSource(ref _takeDamageCts);
@@ -146,8 +133,35 @@ namespace SlimeMaster.InGame.Controller
         {
             transform.position = spawnPosition;
             _playerController = playerController;
+            transform.localScale = Vector3.one;
             gameObject.SetActive(true);
             MoveToPlayer().Forget();
+        }
+
+        public override void TakeDamage(float damage)
+        {
+            if (IsDead)
+            {
+                return;
+            }
+            
+            _currentHp -= damage;
+            if (_currentHp <= 0)
+            {
+                Dead();
+            }
+            
+            base.TakeDamage(damage);
+        }
+
+        protected override async void Dead()
+        {
+            base.Dead();
+            await DeadAnimation();
+            
+            _currentHp = 0;
+            GameManager.I.Event.Raise(GameEventType.DeadMonster, this);
+            AllCancelCancellationTokenSource();
         }
     }
 }

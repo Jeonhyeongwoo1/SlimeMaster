@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3112485736694053438}
   - component: {fileID: 8288913846771077771}
   - component: {fileID: 551057758144267612}
-  - component: {fileID: 8198514427022478350}
   - component: {fileID: 4724732942691690276}
   m_Layer: 0
   m_Name: DamageFont
@@ -33,7 +32,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -174,18 +172,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 8288913846771077771}
   m_maskType: 0
---- !u!114 &8198514427022478350
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4055326834582738285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1395af8261693874791667bdfe577698, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4724732942691690276
 MonoBehaviour:
   m_ObjectHideFlags: 0

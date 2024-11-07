@@ -1,40 +1,66 @@
 using System;
+using System.Collections.Generic;
 using DG.Tweening;
+using SlimeMaster.Data;
+using SlimeMaster.Factory;
+using SlimeMaster.InGame.Entity;
 using SlimeMaster.InGame.Enum;
 using SlimeMaster.InGame.Input;
 using SlimeMaster.InGame.Manager;
-using SlimeMaster.InGame.Skill;
+using SlimeMaster.Model;
 using Unity.Mathematics;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Controller
 {
-    public class PlayerController : MonoBehaviour, IHitable
+    public class PlayerController : CreatureController
     {
         public int Layer => _layer;
 
-        public Action<int, int> onHitReceived { get; set; }
-
-        [SerializeField] private Transform _indicatorTransform;
-        [SerializeField] private SpriteRenderer _characterSprite;
-        [SerializeField] private float _moveSpeed = 10;
+        public int CurrentExp
+        {
+            get => _currentExp;
+            set
+            {
+                _currentExp = value;
+                var levelData = GameManager.I.Data.LevelDataDict[_playerModel.CurrentLevel.Value];
+                _playerModel.CurrentExpRatio.Value = (float)_currentExp / levelData.TotalExp;
+                if (_currentExp >= levelData.TotalExp)
+                {
+                    GameManager.I.Event.Raise(GameEventType.LevelUp, _skillBook);
+                    _currentExp -= levelData.TotalExp;
+                }
+            }
+        }
         
-        private int _maxHp;
-        private int _currentHp;
+        [SerializeField] private Transform _indicatorTransform;
+        [SerializeField] private Transform _indicatorSpriteTransform;
+        
         private int _layer;
         private bool _isDead;
         private Vector2 _inputVector;
-        private Rigidbody2D _rigidbody;
+        private bool _isInit;
+        private int _currentExp;
+        private PlayerModel _playerModel;
 
-        private SkillBook _skillBook;
-
-        public void Initialized()
+        public override void Initialize(CreatureData creatureData, Sprite sprite, List<SkillData> skillDataList)
         {
-            _maxHp = _currentHp = 100;
+            base.Initialize(creatureData, sprite, skillDataList);
+            _isInit = true;
+            _isDead = false;
+            _playerModel = ModelFactory.CreateOrGetModel<PlayerModel>();
+            _playerModel.CurrentLevel.Value = 1;
 
-            _skillBook = new SkillBook();
+            foreach (SkillData data in skillDataList)
+            {
+                Debug.Log(data.DataId);
+            }
+            
+            //Default -> 추후에 장비에 맞춰서 변경되어야함.
+            SkillData skillData = skillDataList.Find(v => v.DataId == (int)SkillType.StormBlade);
+            _skillBook.UpgradeOrAddSkill(skillData);
         }
-        
+
         private void Start()
         {
             _layer = gameObject.layer;
@@ -75,11 +101,51 @@ namespace SlimeMaster.InGame.Controller
         
         private void FixedUpdate()
         {
+            if (!_isInit || _isDead)
+            {
+                return;
+            }
+            
             Move();
             Rotate();
         }
 
-        public void TakeDamage(float damage)
+        private void Update()
+        {
+            if (!_isInit || _isDead)
+            {
+                return;
+            }
+
+            GetDropItem();
+
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                SkillData skillData = _skillBook.ActivateSkillList
+                    .Find(v => v.SkillType == SkillType.StormBlade).SkillData;
+                _skillBook.UpgradeOrAddSkill(skillData);
+            }
+        }
+
+        private void GetDropItem()
+        {
+            GridController grid = GameManager.I.Stage.CurrentMap.Grid;
+            List<DropItemController> itemControllerList = grid.GetDropItem(transform.position);
+            
+            foreach (DropItemController item in itemControllerList)
+            {
+                if (item is GemController)
+                {
+                    var gem = item as GemController;
+                    int exp = gem.GetExp();
+                    gem.Release();
+                    grid.RemoveItem(item);
+                    CurrentExp += exp;
+                }
+            }
+        }
+
+        public override void TakeDamage(float damage)
         {
             if (_isDead)
             {
@@ -95,15 +161,27 @@ namespace SlimeMaster.InGame.Controller
                 _isDead = true;
             }
 
-            onHitReceived?.Invoke(_currentHp, _maxHp);
+            onHitReceived?.Invoke((int)_currentHp, (int)_creatureData.MaxHp);
         }
 
-        private void Dead()
+        protected override void Dead()
         {
             _isDead = true;
             _currentHp = 0;
             transform.DOScale(Vector3.zero, 0.3f);
             GameManager.I.Event.Raise(GameEventType.GameOver);
+            _skillBook?.StopAllSkillLogic();
+        }
+
+        public void UpgradeOrAddSKill(SkillData skillData)
+        {
+            _skillBook.UpgradeOrAddSkill(skillData);
+        }
+        
+        public void LevelUp()
+        {
+            _playerModel.CurrentLevel.Value++;
+            CurrentExp = _currentExp;
         }
         
         private void Move()
@@ -111,15 +189,26 @@ namespace SlimeMaster.InGame.Controller
             Vector3 position = transform.position;
             Vector3 prevPosition = position;
             Vector3 nextPosition = position + (Vector3)_inputVector;
-            Vector3 lerp = Vector3.Lerp(prevPosition, nextPosition, Time.fixedDeltaTime * _moveSpeed);
+            Vector3 lerp = Vector3.Lerp(prevPosition, nextPosition,
+                Time.fixedDeltaTime * _creatureData.MoveSpeed * _creatureData.MoveSpeedRate);
             _rigidbody.MovePosition(lerp);
         }
 
         private void Rotate()
         {
+            if (_inputVector == Vector2.zero)
+            {
+                return;
+            }
+            
             float angle = Mathf.Atan2(_inputVector.y, _inputVector.x) * Mathf.Rad2Deg - 90;
             _indicatorTransform.rotation = Quaternion.Euler(0, 0, angle);
-            _characterSprite.flipX = math.sign(_inputVector.x) == 1;
+            _spriteRenderer.flipX = math.sign(_inputVector.x) == 1;
+        }
+
+        public override Vector3 GetDirection()
+        {
+            return (_indicatorSpriteTransform.position - transform.position).normalized;
         }
     }
 }
