@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using SlimeMaster.InGame.Enum;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Controller
 {
     public class Cell
     {
-        public HashSet<DropItemController> _dropItemList = new();
+        public readonly HashSet<DropItemController> DropItemList = new();
     }
     
     public class GridController : MonoBehaviour
@@ -21,22 +22,30 @@ namespace SlimeMaster.InGame.Controller
             if (!_cellDict.TryGetValue(pos, out Cell itemCell))
             {
                 itemCell = new();
-                itemCell._dropItemList.Add(dropItemController);
+                itemCell.DropItemList.Add(dropItemController);
                 _cellDict.Add(pos, itemCell);
                 return;
             }
 
-            itemCell._dropItemList.Add(dropItemController);
+            itemCell.DropItemList.Add(dropItemController);
             _cellDict[pos] = itemCell;
+        }
+
+        public void RemoveAllItem(DropableItemType dropableItemType)
+        {
+            foreach (var (key, value) in _cellDict)
+            {
+                value.DropItemList.RemoveWhere(v => v.DropableItemType == dropableItemType);
+            }
         }
 
         public void RemoveItem(DropItemController item)
         {
             foreach (var keyValuePair in _cellDict)
             {
-                if (keyValuePair.Value._dropItemList.Contains(item))
+                if (keyValuePair.Value.DropItemList.Contains(item))
                 {
-                    keyValuePair.Value._dropItemList.Remove(item);
+                    keyValuePair.Value.DropItemList.Remove(item);
                 }
             }
         }
@@ -60,7 +69,7 @@ namespace SlimeMaster.InGame.Controller
                     }
                     if (_cellDict.TryGetValue(value, out var cell))
                     {
-                        _cachedDropItemControllerList.AddRange(cell._dropItemList);
+                        _cachedDropItemControllerList.AddRange(cell.DropItemList);
                     }
                 }
             }

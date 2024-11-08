@@ -11,6 +11,7 @@ namespace SlimeMaster.InGame.Manager
         public Dictionary<int, CreatureData> CreatureDict { get; private set; } = new();
         public Dictionary<int, StageData> StageDict { get; private set; } = new();
         public Dictionary<int, LevelData> LevelDataDict { get; private set; } = new();
+        public Dictionary<int, DropItemData> DropItemDict { get; private set; } = new();
 
         public void Initialize()
         {
@@ -18,7 +19,7 @@ namespace SlimeMaster.InGame.Manager
             CreatureDict = LoadJson<CreatureDataLoader, int, CreatureData>("CreatureData").MakeDict();
             StageDict = LoadJson<StageDataLoader, int, StageData>("StageData").MakeDict();
             LevelDataDict = LoadJson<LevelDataLoader, int, LevelData>("LevelData").MakeDict();
-            
+            DropItemDict = LoadJson<DropItemDataLoader, int, DropItemData>("DropItemData").MakeDict();
         }
 
         TLoader LoadJson<TLoader, TKey, TValue>(string path) where TLoader : ILoader<TKey, TValue>

@@ -525,16 +525,20 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3236525556953507559, guid: e79bbd6d8778921498acfdbd56aff4ba, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3236525556953507559, guid: e79bbd6d8778921498acfdbd56aff4ba, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3890935632304644934, guid: e79bbd6d8778921498acfdbd56aff4ba, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1236372153}
+    - target: {fileID: 3972455349171854449, guid: e79bbd6d8778921498acfdbd56aff4ba, type: 3}
+      propertyPath: _rigidbody
+      value: 
+      objectReference: {fileID: 1683751685}
     - target: {fileID: 7820209522669055843, guid: e79bbd6d8778921498acfdbd56aff4ba, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -586,6 +590,10 @@ PrefabInstance:
     - target: {fileID: 7820209522669055870, guid: e79bbd6d8778921498acfdbd56aff4ba, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7820209522669055870, guid: e79bbd6d8778921498acfdbd56aff4ba, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -782,6 +790,11 @@ MonoBehaviour:
 --- !u!4 &1664903856 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7820209522669055843, guid: e79bbd6d8778921498acfdbd56aff4ba, type: 3}
+  m_PrefabInstance: {fileID: 1528891672}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &1683751685 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 3923579285132806809, guid: e79bbd6d8778921498acfdbd56aff4ba, type: 3}
   m_PrefabInstance: {fileID: 1528891672}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1954824767

@@ -12,16 +12,35 @@ namespace SlimeMaster.InGame.Enum
     {
         None = -1,
         GameOver,
-        SpawnObject = 100,
+        SpawnMonster = 100,
         DeadMonster,
         LevelUp,
-        UpgradeOrAddNewSkill
+        UpgradeOrAddNewSkill,
+        TakeDamageEliteOrBossMonster,
+        ActivateDropItem,
+    }
+
+    public enum DropableItemType
+    {
+        Potion,
+        Magnet,
+        DropBox,
+        Bomb,
+        Gem
     }
 
     public enum CreatureType
     {
         None,
         Player = 201000
+    }
+
+    public enum MonsterType
+    {
+        None,
+        Normal,
+        Elete,
+        Boss
     }
 
     public enum SkillType
@@ -41,7 +60,7 @@ namespace SlimeMaster.InGame.Enum
         SavageSmash = 10111,
         PhotonStrike = 10121,
         StormBlade = 10131,
-        MonsterSkill_01 = 20091,
+        MonsterRangedAttackSkill = 20091,
         BasicAttack = 100101,
         Move = 100201,
         Charging = 100301,

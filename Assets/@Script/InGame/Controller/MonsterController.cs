@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
@@ -12,23 +13,27 @@ namespace SlimeMaster.InGame.Controller
 {
     public class MonsterController : CreatureController
     {
-        [SerializeField] private int _instanceId;
+        public MonsterType MonsterType => _monsterType;
+        
+        [SerializeField] private MonsterType _monsterType;
+        
         private PlayerController _playerController;
         private CancellationTokenSource _takeDamageCts;
         private CancellationTokenSource _moveCts;
-        
-        public void Initialize(CreatureData creatureData, Sprite sprite)
-        {
-            _spriteRenderer.sprite = sprite;
-            _instanceId = transform.GetInstanceID();
-            UpdateData(creatureData);
-            IsDead = false;
-        }
 
-        public void UpdateData(CreatureData creatureData)
+        public override void Initialize(CreatureData creatureData, Sprite sprite, List<SkillData> skillDataList)
         {
-            _creatureData = creatureData;
-            _currentHp = creatureData.MaxHp;
+            base.Initialize(creatureData, sprite, skillDataList);
+
+            if (_monsterType == MonsterType.Boss)
+            {
+                return;
+            }
+            
+            if (skillDataList != null && skillDataList.Count > 0)
+            {
+                _skillBook.UseAllSkillList();
+            }
         }
 
         private void Awake()
@@ -40,12 +45,12 @@ namespace SlimeMaster.InGame.Controller
         {
         }
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             GameManager.I.Event.AddEvent(GameEventType.GameOver, OnGameEnd);
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             if (GameManager.I)
             {
@@ -101,7 +106,7 @@ namespace SlimeMaster.InGame.Controller
             _moveCts = new CancellationTokenSource();
             CancellationToken token = _moveCts.Token;
             
-            while (true)
+            while (_moveCts != null && !_moveCts.IsCancellationRequested)
             {
                 Vector3 prevPosition = _rigidbody.position;
                 Vector3 direction = (_playerController.transform.position - prevPosition).normalized;
@@ -129,11 +134,10 @@ namespace SlimeMaster.InGame.Controller
             Utils.SafeCancelCancellationTokenSource(ref _moveCts);
         }
 
-        public void Spawn(Vector3 spawnPosition, PlayerController playerController)
+        public virtual void Spawn(Vector3 spawnPosition, PlayerController playerController)
         {
             transform.position = spawnPosition;
             _playerController = playerController;
-            transform.localScale = Vector3.one;
             gameObject.SetActive(true);
             MoveToPlayer().Forget();
         }
@@ -162,6 +166,11 @@ namespace SlimeMaster.InGame.Controller
             _currentHp = 0;
             GameManager.I.Event.Raise(GameEventType.DeadMonster, this);
             AllCancelCancellationTokenSource();
+        }
+
+        public void ForceKill()
+        {
+            Dead();
         }
     }
 }

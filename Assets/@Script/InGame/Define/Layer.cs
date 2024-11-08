@@ -12,5 +12,6 @@ namespace SlimeMaster.InGame.Enum
     public static class Tag
     {
         public static readonly string Monster = "Monster";
+        public static readonly string Player = "Player";
     }
 }

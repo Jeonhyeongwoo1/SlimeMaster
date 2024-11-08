@@ -2517,13 +2517,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2194109653808429937}
+  - component: {fileID: 3752848334130970803}
   m_Layer: 5
   m_Name: BossInfoObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2194109653808429937
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2545,6 +2546,21 @@ RectTransform:
   m_AnchoredPosition: {x: 500, y: -50}
   m_SizeDelta: {x: 800, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3752848334130970803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1762345720123393766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8301a286f45dc46359b384a88526a51b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nameText: {fileID: 7549285668604801115}
+  _slider: {fileID: 1338418326441564252}
+  _monsterType: 3
 --- !u!1 &1841416807543825277
 GameObject:
   m_ObjectHideFlags: 0
@@ -3206,13 +3222,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5288368057532161332}
+  - component: {fileID: 8288986195731968707}
   m_Layer: 5
   m_Name: EliteInfoObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5288368057532161332
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3231,9 +3248,24 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 500, y: -180}
+  m_AnchoredPosition: {x: 500, y: -50}
   m_SizeDelta: {x: 600, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8288986195731968707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2513793338677256171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8301a286f45dc46359b384a88526a51b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nameText: {fileID: 5608690982031450301}
+  _slider: {fileID: 2250907475155955113}
+  _monsterType: 2
 --- !u!1 &2642190531041453048
 GameObject:
   m_ObjectHideFlags: 0
@@ -5292,6 +5324,8 @@ MonoBehaviour:
   uiGameStageInfoPanel: {fileID: 6778379756547688014}
   _playerExpSlider: {fileID: 3146652389620903582}
   _playerLvelText: {fileID: 3146652389353485152}
+  _eliteMonsterInfo: {fileID: 8288986195731968707}
+  _bossMonsterInfo: {fileID: 3752848334130970803}
 --- !u!1 &3146652389741355443
 GameObject:
   m_ObjectHideFlags: 0
@@ -10993,7 +11027,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6660959842341209766
 RectTransform:
   m_ObjectHideFlags: 0

@@ -13,6 +13,8 @@ namespace SlimeMaster.InGame.Popup
 {
     public class UI_SkillCardItem : UI_SubItemElement, IPointerClickHandler
     {
+        public int SkillId => _skillId;
+        
         [SerializeField] private TextMeshProUGUI _skillNameText;
         [SerializeField] private Image _skillImage;
         [SerializeField] private TextMeshProUGUI _skillDescriptionText;
