@@ -18,7 +18,7 @@ namespace SlimeMaster.InGame.Skill
         protected CreatureController _owner;
         private int _currentLevel;
 
-        public void Initialize(SkillType skillType, CreatureController owner, SkillData skillData)
+        public virtual void Initialize(SkillType skillType, CreatureController owner, SkillData skillData)
         {
             _skillType = skillType;
             _owner = owner;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using SlimeMaster.Data;
 using SlimeMaster.Factory;
+using SlimeMaster.InGame.Data;
 using SlimeMaster.InGame.Entity;
 using SlimeMaster.InGame.Enum;
 using SlimeMaster.InGame.Input;
@@ -51,14 +52,10 @@ namespace SlimeMaster.InGame.Controller
             _playerModel = ModelFactory.CreateOrGetModel<PlayerModel>();
             _playerModel.CurrentLevel.Value = 1;
 
-            foreach (SkillData data in skillDataList)
-            {
-                Debug.Log(data.DataId);
-            }
-            
             //Default -> 추후에 장비에 맞춰서 변경되어야함.
             SkillData skillData = skillDataList.Find(v => v.DataId == (int)SkillType.StormBlade);
             _skillBook.UpgradeOrAddSkill(skillData);
+            gameObject.SetActive(true);
         }
 
         private void Start()
@@ -91,12 +88,18 @@ namespace SlimeMaster.InGame.Controller
         {
             InputHandler.onPointerDownAction += OnChangedInputVector;
             InputHandler.onPointerUpAction += () => OnChangedInputVector(Vector2.zero);
+            GameManager.I.Event.AddEvent(GameEventType.ActivateDropItem, OnActivateDropItem);      
         }
-
+        
         private void OnDisable()
         {
             InputHandler.onPointerDownAction -= OnChangedInputVector;
             InputHandler.onPointerUpAction -= () => OnChangedInputVector(Vector2.zero);
+
+            if (GameManager.I)
+            {
+                GameManager.I.Event.RemoveEvent(GameEventType.ActivateDropItem, OnActivateDropItem);
+            }
         }
         
         private void FixedUpdate()
@@ -127,6 +130,21 @@ namespace SlimeMaster.InGame.Controller
             }
         }
 
+        private void OnActivateDropItem(object value)
+        {
+            DropItemData dropItemData = (DropItemData)value;
+            switch (dropItemData.DropItemType)
+            {
+                case DropableItemType.Potion:
+                    if (Const.DicPotionAmount.TryGetValue(dropItemData.DataId, out float healAmount))
+                    {
+                        Heal(healAmount);
+                    }
+                    break;
+                
+            }
+        }
+        
         private void GetDropItem()
         {
             GridController grid = GameManager.I.Stage.CurrentMap.Grid;
@@ -134,14 +152,25 @@ namespace SlimeMaster.InGame.Controller
             
             foreach (DropItemController item in itemControllerList)
             {
-                if (item is GemController)
+                grid.RemoveItem(item);
+                Action callback = null;
+                switch (item.DropableItemType)
                 {
-                    var gem = item as GemController;
-                    int exp = gem.GetExp();
-                    gem.Release();
-                    grid.RemoveItem(item);
-                    CurrentExp += exp;
+                    case DropableItemType.Gem:
+                        callback = () =>
+                        {
+                            var gem = item as GemController;
+                            int exp = gem.GetExp();
+                            CurrentExp += exp;
+                        };     
+                        break;
+                    case DropableItemType.Potion:
+                    case DropableItemType.Magnet:
+                    case DropableItemType.Bomb:
+                        break;
                 }
+
+                item.GetItem(transform, callback);
             }
         }
 
@@ -182,6 +211,13 @@ namespace SlimeMaster.InGame.Controller
         {
             _playerModel.CurrentLevel.Value++;
             CurrentExp = _currentExp;
+        }
+
+        public void Heal(float healAmount)
+        {
+            Debug.Log("heal : " + healAmount);
+            float hp = _creatureData.MaxHp * healAmount;
+            _currentHp += hp;
         }
         
         private void Move()

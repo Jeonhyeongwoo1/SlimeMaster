@@ -54,7 +54,6 @@ namespace SlimeMaster.InGame.Manager
 
         private bool TrySpawnGem(ref GemType gemType)
         {
-            
             float smallGemRatio = _waveData.SmallGemDropRate;
             float greenGemRatio = _waveData.GreenGemDropRate;
             float blueGemRatio = _waveData.BlueGemDropRate;
@@ -90,41 +89,64 @@ namespace SlimeMaster.InGame.Manager
             return true;
         }
 
+        private void SpawnDropItemByMonsterType(MonsterType monsterType, Vector3 spawnPosition)
+        {
+            switch (monsterType)
+            {
+                case MonsterType.Normal:
+                    bool isPossibleSpawnDropItem = Random.value >= _waveData.nonDropRate;
+                    if (!isPossibleSpawnDropItem)
+                    {
+                        return;
+                    }
+
+                    GemType gemType = GemType.None;
+                    bool isSuccess = TrySpawnGem(ref gemType);
+                    if (isSuccess)
+                    {
+                        GemController gem = GameManager.I.Object.MakeGem(gemType, spawnPosition);
+                        _currentMap.AddItemInGrid(gem.transform.position, gem);
+                    }
+
+                    break;
+                case MonsterType.Elete:
+                    var dropItemIdList = _waveData.EliteDropItemId;
+
+                    foreach (int id in dropItemIdList)
+                    {
+                        if (!GameManager.I.Data.DropItemDict.TryGetValue(id, out DropItemData dropItemData))
+                        {
+                            Debug.LogWarning($"failed spawn drop item {id}");
+                            continue;
+                        }
+                        
+                        string prefabName = dropItemData.DropItemType.ToString();
+                        GameObject prefab = GameManager.I.Resource.Instantiate(prefabName);
+                        var dropItem = prefab.GetComponent<DropItemController>();
+                        dropItem.Spawn(spawnPosition);
+                        dropItem.SetInfo(dropItemData);
+                        _currentMap.AddItemInGrid(spawnPosition, dropItem);
+                    }
+
+                    break;
+                case MonsterType.Boss:
+                    break;
+            }
+        }
+
         private void OnDeadMonster(object value)
         {
-            bool isPossibleSpawnDropItem = Random.value >= _waveData.nonDropRate;
-            if (!isPossibleSpawnDropItem)
-            {
-                return;
-            }
-
-            GemType gemType = GemType.None;
-            bool isSuccess = TrySpawnGem(ref gemType);
-            if (isSuccess)
-            {
-                var monster = (MonsterController)value;
-                GemController gem = MakeGem(gemType, monster.Position);
-                _currentMap.AddItemInGrid(gem.transform.position, gem);
-            }
-
             StageModel model = ModelFactory.CreateOrGetModel<StageModel>();
             model.killCount.Value++;
+      
+            var monster = (MonsterController)value;
+            SpawnDropItemByMonsterType(monster.MonsterType, monster.Position);
         }
-
-        private GemController MakeGem(GemType gemType, Vector3 spawnPosition)
-        {
-            GameObject prefab = _resource.Instantiate(Const.ExpGem);
-            Sprite sprite = _resource.Load<Sprite>(gemType.ToString());
-            var gem = prefab.GetOrAddComponent<GemController>();
-            gem.Initialize(sprite, gemType, spawnPosition);
-            
-            return gem;
-        }
-
+        
         private void SetStageData(int index)
         {
-            _stageData = GameManager.I.Data.StageDict[index];
-            _waveData = _stageData.WaveArray[0];
+            _stageData = GameManager.I.Data.StageDict[1];
+            _waveData = _stageData.WaveArray[9];
             _stageModel.currentWaveStep.Value = _waveData.WaveIndex;
             
             MakeMap();
@@ -166,9 +188,53 @@ namespace SlimeMaster.InGame.Manager
 
         private async UniTask StartWave()
         {
-            _monsterSpawnPool.StartMonsterSpawn(_waveData.SpawnInterval, _waveData.MonsterId, _waveData.OnceSpawnCount,
-                _waveData.FirstMonsterSpawnRate);
+            _monsterSpawnPool.StartSpawnMonster(_waveData.SpawnInterval, _waveData.MonsterId, _waveData.OnceSpawnCount,
+                _waveData.FirstMonsterSpawnRate, _waveData.EleteId, _waveData.BossId);
+            SpawnDropItem();
             await WaveTimerAsync();
+        }
+
+        enum EDropItemType
+        {
+            Potion,
+            Magnet,
+            Bomb
+        }
+
+        private void SpawnDropItem()
+        {
+            int length = System.Enum.GetValues(typeof(EDropItemType)).Length;
+            int random = Random.Range(0, length);
+            string prefabName = ((EDropItemType)random).ToString();
+            GameObject prefab = GameManager.I.Resource.Instantiate(prefabName);
+            var dropItem = prefab.GetComponent<DropItemController>();
+            Vector3 spawnPosition = Utils.GetPositionInDonut(_player.transform, 5, 10);
+            dropItem.Spawn(spawnPosition);
+
+            DropItemData dropItemData = null;
+            switch ((EDropItemType) random)
+            {
+                case EDropItemType.Potion:
+                    if (GameManager.I.Data.DropItemDict.TryGetValue(Const.ID_POTION, out dropItemData))
+                    {
+                        dropItem.SetInfo(dropItemData);
+                    }
+                    break;
+                case EDropItemType.Magnet:
+                    if (GameManager.I.Data.DropItemDict.TryGetValue(Const.ID_MAGNET, out dropItemData))
+                    {
+                        dropItem.SetInfo(dropItemData);
+                    }
+                    break;
+                case EDropItemType.Bomb:
+                    if (GameManager.I.Data.DropItemDict.TryGetValue(Const.ID_BOMB, out dropItemData))
+                    {
+                        dropItem.SetInfo(dropItemData);
+                    }
+                    break;
+            }
+            
+            _currentMap.AddItemInGrid(spawnPosition, dropItem);
         }
 
         public void StopWave()

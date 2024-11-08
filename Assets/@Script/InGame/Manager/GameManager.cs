@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Script.InGame.UI.Popup;
 using SlimeMaster.Common;
 using SlimeMaster.Data;
 using SlimeMaster.InGame.Controller;
@@ -67,12 +68,11 @@ namespace SlimeMaster.InGame.Manager
             _ui = new UIManager();
         }
         
-
         private async void Initialize()
         {
             CreateManager();
            
-            _player = FindObjectOfType<PlayerController>();
+            _player = FindObjectOfType<PlayerController>(true);
             await Resource.LoadResourceAsync<Object>("PreLoad", null);
             _data.Initialize();
             _stage.Initialize(_stageIndex, _player);
@@ -86,6 +86,28 @@ namespace SlimeMaster.InGame.Manager
         {
             _event.AddEvent(GameEventType.LevelUp, OnLevelUp);
             _event.AddEvent(GameEventType.UpgradeOrAddNewSkill, OnUpgradeOrAddNewSkill);
+            _event.AddEvent(GameEventType.ActivateDropItem, OnActivateDropItem);
+        }
+        
+        private void OnActivateDropItem(object value)
+        {
+            DropItemData dropItemData = (DropItemData)value;
+            switch (dropItemData.DropItemType)
+            {
+                case DropableItemType.DropBox:
+                    var learnSkillPopup = _ui.OpenPopup<UI_LearnSkillPopup>();
+                    List<BaseSkill> skillList = Object.Player.SkillBook.GetRecommendSkillList(1);
+                    if (skillList == null)
+                    {
+                        Debug.LogError("failed get skill list");
+                        learnSkillPopup.ClosePopup();
+                        return;
+                    }
+                    
+                    learnSkillPopup.UpdateSKillItem(skillList[0]);
+                    Time.timeScale = 0;
+                    break;
+            }
         }
 
         private void OnLevelUp(object value)
@@ -109,7 +131,6 @@ namespace SlimeMaster.InGame.Manager
             }
             
             var popup = _ui.OpenPopup<UI_SkillSelectPopup>();
-            popup.OpenPopup();
             popup.UpdateUI(skillList, skillBook.ActivateSkillList);
             
             Time.timeScale = 0;

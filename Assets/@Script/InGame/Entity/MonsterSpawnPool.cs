@@ -34,10 +34,10 @@ namespace SlimeMaster.InGame.Entity
             Utils.SafeCancelCancellationTokenSource(ref _spawnCts);
         }
 
-        public void StartMonsterSpawn(float spawnInterval, List<int> monsterIdList, int onceSpawnCount,
-            float firstMonsterSpanRate)
+        public void StartSpawnMonster(float spawnInterval, List<int> monsterIdList, int onceSpawnCount,
+            float firstMonsterSpanRate, List<int> eleteIdList, List<int> bossIdList)
         {
-            EnemySpawnAsync(spawnInterval, monsterIdList, onceSpawnCount, firstMonsterSpanRate).Forget();
+            SpawnMonsterAsync(spawnInterval, monsterIdList, onceSpawnCount, firstMonsterSpanRate, eleteIdList, bossIdList).Forget();
         }
 
         public void StopMonsterSpawn()
@@ -45,11 +45,27 @@ namespace SlimeMaster.InGame.Entity
             Utils.SafeCancelCancellationTokenSource(ref _spawnCts);
         }
 
-        public async UniTaskVoid EnemySpawnAsync(float spawnInterval, List<int> monsterIdList, int onceSpawnCount,
-            float firstMonsterSpanRate)
+        public async UniTaskVoid SpawnMonsterAsync(float spawnInterval, List<int> monsterIdList, int onceSpawnCount,
+            float firstMonsterSpanRate, List<int> eleteIdList, List<int> bossIdList)
         {
             _spawnCts = new CancellationTokenSource();
 
+            if (bossIdList != null && bossIdList.Count > 0)
+            {
+                for (int i = 0; i < bossIdList.Count; i++)
+                {
+                    RaiseSpawnMonster(i, bossIdList[i], typeof(BossMonsterController));
+                }
+            }
+
+            if (eleteIdList != null && eleteIdList.Count > 0)
+            {
+                for (var i = 0; i < eleteIdList.Count; i++)
+                {
+                    RaiseSpawnMonster(i, eleteIdList[i], typeof(EliteMonsterController));
+                }
+            }
+            
             while (true)
             {
                 try
@@ -58,8 +74,7 @@ namespace SlimeMaster.InGame.Entity
                 }
                 catch (Exception e) when (!(e is OperationCanceledException))
                 {
-                    Debug.LogError($"{nameof(EnemySpawnAsync)} error {e}");
-                    await UniTask.WaitForSeconds(2f);
+                    Debug.LogError($"{nameof(SpawnMonsterAsync)} error {e}");
                     // Debug.Log("Restart enemy spawn");
                     // EnemySpawnAsync().Forget();
                     break;
@@ -70,16 +85,20 @@ namespace SlimeMaster.InGame.Entity
                     float select = Random.value;
                     int monsterId =
                         monsterIdList[select <= firstMonsterSpanRate ? 0 : Random.Range(0, monsterIdList.Count)];
-                    float angle = 360 / (i + 1);
-                    var spawnPosition = GetCirclePosition(angle) + _player.transform.position;
-
-                    SpawnObjectData spawnObjectData = new SpawnObjectData();
-                    spawnObjectData.spawnPosition = spawnPosition;
-                    spawnObjectData.id = monsterId;
-                    spawnObjectData.Type = typeof(MonsterController);
-                    GameManager.I.Event.Raise(GameEventType.SpawnObject, spawnObjectData);
+                    RaiseSpawnMonster(i, monsterId, typeof(MonsterController));
                 }
             }
+        }
+
+        private void RaiseSpawnMonster(int index, int id, Type monsterType)
+        {
+            float angle = 360 / (index + 1);
+            var spawnPosition = GetCirclePosition(angle) + _player.transform.position;
+            SpawnObjectData spawnObjectData = new SpawnObjectData();
+            spawnObjectData.spawnPosition = spawnPosition;
+            spawnObjectData.id = id;
+            spawnObjectData.Type = monsterType;
+            GameManager.I.Event.Raise(GameEventType.SpawnMonster, spawnObjectData);
         }
 
         private Vector3 GetCirclePosition(float angle)

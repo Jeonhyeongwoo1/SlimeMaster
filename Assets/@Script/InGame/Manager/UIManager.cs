@@ -1,5 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Script.InGame.UI.Popup;
+using SlimeMaster.Data;
+using SlimeMaster.InGame.Enum;
+using SlimeMaster.InGame.Skill;
 using SlimeMaster.InGame.View;
 using SlimeMaster.Popup;
 using SlimeMaster.UISubItemElement;
@@ -11,6 +15,7 @@ namespace SlimeMaster.InGame.Manager
 {
     public class UIManager
     {
+        public BaseUI SceneUI => _sceneUI;
         private BaseUI _sceneUI;
 
         private GameObject UIRootObject
@@ -77,6 +82,7 @@ namespace SlimeMaster.InGame.Manager
             var canvas = popup.GetComponent<Canvas>();
             canvas.worldCamera = Camera.main;
             popup.Initialize();
+            popup.OpenPopup();
             _popupStack.Push(popup);
             return popup;
         }

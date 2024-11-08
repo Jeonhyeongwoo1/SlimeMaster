@@ -13,20 +13,9 @@ public class CreatureController : MonoBehaviour, IHitable
     public string PrefabLabel=> _creatureData.PrefabLabel;
     public Vector3 Position => transform.position;
     public float AttackDamage => _creatureData.Atk;
+    public SkillBook SkillBook => _skillBook;
 
-    public bool IsDead
-    {
-        get
-        {
-            return _isDead;
-        }
-        set
-        {
-            _isDead = value;
-        }
-    }
-
-    [SerializeField] private bool _isDead;
+    public bool IsDead { get; set; }
     protected SkillBook _skillBook;
     protected CreatureData _creatureData;
     protected float _currentHp;

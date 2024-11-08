@@ -37,6 +37,14 @@ namespace SlimeMaster.InGame.Skill
                 }
             }
         }
+
+        public void UseAllSkillList()
+        {
+            _skillList.ForEach(v =>
+            {
+                UpgradeOrAddSkill(v.SkillData);
+            });
+        }
         
         public void UpgradeOrAddSkill(SkillData skillData)
         {
@@ -63,6 +71,7 @@ namespace SlimeMaster.InGame.Skill
         {
             SkillType skillType = (SkillType)skillData.DataId;
             string skillName = $"{typeof(BaseSkill).Namespace}.{skillType}";
+            Debug.Log(skillName);
             try
             {
                 var skill = Activator.CreateInstance(Type.GetType(skillName)) as BaseSkill;
@@ -78,6 +87,7 @@ namespace SlimeMaster.InGame.Skill
             {
                 
             }
+          
         }
         
         public void UseSkill(BaseSkill baseSkill)
@@ -91,14 +101,14 @@ namespace SlimeMaster.InGame.Skill
             _skillList.ForEach(v=> v.StopSkillLogic());
         }
 
-        public List<BaseSkill> GetRecommendSkillList()
+        public List<BaseSkill> GetRecommendSkillList(int recommendSkillCount = 3)
         {
             List<BaseSkill> list = ActivateSkillList.Count == Const.MAX_SKILL_COUNT
                 ? ActivateSkillList.FindAll(v => v.CurrentLevel < Const.MAX_SKILL_Level)
                 : _skillList.FindAll(v => v.CurrentLevel < Const.MAX_SKILL_Level);
             
             list.Shuffle();
-            return list.Take(3).ToList();
+            return list.Take(recommendSkillCount).ToList();
         }
     }
 }

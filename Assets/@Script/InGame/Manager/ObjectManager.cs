@@ -4,9 +4,12 @@ using System.Linq;
 using SlimeMaster.Common;
 using SlimeMaster.Data;
 using SlimeMaster.InGame.Controller;
+using SlimeMaster.InGame.Data;
 using SlimeMaster.InGame.Enum;
+using SlimeMaster.InGame.View;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UI.Extensions;
 using Random = UnityEngine.Random;
 
 namespace SlimeMaster.InGame.Manager
@@ -19,15 +22,18 @@ namespace SlimeMaster.InGame.Manager
         public Vector3 spawnPosition;
     }
     
-    public class ObjectManager
+    public class ObjectManager : IDisposable
     {
         public List<MonsterController> ActivateMonsterList => _activateMonsterList;
+        public PlayerController Player => _player;
+        
         private EventManager _event;
         private ResourcesManager _resource;
         private DataManager _data;
         private PoolManager _pool;
         
         private List<MonsterController> _activateMonsterList = new();
+        private List<DropItemController> _dropItemControllerList = new();
         private PlayerController _player;
         
         public void Initialize(PlayerController playerController)
@@ -56,8 +62,53 @@ namespace SlimeMaster.InGame.Manager
 
         private void AddEvent()
         {
-            GameManager.I.Event.AddEvent(GameEventType.SpawnObject, OnSpawnObject);
+            GameManager.I.Event.AddEvent(GameEventType.SpawnMonster, OnSpawnObject);
             GameManager.I.Event.AddEvent(GameEventType.DeadMonster, OnDeadMonster);
+            GameManager.I.Event.AddEvent(GameEventType.ActivateDropItem, OnActivateDropItem);
+        }
+
+        public void Dispose()
+        {
+            // TODO release managed resources here
+            RemoveEvent();
+        }
+
+        private void RemoveEvent()
+        {
+            if (GameManager.I)
+            {
+                GameManager.I.Event.RemoveEvent(GameEventType.SpawnMonster, OnSpawnObject);
+                GameManager.I.Event.RemoveEvent(GameEventType.DeadMonster, OnDeadMonster);
+                GameManager.I.Event.RemoveEvent(GameEventType.ActivateDropItem, OnActivateDropItem);
+            }
+        }
+
+        private void OnActivateDropItem(object value)
+        {
+            DropItemData dropItemData = (DropItemData)value;
+            switch(dropItemData.DropItemType)
+            {
+                case DropableItemType.Bomb:
+                    _activateMonsterList.ForEach(v=>
+                    {
+                        if (v.MonsterType == MonsterType.Normal)
+                        {
+                            v.ForceKill();
+                        }
+                    });
+                    break;
+                case DropableItemType.Magnet:
+                    _dropItemControllerList.ForEach(v =>
+                    {
+                        if (v is GemController)
+                        {
+                            v.GetItem(_player.transform);
+                        }
+                    });
+                    
+                    GameManager.I.Stage.CurrentMap.Grid.RemoveAllItem(DropableItemType.Gem);
+                    break;
+            }
         }
 
         private void OnSpawnObject(object value)
@@ -73,16 +124,42 @@ namespace SlimeMaster.InGame.Manager
                 return;
             }
 
-            if (spawnObjectData.Type == typeof(MonsterController))
+            if (spawnObjectData.Type == typeof(MonsterController) ||
+                spawnObjectData.Type == typeof(EliteMonsterController) ||
+                spawnObjectData.Type == typeof(BossMonsterController))
             {
                 CreatureData data = _data.CreatureDict[spawnObjectData.id];
                 GameObject monsterObj = _resource.Instantiate(data.PrefabLabel);
                 var monster = Utils.AddOrGetComponent<MonsterController>(monsterObj);
                 Sprite sprite = _resource.Load<Sprite>(data.IconLabel);
-                monster.Initialize(data, sprite);
+                List<SkillData> skillDataList = data.SkillTypeList.Select(i => _data.SkillDict[i]).ToList();
+                monster.Initialize(data, sprite, skillDataList);
                 monster.Spawn(spawnObjectData.spawnPosition, _player);
                 _activateMonsterList.Add(monster);
+
+                if (spawnObjectData.Type == typeof(EliteMonsterController))
+                {
+                    var uiGameScene = GameManager.I.UI.SceneUI as UI_GameScene;
+                    uiGameScene.ShowMonsterInfo(MonsterType.Elete, data.DescriptionTextID, 1);
+                }
+                else if(spawnObjectData.Type == typeof(BossMonsterController))
+                {
+                    var uiGameScene = GameManager.I.UI.SceneUI as UI_GameScene;
+                    uiGameScene.ShowMonsterInfo(MonsterType.Boss, data.DescriptionTextID, 1);
+                }
             }
+        }
+
+        public GemController MakeGem(GemType gemType, Vector3 spawnPosition)
+        {
+            GameObject prefab = _resource.Instantiate(Const.ExpGem);
+            Sprite sprite = _resource.Load<Sprite>(gemType.ToString());
+            var gem = prefab.GetOrAddComponent<GemController>();
+            gem.Spawn(spawnPosition);
+            gem.SetGemInfo(gemType, sprite);
+            
+            _dropItemControllerList.Add(gem);
+            return gem;
         }
 
         public List<MonsterController> GetMonsterInRange(float minDistance, float maxDistance, Vector3 targetPosition)
@@ -173,6 +250,17 @@ namespace SlimeMaster.InGame.Manager
             MonsterController monster = (MonsterController)value;
             _activateMonsterList.Remove(monster);
             _pool.ReleaseObject(monster.PrefabLabel, monster.gameObject);
+
+            switch (monster.MonsterType)
+            {
+                case MonsterType.Normal:
+                    break;
+                case MonsterType.Elete:
+                case MonsterType.Boss:
+                    var uiGameScene = GameManager.I.UI.SceneUI as UI_GameScene;
+                    uiGameScene.HideMonsterInfo(monster.MonsterType);
+                    break;
+            }
         }
     }
 }
