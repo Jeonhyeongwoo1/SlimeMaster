@@ -146,7 +146,7 @@ namespace SlimeMaster.InGame.Manager
         private void SetStageData(int index)
         {
             _stageData = GameManager.I.Data.StageDict[1];
-            _waveData = _stageData.WaveArray[9];
+            _waveData = _stageData.WaveArray[0];
             _stageModel.currentWaveStep.Value = _waveData.WaveIndex;
             
             MakeMap();
@@ -176,6 +176,7 @@ namespace SlimeMaster.InGame.Manager
 
                 _waveData = _stageData.WaveArray[nextIndex];
                 _stageModel.currentWaveStep.Value = _waveData.WaveIndex;
+                GameManager.I.Event.Raise(GameEventType.EndWave);
             }
             
             StageClear();

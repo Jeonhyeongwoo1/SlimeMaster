@@ -1,30 +1,42 @@
+using System;
 using System.Collections.Generic;
 using SlimeMaster.Data;
 using SlimeMaster.InGame.Enum;
 using SlimeMaster.InGame.Manager;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace SlimeMaster.InGame.Controller
 {
-    public enum BossStateType
-    {
-        None,
-        Idle,
-        Move,
-        Skill,
-        Dead
-    }
-    
     public class BossMonsterController : MonsterController
     {
-
-        [SerializeField] private BossStateType _bossStateType;
-
+        [SerializeField] private Animator _animator;
+        
         public override void Initialize(CreatureData creatureData, Sprite sprite, List<SkillData> skillDataList)
         {
             base.Initialize(creatureData, sprite, skillDataList);
 
-            _bossStateType = BossStateType.Skill;
+            _creatureStateType = CreatureStateType.Skill;
+        }
+
+        public override void Spawn(Vector3 spawnPosition, PlayerController playerController)
+        {
+            transform.position = spawnPosition;
+            gameObject.SetActive(true);
+            _player = playerController;
+        }
+
+        public void UpdateState(CreatureStateType stateType) => _creatureStateType = stateType;
+
+        private void UpdateAnimation(string animationName)
+        {
+            _animator.Play(animationName);
+        }
+        
+        public override void UpdateStateAndAnimation(CreatureStateType stateType, string animationName)
+        {
+            UpdateState(stateType);
+            UpdateAnimation(animationName);
         }
 
         public override void TakeDamage(float damage)

@@ -1,7 +1,10 @@
+using System.Threading;
 using Cysharp.Threading.Tasks;
+using SlimeMaster.Common;
 using SlimeMaster.Data;
 using SlimeMaster.InGame.Data;
 using SlimeMaster.InGame.Enum;
+using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
 {
@@ -37,7 +40,18 @@ namespace SlimeMaster.InGame.Skill
             _currentLevel = 1;
         }
 
-        public abstract UniTaskVoid StartSkillLogicProcessAsync();
+        public abstract UniTask StartSkillLogicProcessAsync(CancellationTokenSource cts = null);
         public abstract void StopSkillLogic();
+        protected abstract UniTask UseSkill();
+        
+        protected virtual void OnHit(Collider2D collider, Projectile projectile)
+        {
+            if (Utils.TryGetComponentInParent(collider.gameObject, out CreatureController creature))
+            {
+                // Debug.Log(_owner.AttackDamage * _skillData.DamageMultiplier);
+                creature.TakeDamage(_owner.AttackDamage * _skillData.DamageMultiplier);
+                // monster.TakeDamaged(100);
+            }
+        }
     }
 }

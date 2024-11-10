@@ -56,6 +56,8 @@ namespace SlimeMaster.InGame.Entity
                 {
                     RaiseSpawnMonster(i, bossIdList[i], typeof(BossMonsterController));
                 }
+                
+                GameManager.I.Event.Raise(GameEventType.SpawnedBoss);
             }
 
             if (eleteIdList != null && eleteIdList.Count > 0)

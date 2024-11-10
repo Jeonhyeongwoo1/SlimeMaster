@@ -11,6 +11,7 @@ namespace SlimeMaster.InGame.Controller
 
         public void SetGemInfo(GemType gemType, Sprite sprite)
         {
+            dropableItemType = DropableItemType.Gem;
             _spriteRenderer.sprite = sprite;
             _gemType = gemType;
         }

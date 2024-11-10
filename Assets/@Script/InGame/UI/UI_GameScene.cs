@@ -1,5 +1,7 @@
+using DG.Tweening;
 using SlimeMaster.Factory;
 using SlimeMaster.InGame.Enum;
+using SlimeMaster.InGame.Manager;
 using SlimeMaster.Model;
 using SlimeMaster.View;
 using TMPro;
@@ -16,6 +18,8 @@ namespace SlimeMaster.InGame.View
         [SerializeField] private TextMeshProUGUI _playerLvelText;
         [SerializeField] private UI_MonsterInfo _eliteMonsterInfo;
         [SerializeField] private UI_MonsterInfo _bossMonsterInfo;
+        [SerializeField] private GameObject _monsterSpawnAlarmObject;
+        [SerializeField] private GameObject _bossSpawnAlarmObject;
         
         public override void Initialize()
         {
@@ -25,6 +29,9 @@ namespace SlimeMaster.InGame.View
             }
             
             uiGameStageInfoPanel.Initialize(OnPauseGame);
+            
+            GameManager.I.Event.AddEvent(GameEventType.SpawnedBoss, OnSpawnedBoss);
+            GameManager.I.Event.AddEvent(GameEventType.EndWave, OnWaveEnd);
 
             var playerModel = ModelFactory.CreateOrGetModel<PlayerModel>();
             playerModel.CurrentExpRatio
@@ -37,7 +44,28 @@ namespace SlimeMaster.InGame.View
     
             IsInitialize = true;
         }
-        
+
+        private void OnSpawnedBoss(object value)
+        {
+            _bossSpawnAlarmObject.SetActive(true);
+            _monsterSpawnAlarmObject.SetActive(false);
+        }
+
+        private void OnWaveEnd(object value)
+        {
+            _bossSpawnAlarmObject.SetActive(false);
+            _monsterSpawnAlarmObject.SetActive(true);
+
+            if (_monsterSpawnAlarmObject.TryGetComponent(out CanvasGroup canvasGroup))
+            {
+                canvasGroup.alpha = 0;
+                Sequence sequence = DOTween.Sequence();
+                sequence.Append(canvasGroup.DOFade(1, 0.5f));
+                sequence.SetLoops(2, LoopType.Yoyo);
+                sequence.OnComplete(() => _monsterSpawnAlarmObject.gameObject.SetActive(false));
+            }
+        }
+
         public void ShowMonsterInfo(MonsterType monsterType, string monsterName, float ratio)
         {
             if (monsterType == MonsterType.Boss)

@@ -183,6 +183,7 @@ namespace SlimeMaster.InGame.Controller
 
             _currentHp -= (int)damage;
 
+            Debug.Log(_currentHp);
             if (_currentHp <= 0)
             {
                 Dead();

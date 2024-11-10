@@ -14,14 +14,20 @@ public class CreatureController : MonoBehaviour, IHitable
     public Vector3 Position => transform.position;
     public float AttackDamage => _creatureData.Atk;
     public SkillBook SkillBook => _skillBook;
-
+    public Rigidbody2D Rigidbody => _rigidbody;
+    public CreatureData CreatureData => _creatureData;
+    public float CircleColliderRadius => _collider ? _collider.radius : 0;
+    
     public bool IsDead { get; set; }
+    
+    [SerializeField] protected CreatureStateType _creatureStateType;
+    [SerializeField] protected SpriteRenderer _spriteRenderer;
+    [SerializeField] protected Rigidbody2D _rigidbody;
+    
     protected SkillBook _skillBook;
     protected CreatureData _creatureData;
     protected float _currentHp;
-
-    [SerializeField] protected SpriteRenderer _spriteRenderer;
-    [SerializeField] protected Rigidbody2D _rigidbody;
+    protected CircleCollider2D _collider;
     
     public virtual void TakeDamage(float damage)
     {
@@ -32,8 +38,8 @@ public class CreatureController : MonoBehaviour, IHitable
         _spriteRenderer.sprite = sprite;
         _creatureData = creatureData;
         _currentHp = creatureData.MaxHp;
+        _collider = GetComponentInChildren<CircleCollider2D>();
         Reset();
-         
         AddSkillBook(skillDataList);
     }
 
@@ -80,8 +86,23 @@ public class CreatureController : MonoBehaviour, IHitable
         await UniTask.WaitForSeconds(0.2f);
     }
 
+    public void SetSpriteFlipX(bool isRight)
+    {
+        _spriteRenderer.flipX = isRight;
+    }
+
     public virtual Vector3 GetDirection()
     {
         return Vector3.zero;
+    }
+    
+    public virtual void UpdateStateAndAnimation(CreatureStateType stateType, string animationName)
+    {
+    }
+
+    public void RigidBodyMovePosition(Vector2 direction)
+    {
+        _rigidbody.MovePosition(_rigidbody.position + direction);
+        SetSpriteFlipX(direction.x > 0);
     }
 }
