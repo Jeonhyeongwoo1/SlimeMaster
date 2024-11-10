@@ -240,4 +240,104 @@ namespace SlimeMaster.Data
 
 
     #endregion
+    
+    
+    #region SupportSkilllData
+    [Serializable]
+    public class SupportSkillData
+    {
+        public int AcquiredLevel;
+        public int DataId;
+        public SupportSkillType SupportSkillType;
+        public SupportSkillName SupportSkillName;
+        public SupportSkillGrade SupportSkillGrade;
+        public string Name;
+        public string Description;
+        public string IconLabel;
+        public float HpRegen;
+        public float HealRate; // 회복량 (최대HP%)
+        public float HealBonusRate; // 회복량 증가
+        public float MagneticRange; // 아이템 습득 범위
+        public int SoulAmount; // 영혼획득
+        public float HpRate;
+        public float AtkRate;
+        public float DefRate;
+        public float MoveSpeedRate;
+        public float CriRate;
+        public float CriDmg;
+        public float DamageReduction;
+        public float ExpBonusRate;
+        public float SoulBonusRate;
+        public float ProjectileSpacing;// 발사체 사이 간격
+        public float Duration; //스킬 지속시간
+        public int NumProjectiles;// 회당 공격횟수
+        public float AttackInterval; //공격간격
+        public int NumBounce;//바운스 횟수
+        public int NumPenerations; //관통 횟수
+        public float ProjRange; //투사체 사거리
+        public float RoatateSpeed; // 회전 속도
+        public float ScaleMultiplier;
+        public float Price;
+        public bool IsLocked = false;
+        public bool IsPurchased = false;
+        
+        // public bool CheckRecommendationCondition()
+        // {
+        //     if (IsLocked == true || Managers.Game.SoulShopList.Contains(this) == true)
+        //     {
+        //         return false;
+        //     }
+        //
+        //     if (SupportSkillType == Define.SupportSkillType.Special)
+        //     {
+        //         //내가 가지고 있는 장비스킬이 아니면 false
+        //         if (Managers.Game.EquippedEquipments.TryGetValue(Define.EquipmentType.Weapon, out Equipment myWeapon))
+        //         {
+        //             int skillId = myWeapon.EquipmentData.BasicSkill;
+        //             SkillType type = Util.GetSkillTypeFromInt(skillId);
+        //
+        //             switch (SupportSkillName)
+        //             {
+        //                 case Define.SupportSkillName.ArrowShot:
+        //                 case Define.SupportSkillName.SavageSmash:
+        //                 case Define.SupportSkillName.PhotonStrike:
+        //                 case Define.SupportSkillName.Shuriken:
+        //                 case Define.SupportSkillName.EgoSword:
+        //                     if (SupportSkillName.ToString() != type.ToString())
+        //                         return false;
+        //                     break;
+        //             }
+        //
+        //         }
+        //     }
+        //     #region 서포트 스킬 중복 방지 모드 보류
+        //     //if (Managers.Game.Player.Skills.SupportSkills.TryGetValue(SupportSkillName, out var existingSkill))
+        //     //{
+        //     //    if (existingSkill == null)
+        //     //        return true;
+        //
+        //     //    if (DataId <= existingSkill.DataId)
+        //     //    {
+        //     //        return false;
+        //     //    }
+        //     //}
+        //     #endregion
+        //
+        //     return true;
+        // }
+    }
+    [Serializable]
+    public class SupportSkillDataLoader : ILoader<int, SupportSkillData>
+    {
+        public List<SupportSkillData> supportSkills = new List<SupportSkillData>();
+
+        public Dictionary<int, SupportSkillData> MakeDict()
+        {
+            Dictionary<int, SupportSkillData> dict = new Dictionary<int, SupportSkillData>();
+            foreach (SupportSkillData skill in supportSkills)
+                dict.Add(skill.DataId, skill);
+            return dict;
+        }
+    }
+    #endregion
 }

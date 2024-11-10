@@ -435,6 +435,7 @@ GameObject:
   - component: {fileID: 7404211594097656815}
   - component: {fileID: 7404211594097656816}
   - component: {fileID: 7404211594097656817}
+  - component: {fileID: 2787436133927935832}
   m_Layer: 5
   m_Name: UI_BackToHomePopup
   m_TagString: Untagged
@@ -526,6 +527,21 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &2787436133927935832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7404211594097656819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df71750d4149147588c4f3b14851a765, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bgCloseButton: {fileID: 0}
+  _quitButton: {fileID: 7404211593269910637}
+  _resumeButton: {fileID: 7404211594733115613}
 --- !u!1 &7404211594160744217
 GameObject:
   m_ObjectHideFlags: 0

@@ -132,6 +132,12 @@ namespace SlimeMaster.InGame.Manager
                 case MonsterType.Boss:
                     break;
             }
+
+            if (Random.value < Const.STAGE_SOULDROP_RATE)
+            {
+                SoulController soul = GameManager.I.Object.MakeSoul(spawnPosition);
+                _currentMap.AddItemInGrid(spawnPosition, soul);
+            }
         }
 
         private void OnDeadMonster(object value)

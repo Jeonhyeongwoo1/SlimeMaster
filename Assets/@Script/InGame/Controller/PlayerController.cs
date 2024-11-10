@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using SlimeMaster.Data;
 using SlimeMaster.Factory;
@@ -8,6 +9,9 @@ using SlimeMaster.InGame.Entity;
 using SlimeMaster.InGame.Enum;
 using SlimeMaster.InGame.Input;
 using SlimeMaster.InGame.Manager;
+using SlimeMaster.InGame.Popup;
+using SlimeMaster.InGame.Skill;
+using SlimeMaster.InGame.View;
 using SlimeMaster.Model;
 using Unity.Mathematics;
 using UnityEngine;
@@ -33,6 +37,16 @@ namespace SlimeMaster.InGame.Controller
                 }
             }
         }
+
+        public int SoulAmount
+        {
+            get => _soulAmount;
+            set
+            {
+                _soulAmount = value;
+                _playerModel.SoulAmount.Value = _soulAmount;
+            }
+        }
         
         [SerializeField] private Transform _indicatorTransform;
         [SerializeField] private Transform _indicatorSpriteTransform;
@@ -42,6 +56,7 @@ namespace SlimeMaster.InGame.Controller
         private Vector2 _inputVector;
         private bool _isInit;
         private int _currentExp;
+        private int _soulAmount;
         private PlayerModel _playerModel;
 
         public override void Initialize(CreatureData creatureData, Sprite sprite, List<SkillData> skillDataList)
@@ -51,10 +66,17 @@ namespace SlimeMaster.InGame.Controller
             _isDead = false;
             _playerModel = ModelFactory.CreateOrGetModel<PlayerModel>();
             _playerModel.CurrentLevel.Value = 1;
+            _creatureType = CreatureType.Player;
 
             //Default -> 추후에 장비에 맞춰서 변경되어야함.
             SkillData skillData = skillDataList.Find(v => v.DataId == (int)SkillType.StormBlade);
             _skillBook.UpgradeOrAddSkill(skillData);
+            
+            GameManager.I.CurrentSupportSkillDataList = _skillBook.GetRecommendSupportSkillDataList();
+            List<BaseSkill> skillList = _skillBook.ActivateSkillList;
+            UIManager uiManager = GameManager.I.UI;
+            var gamesceneUI = uiManager.SceneUI as UI_GameScene;
+            gamesceneUI.UpdateSkillSlotItem(skillList);
             gameObject.SetActive(true);
         }
 
@@ -88,7 +110,31 @@ namespace SlimeMaster.InGame.Controller
         {
             InputHandler.onPointerDownAction += OnChangedInputVector;
             InputHandler.onPointerUpAction += () => OnChangedInputVector(Vector2.zero);
-            GameManager.I.Event.AddEvent(GameEventType.ActivateDropItem, OnActivateDropItem);      
+            GameManager.I.Event.AddEvent(GameEventType.ActivateDropItem, OnActivateDropItem);
+        }
+
+        public bool TryPurchaseSupportSkill(int supportSkillId)
+        {
+            SupportSkillData skillData = GameManager.I.Data.SupportSkillDataDict[supportSkillId];
+            if (SoulAmount < skillData.Price)
+            {
+                Debug.Log(
+                    $"failed purchase skill soul amount {SoulAmount} / price {skillData.Price} / skill Id {supportSkillId}");
+                return false;
+            }
+            
+            _skillBook.AddSupportSkill(skillData);
+            var lockSupportSkillList = GameManager.I.lockSupportSkillDataList;
+            if (lockSupportSkillList.Contains(skillData))
+            {
+                lockSupportSkillList.Remove(skillData);
+            }
+
+            GameManager.I.Event.Raise(GameEventType.PurchaseSupportSkill, _skillBook.ActivateSupportSkillDataList);
+            
+            //Add effect
+
+            return true;
         }
         
         private void OnDisable()
@@ -163,14 +209,27 @@ namespace SlimeMaster.InGame.Controller
                             int exp = gem.GetExp();
                             CurrentExp += exp;
                         };     
+                        item.GetItem(transform, callback);
                         break;
+                    case DropableItemType.DropBox:
                     case DropableItemType.Potion:
                     case DropableItemType.Magnet:
                     case DropableItemType.Bomb:
+                        item.GetItem(transform, callback);
+                        break;
+                    case DropableItemType.Soul:
+                        callback = () =>
+                        {
+                            var soul = item as SoulController;
+                            SoulAmount += soul.GetSoulAmount();
+                        };
+
+                        var gameSceneUI = GameManager.I.UI.SceneUI as UI_GameScene;
+                        Transform tr = gameSceneUI.GetSoulIconTransform();
+                        item.GetItem(tr, callback);
                         break;
                 }
 
-                item.GetItem(transform, callback);
             }
         }
 
@@ -183,7 +242,6 @@ namespace SlimeMaster.InGame.Controller
 
             _currentHp -= (int)damage;
 
-            Debug.Log(_currentHp);
             if (_currentHp <= 0)
             {
                 Dead();
@@ -206,6 +264,11 @@ namespace SlimeMaster.InGame.Controller
         public void UpgradeOrAddSKill(SkillData skillData)
         {
             _skillBook.UpgradeOrAddSkill(skillData);
+        }
+
+        public int GetActivateSkillLevel(int skillId)
+        {
+            return _skillBook.GetActivateSkillLevel(skillId);
         }
         
         public void LevelUp()
@@ -246,6 +309,37 @@ namespace SlimeMaster.InGame.Controller
         public override Vector3 GetDirection()
         {
             return (_indicatorSpriteTransform.position - transform.position).normalized;
+        }
+
+        public List<TotalDamageInfoData> GetTotalDamageInfoData()
+        {
+            float totalDamage = GetTotalDamage();
+            List<TotalDamageInfoData> list = new List<TotalDamageInfoData>();
+            foreach (BaseSkill skill in _skillBook.ActivateSkillList)
+            {
+                var infoData = new TotalDamageInfoData
+                {
+                    skillSprite = GameManager.I.Resource.Load<Sprite>(skill.SkillData.IconLabel),
+                    skillName = skill.SkillData.Name,
+                    skillDamageRatioByTotalDamage = skill.AccumulatedDamage / totalDamage,
+                    skillAccumlatedDamage = skill.AccumulatedDamage
+                };
+                
+                list.Add(infoData);
+            }
+
+            return list.OrderBy((a) => a.skillAccumlatedDamage).ToList();
+        }
+
+        private float GetTotalDamage()
+        {
+            float damage = 0;
+            foreach (BaseSkill skill in _skillBook.ActivateSkillList)
+            {
+                damage += skill.AccumulatedDamage;
+            }
+
+            return damage;
         }
     }
 }

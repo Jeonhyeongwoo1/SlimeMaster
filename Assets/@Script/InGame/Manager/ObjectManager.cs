@@ -162,6 +162,15 @@ namespace SlimeMaster.InGame.Manager
             return gem;
         }
 
+        public SoulController MakeSoul(Vector3 spawnPosition)
+        {
+            GameObject prefab = _resource.Instantiate(Const.Soul);
+            var soul = prefab.GetOrAddComponent<SoulController>();
+            soul.Spawn(spawnPosition);
+            _dropItemControllerList.Add(soul);
+            return soul;
+        }
+
         public List<MonsterController> GetMonsterInRange(float minDistance, float maxDistance, Vector3 targetPosition)
         {
             List<MonsterController> monsterList =

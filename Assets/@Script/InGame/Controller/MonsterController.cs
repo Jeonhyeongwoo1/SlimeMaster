@@ -25,6 +25,7 @@ namespace SlimeMaster.InGame.Controller
         {
             base.Initialize(creatureData, sprite, skillDataList);
 
+            _creatureType = CreatureType.Monster;
             if (skillDataList != null && skillDataList.Count > 0)
             {
                 _skillBook.UseAllSkillList(true, true, GameManager.I.Object.Player);

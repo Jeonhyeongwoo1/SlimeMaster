@@ -11,10 +11,6 @@ namespace SlimeMaster.InGame.Manager
     {
         private Dictionary<GameEventType, OnEvent> _eventDict = new();
 
-        public EventManager()
-        {
-        }
-
         public void Raise(GameEventType gameEventType, object value = null)
         {
             if (!_eventDict.ContainsKey(gameEventType))

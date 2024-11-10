@@ -49,6 +49,9 @@ namespace SlimeMaster.InGame.Controller
                 case DropableItemType.Gem:
                     name = Const.ExpGem;
                     break;
+                case DropableItemType.Soul:
+                    name = Const.Soul;
+                    break;
                 default:
                         return;
             }
@@ -62,7 +65,7 @@ namespace SlimeMaster.InGame.Controller
             Utils.SafeCancelCancellationTokenSource(ref _moveToTargetCts);
             MoveToTargetAsync(target, callback).Forget();
         }
-
+        
         protected async UniTaskVoid MoveToTargetAsync(Transform target, Action callback)
         {
             _moveToTargetCts = new CancellationTokenSource();

@@ -19,11 +19,13 @@ public class CreatureController : MonoBehaviour, IHitable
     public float CircleColliderRadius => _collider ? _collider.radius : 0;
     
     public bool IsDead { get; set; }
+    public CreatureType CreatureType => _creatureType;
     
     [SerializeField] protected CreatureStateType _creatureStateType;
     [SerializeField] protected SpriteRenderer _spriteRenderer;
     [SerializeField] protected Rigidbody2D _rigidbody;
-    
+
+    protected CreatureType _creatureType;
     protected SkillBook _skillBook;
     protected CreatureData _creatureData;
     protected float _currentHp;
