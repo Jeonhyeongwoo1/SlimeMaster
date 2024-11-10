@@ -4,7 +4,6 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
 using SlimeMaster.Data;
-using SlimeMaster.InGame.Entity;
 using SlimeMaster.InGame.Enum;
 using SlimeMaster.InGame.Manager;
 using UnityEngine;
@@ -17,7 +16,8 @@ namespace SlimeMaster.InGame.Controller
         
         [SerializeField] private MonsterType _monsterType;
         
-        private PlayerController _playerController;
+        protected PlayerController _player;
+        
         private CancellationTokenSource _takeDamageCts;
         private CancellationTokenSource _moveCts;
 
@@ -25,14 +25,9 @@ namespace SlimeMaster.InGame.Controller
         {
             base.Initialize(creatureData, sprite, skillDataList);
 
-            if (_monsterType == MonsterType.Boss)
-            {
-                return;
-            }
-            
             if (skillDataList != null && skillDataList.Count > 0)
             {
-                _skillBook.UseAllSkillList();
+                _skillBook.UseAllSkillList(true, true, GameManager.I.Object.Player);
             }
         }
 
@@ -65,9 +60,9 @@ namespace SlimeMaster.InGame.Controller
             AllCancelCancellationTokenSource();
         }
 
-        private void OnTriggerEnter2D(Collider2D collider2D)
+        protected virtual void OnTriggerEnter2D(Collider2D collider2D)
         {
-            if (collider2D.gameObject.layer != _playerController.Layer)
+            if (collider2D.gameObject.layer != _player.Layer)
             {
                 return;
             }
@@ -75,7 +70,7 @@ namespace SlimeMaster.InGame.Controller
             TakeDamageAsync().Forget();
         }
 
-        private void OnTriggerExit2D(Collider2D other)
+        protected virtual void OnTriggerExit2D(Collider2D other)
         {
             Utils.SafeCancelCancellationTokenSource(ref _takeDamageCts);
         }
@@ -87,7 +82,8 @@ namespace SlimeMaster.InGame.Controller
 
             while (true)
             {
-                _playerController.TakeDamage(_creatureData.Atk);
+                Debug.Log("ss " + _creatureData.Atk);
+                _player.TakeDamage(_creatureData.Atk);
                 
                 try
                 {
@@ -109,11 +105,11 @@ namespace SlimeMaster.InGame.Controller
             while (_moveCts != null && !_moveCts.IsCancellationRequested)
             {
                 Vector3 prevPosition = _rigidbody.position;
-                Vector3 direction = (_playerController.transform.position - prevPosition).normalized;
+                Vector3 direction = (_player.transform.position - prevPosition).normalized;
                 Vector3 nextPosition = (Vector3) _rigidbody.position + direction;
                 Vector3 lerp = Vector3.Lerp(prevPosition, nextPosition, Time.fixedDeltaTime * _creatureData.MoveSpeed);
                 _rigidbody.MovePosition(lerp);
-                _spriteRenderer.flipX = direction.x >= 0;
+                SetSpriteFlipX(direction.x >= 0);
                 
                 try
                 {
@@ -137,7 +133,7 @@ namespace SlimeMaster.InGame.Controller
         public virtual void Spawn(Vector3 spawnPosition, PlayerController playerController)
         {
             transform.position = spawnPosition;
-            _playerController = playerController;
+            _player = playerController;
             gameObject.SetActive(true);
             MoveToPlayer().Forget();
         }

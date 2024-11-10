@@ -2442,13 +2442,14 @@ GameObject:
   - component: {fileID: 6375127926996860675}
   - component: {fileID: 3550270308860582812}
   - component: {fileID: 4080751746204952551}
+  - component: {fileID: 8045746856356537188}
   m_Layer: 5
   m_Name: BossAlarmObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6375127926996860675
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2508,6 +2509,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &8045746856356537188
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1587298483186137572}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1762345720123393766
 GameObject:
   m_ObjectHideFlags: 0
@@ -5326,6 +5339,8 @@ MonoBehaviour:
   _playerLvelText: {fileID: 3146652389353485152}
   _eliteMonsterInfo: {fileID: 8288986195731968707}
   _bossMonsterInfo: {fileID: 3752848334130970803}
+  _monsterSpawnAlarmObject: {fileID: 6705821388257814236}
+  _bossSpawnAlarmObject: {fileID: 1587298483186137572}
 --- !u!1 &3146652389741355443
 GameObject:
   m_ObjectHideFlags: 0
@@ -8141,7 +8156,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5042311776527696207
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9604,13 +9619,14 @@ GameObject:
   - component: {fileID: 306002802452607900}
   - component: {fileID: 6319174773201919957}
   - component: {fileID: 3680054124385993367}
+  - component: {fileID: 117252571932940636}
   m_Layer: 5
   m_Name: MonsterAlarmObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &306002802452607900
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9671,6 +9687,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &117252571932940636
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6705821388257814236}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &6734900532978258103
 GameObject:
   m_ObjectHideFlags: 0

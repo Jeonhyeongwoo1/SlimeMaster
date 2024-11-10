@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7691499578900471177}
+  - component: {fileID: 3503475069790822401}
   m_Layer: 0
   m_Name: SkillRange
   m_TagString: Untagged
@@ -33,6 +34,21 @@ Transform:
   - {fileID: 1283885209936010656}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3503475069790822401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7691499578900471179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8315883b76734b168ba9d489548e831, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lineSprite: {fileID: 7691499579386656352}
+  _mainCircleParticle: {fileID: 2686730412499092837}
+  _subCircleParticle: {fileID: 2690365140500246405}
 --- !u!1 &7691499579386656353
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,5 +217,15 @@ PrefabInstance:
 --- !u!4 &1283885209936010656 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7764757959695651067, guid: 74a2d0db858280947894d184c87c4e04, type: 3}
+  m_PrefabInstance: {fileID: 8795724627228151131}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &2686730412499092837 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6870698495652235326, guid: 74a2d0db858280947894d184c87c4e04, type: 3}
+  m_PrefabInstance: {fileID: 8795724627228151131}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &2690365140500246405 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6865359559100900062, guid: 74a2d0db858280947894d184c87c4e04, type: 3}
   m_PrefabInstance: {fileID: 8795724627228151131}
   m_PrefabAsset: {fileID: 0}

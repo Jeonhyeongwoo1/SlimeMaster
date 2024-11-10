@@ -10,7 +10,7 @@ namespace SlimeMaster.InGame.Skill
     {
         protected CancellationTokenSource _skillLogicCts;
         
-        public override async UniTaskVoid StartSkillLogicProcessAsync()
+        public override async UniTask StartSkillLogicProcessAsync(CancellationTokenSource cts = null)
         {
             _skillLogicCts = new CancellationTokenSource();
             var token = _skillLogicCts.Token;
@@ -28,18 +28,5 @@ namespace SlimeMaster.InGame.Skill
                 }
             }
         }
-
-        protected virtual void OnHit(Collider2D collider, Projectile projectile)
-        {
-            if (Utils.TryGetComponentInParent(collider.gameObject, out CreatureController creature))
-            {
-                creature.TakeDamage(1);
-                // Debug.Log(_owner.AttackDamage * _skillData.DamageMultiplier);
-                // creature.TakeDamage(_owner.AttackDamage * _skillData.DamageMultiplier);
-                // monster.TakeDamaged(100);
-            }
-        }
-        
-        protected abstract UniTask UseSkill();
     }
 }

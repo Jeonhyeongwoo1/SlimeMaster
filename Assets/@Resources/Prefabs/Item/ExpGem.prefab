@@ -97,4 +97,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d789dca572154db8a574e2af98b8678f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dropableItemType: 4
   _spriteRenderer: {fileID: 3496092165310668560}

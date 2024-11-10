@@ -7,6 +7,15 @@ namespace SlimeMaster.InGame.Enum
         Start,
         End
     }
+    
+    public enum CreatureStateType
+    {
+        None,
+        Idle,
+        Move,
+        Skill,
+        Dead
+    }
 
     public enum GameEventType
     {
@@ -18,6 +27,8 @@ namespace SlimeMaster.InGame.Enum
         UpgradeOrAddNewSkill,
         TakeDamageEliteOrBossMonster,
         ActivateDropItem,
+        SpawnedBoss,
+        EndWave
     }
 
     public enum DropableItemType
@@ -61,6 +72,7 @@ namespace SlimeMaster.InGame.Enum
         PhotonStrike = 10121,
         StormBlade = 10131,
         MonsterRangedAttackSkill = 20091,
+        BossSkill = 100001,
         BasicAttack = 100101,
         Move = 100201,
         Charging = 100301,

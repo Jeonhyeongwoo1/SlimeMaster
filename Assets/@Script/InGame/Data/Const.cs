@@ -21,6 +21,7 @@ namespace SlimeMaster.InGame.Data
 
         public const string ExpGem = "ExpGem";
         public const string MeteorShadow = "MeteorShadow";
+        public const string BossSmashHitEffect = "BossSmashHitEffect";
 
         #endregion
         
