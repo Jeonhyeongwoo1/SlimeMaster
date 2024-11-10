@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2418030394830585791}
   - component: {fileID: 2264283087662898697}
   - component: {fileID: 7081753214390627959}
+  - component: {fileID: 8028230258294377730}
   m_Layer: 5
   m_Name: BackgroundImage
   m_TagString: Untagged
@@ -75,6 +76,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 4
+--- !u!114 &8028230258294377730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915376008218063582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4476f20529fd645fda43b85e7827d923, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _supportSkillButton: {fileID: 6822900215837384839}
+  _supportSkillIconImage: {fileID: 277045959164321615}
+  _bgSkillImage: {fileID: 7081753214390627959}
 --- !u!1 &4194671234542170006
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,6 +176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8715419691140645766}
   - component: {fileID: 4086555489126537874}
+  - component: {fileID: 4011407247032742363}
   m_Layer: 5
   m_Name: UI_SupportSkillItem
   m_TagString: Untagged
@@ -185,8 +202,8 @@ RectTransform:
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -540, y: -960}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &4086555489126537874
@@ -197,6 +214,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5338576585523890474}
   m_CullTransparentMesh: 1
+--- !u!114 &4011407247032742363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5338576585523890474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4476f20529fd645fda43b85e7827d923, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _supportSkillButton: {fileID: 6822900215837384839}
+  _supportSkillIconImage: {fileID: 277045959164321615}
+  _bgSkillImage: {fileID: 7081753214390627959}
 --- !u!1 &7908473534330341028
 GameObject:
   m_ObjectHideFlags: 0

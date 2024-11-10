@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
+using ColorUtility = UnityEngine.ColorUtility;
 
 namespace SlimeMaster.Common
 {
@@ -67,6 +68,14 @@ namespace SlimeMaster.Common
             float posY = Mathf.Sign(angle * Mathf.Deg2Rad) * distY;
             Vector3 position = centerPosition.position + new Vector3(posX, posY);
             return position;
+        }
+
+        public static Color HexToColor(string color)
+        {
+            Color parsedColor;
+            ColorUtility.TryParseHtmlString("#"+color, out parsedColor);
+
+            return parsedColor;
         }
     }
 }

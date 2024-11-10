@@ -1217,6 +1217,7 @@ GameObject:
   - component: {fileID: 139446505336050768}
   - component: {fileID: 575608790919375121}
   - component: {fileID: 1062987342928937265}
+  - component: {fileID: 109696611065201623}
   m_Layer: 5
   m_Name: UI_SupportCardItem
   m_TagString: Untagged
@@ -1328,6 +1329,24 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &109696611065201623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6596372794286585097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de6ec024a889c4a9aa43be3dddfef374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _skillNameText: {fileID: 4933617028278951313}
+  _skillImage: {fileID: 2092876700017342826}
+  _skillDescriptionText: {fileID: 3567689804395548663}
+  _priceText: {fileID: 8859861176511667193}
+  _soldOutObject: {fileID: 2117791688334115611}
+  _lockToggle: {fileID: 1165102919588311848}
 --- !u!1 &6666965789449792769
 GameObject:
   m_ObjectHideFlags: 0

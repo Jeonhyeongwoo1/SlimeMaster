@@ -4,6 +4,7 @@ using SlimeMaster.Common;
 using SlimeMaster.Data;
 using SlimeMaster.InGame.Data;
 using SlimeMaster.InGame.Enum;
+using SlimeMaster.InGame.Manager;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -15,6 +16,7 @@ namespace SlimeMaster.InGame.Skill
         public bool IsMaxLevel => _currentLevel == Const.MAX_SKILL_Level;
         public bool IsLearn => _currentLevel > 0;
         public SkillType SkillType => _skillType;
+        public float AccumulatedDamage { get; private set; }
         
         protected SkillData _skillData;
         protected SkillType _skillType;
@@ -38,6 +40,11 @@ namespace SlimeMaster.InGame.Skill
         public void Learn()
         {
             _currentLevel = 1;
+
+            if (_owner.CreatureType == CreatureType.Player)
+            {
+                GameManager.I.Event.Raise(GameEventType.LearnSkill, SkillData);
+            }
         }
 
         public abstract UniTask StartSkillLogicProcessAsync(CancellationTokenSource cts = null);
@@ -49,8 +56,9 @@ namespace SlimeMaster.InGame.Skill
             if (Utils.TryGetComponentInParent(collider.gameObject, out CreatureController creature))
             {
                 // Debug.Log(_owner.AttackDamage * _skillData.DamageMultiplier);
-                creature.TakeDamage(_owner.AttackDamage * _skillData.DamageMultiplier);
-                // monster.TakeDamaged(100);
+                float damage = _owner.AttackDamage * _skillData.DamageMultiplier;
+                creature.TakeDamage(damage);
+                AccumulatedDamage += damage;
             }
         }
     }

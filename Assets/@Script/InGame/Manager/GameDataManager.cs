@@ -12,7 +12,8 @@ namespace SlimeMaster.InGame.Manager
         public Dictionary<int, StageData> StageDict { get; private set; } = new();
         public Dictionary<int, LevelData> LevelDataDict { get; private set; } = new();
         public Dictionary<int, DropItemData> DropItemDict { get; private set; } = new();
-
+        public Dictionary<int, SupportSkillData> SupportSkillDataDict { get; private set; } = new();
+        
         public void Initialize()
         {
             SkillDict = LoadJson<SkillDataLoader, int, SkillData>("SkillData").MakeDict();
@@ -20,6 +21,8 @@ namespace SlimeMaster.InGame.Manager
             StageDict = LoadJson<StageDataLoader, int, StageData>("StageData").MakeDict();
             LevelDataDict = LoadJson<LevelDataLoader, int, LevelData>("LevelData").MakeDict();
             DropItemDict = LoadJson<DropItemDataLoader, int, DropItemData>("DropItemData").MakeDict();
+            SupportSkillDataDict =
+                LoadJson<SupportSkillDataLoader, int, SupportSkillData>("SupportSkillData").MakeDict();
         }
 
         TLoader LoadJson<TLoader, TKey, TValue>(string path) where TLoader : ILoader<TKey, TValue>

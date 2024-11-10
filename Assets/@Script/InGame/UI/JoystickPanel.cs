@@ -14,21 +14,15 @@ namespace SlimeMaster.InGame.View
 
         private Vector2 _inputVector;
         private Coroutine _fadeCor;
-        
-        private IEnumerator DoFadeCor(bool isFadeOut, float duration)
-        {
-            float elapsed = 0;
-            while (elapsed < duration)
-            {
-                elapsed += Time.deltaTime;
-             
-                float endValue = isFadeOut ? 1 : 0;
-                float starValue = isFadeOut ? 0 : 1;
-                float factor = 5;
 
-                _canvasGroup.alpha = Mathf.Lerp(starValue, endValue, elapsed * factor);
-                yield return null;
-            }
+        private void OnEnable()
+        {
+            InputHandler.onActivateInputHandlerAction += OnActivate;
+        }
+
+        private void OnActivate(bool isActive)
+        {
+            gameObject.SetActive(isActive);
         }
         
         // 드래그 시 호출
@@ -81,6 +75,22 @@ namespace SlimeMaster.InGame.View
             
             _fadeCor = StartCoroutine(DoFadeCor(false, 1));
             InputHandler.onPointerUpAction?.Invoke();
+        }
+
+        private IEnumerator DoFadeCor(bool isFadeOut, float duration)
+        {
+            float elapsed = 0;
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+             
+                float endValue = isFadeOut ? 1 : 0;
+                float starValue = isFadeOut ? 0 : 1;
+                float factor = 5;
+
+                _canvasGroup.alpha = Mathf.Lerp(starValue, endValue, elapsed * factor);
+                yield return null;
+            }
         }
     }
 }

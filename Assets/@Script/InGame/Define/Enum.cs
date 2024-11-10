@@ -28,7 +28,9 @@ namespace SlimeMaster.InGame.Enum
         TakeDamageEliteOrBossMonster,
         ActivateDropItem,
         SpawnedBoss,
-        EndWave
+        EndWave,
+        LearnSkill,
+        PurchaseSupportSkill
     }
 
     public enum DropableItemType
@@ -37,13 +39,15 @@ namespace SlimeMaster.InGame.Enum
         Magnet,
         DropBox,
         Bomb,
-        Gem
+        Gem,
+        Soul
     }
 
     public enum CreatureType
     {
         None,
-        Player = 201000
+        Player = 201000,
+        Monster
     }
 
     public enum MonsterType
@@ -89,5 +93,71 @@ namespace SlimeMaster.InGame.Enum
         GreenGem,
         BlueGem,
         YellowGem
+    }
+
+    public enum SceneType
+    {
+        LobbyScene,
+        GameScene,
+    }
+    
+    public enum SupportSkillName
+    {
+        Critical,
+        MaxHpBonus,
+        ExpBonus,
+        SoulBonus,
+        DamageReduction,
+        AtkBonusRate,
+        MoveBonusRate,
+        Healing, // 체력 회복 
+        HealBonusRate,//회복량 증가
+        HpRegen,
+        CriticalDamage,
+        MagneticRange,
+        Resurrection,
+        LevelupMoveSpeed,
+        LevelupReduction,
+        LevelupAtk,
+        LevelupCri,
+        LevelupCriDmg,
+        MonsterKillAtk,
+        MonsterKillMaxHP,
+        MonsterKillReduction,
+        EliteKillExp,
+        EliteKillSoul,
+        EnergyBolt,
+        IcicleArrow,
+        PoisonField,
+        EletronicField,
+        Meteor,
+        FrozenHeart,
+        WindCutter,
+        EgoSword,
+        ChainLightning,
+        Shuriken,
+        ArrowShot,
+        SavageSmash,
+        PhotonStrike,
+        StormBlade,
+    }
+
+    public enum SupportSkillGrade
+    {
+        Common,
+        Uncommon,
+        Rare,
+        Epic,
+        Legend
+    }
+
+    public enum SupportSkillType
+    {
+        General,
+        Passive,
+        LevelUp,
+        MonsterKill,
+        EliteKill,
+        Special
     }
 }

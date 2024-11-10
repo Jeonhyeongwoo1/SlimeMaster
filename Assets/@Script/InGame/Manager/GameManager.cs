@@ -50,6 +50,28 @@ namespace SlimeMaster.InGame.Manager
         
         private PlayerController _player;
 
+        public List<SupportSkillData> lockSupportSkillDataList = new(Const.SUPPORT_ITEM_USEABLECOUNT);
+
+        public List<SupportSkillData> CurrentSupportSkillDataList
+        {
+            get
+            {
+                if (_currentSupportSkillDataList == null || _currentSupportSkillDataList.Count == 0)
+                {
+                    _currentSupportSkillDataList = Object.Player.SkillBook.GetRecommendSupportSkillDataList();
+                }
+
+                return _currentSupportSkillDataList;
+            }
+            set
+            {
+                _currentSupportSkillDataList ??= new List<SupportSkillData>();
+                _currentSupportSkillDataList = value;
+            }
+        }
+        
+        private List<SupportSkillData> _currentSupportSkillDataList;
+        
         private GameState _gameState;
         private int _stageIndex = 1;
 
@@ -76,8 +98,8 @@ namespace SlimeMaster.InGame.Manager
             await Resource.LoadResourceAsync<Object>("PreLoad", null);
             _data.Initialize();
             _stage.Initialize(_stageIndex, _player);
-            _object.Initialize(_player);
             _ui.ShowUI<UI_GameScene>();
+            _object.Initialize(_player);
             AddEvents();
             GameStart();
         }
@@ -144,6 +166,10 @@ namespace SlimeMaster.InGame.Manager
             _player.LevelUp();
             _ui.ClosePopup();
 
+            List<BaseSkill> skillList = _player.SkillBook.ActivateSkillList;
+            var gamesceneUI = _ui.SceneUI as UI_GameScene;
+            gamesceneUI.UpdateSkillSlotItem(skillList);
+
             Time.timeScale = 1;
         }
         
@@ -159,6 +185,18 @@ namespace SlimeMaster.InGame.Manager
         }
 
         private void UpdateGameState(GameState gameState) => _gameState = gameState;
-        
+
+        public bool TryResetSupportSkillList()
+        {
+            PlayerController player = Object.Player;
+            if (player.SoulAmount < Const.CHANGE_SUPPORT_SKILL_AMOUNT)
+            {
+                return false;
+            }
+
+            player.SoulAmount -= Const.CHANGE_SUPPORT_SKILL_AMOUNT;
+            CurrentSupportSkillDataList = player.SkillBook.GetRecommendSupportSkillDataList();
+            return true;
+        }
     }
 }
