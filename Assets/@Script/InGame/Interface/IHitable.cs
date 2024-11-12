@@ -5,6 +5,6 @@ using UnityEngine;
 
 public interface IHitable
 {
-    void TakeDamage(float damage);
+    void TakeDamage(float damage, CreatureController attacker);
     Action<int, int> onHitReceived { get; set; }
 }

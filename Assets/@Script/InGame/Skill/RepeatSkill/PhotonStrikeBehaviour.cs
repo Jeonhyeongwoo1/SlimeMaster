@@ -30,7 +30,7 @@ namespace SlimeMaster.InGame.Skill
             // _range = skillData.RecognitionRange;
             _range = 15;
             CancelInvoke();
-            Invoke(nameof(Sleep), 4);
+            Invoke(nameof(Release), 4);
         }
 
         private void SetTargetMonster(float speed)
@@ -39,7 +39,7 @@ namespace SlimeMaster.InGame.Skill
             var monsterList = GameManager.I.Object.GetNearestMonsterList(10);
             if (monsterList != null && monsterList.Count > 0)
             {
-                var list = monsterList.FindAll(v => Vector2.Distance(v.Position, transform.position) < _range && !v.IsDead).ToList();
+                var list = monsterList.FindAll(v => Vector2.Distance(v.Position, transform.position) < _range && !v.IsDeadState).ToList();
                 if (list.Count > 0)
                 {
                     _monster = list[Random.Range(0, list.Count)];
@@ -50,7 +50,7 @@ namespace SlimeMaster.InGame.Skill
 
         private void FixedUpdate()
         {
-            if (_monster == null || _monster.IsDead)
+            if (_monster == null || _monster.IsDeadState)
             {
                 return;
             }
@@ -63,7 +63,7 @@ namespace SlimeMaster.InGame.Skill
 
         private void Update()
         {
-            if (_monster == null || _monster.IsDead)
+            if (_monster == null || _monster.IsDeadState)
             {
                 SetTargetMonster(_speed);
             }

@@ -7,6 +7,7 @@ using SlimeMaster.Data;
 using SlimeMaster.InGame.Enum;
 using SlimeMaster.InGame.Manager;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace SlimeMaster.InGame.Controller
 {
@@ -30,6 +31,8 @@ namespace SlimeMaster.InGame.Controller
             {
                 _skillBook.UseAllSkillList(true, true, GameManager.I.Object.Player);
             }
+
+            HP = 1;
         }
 
         private void Awake()
@@ -43,20 +46,22 @@ namespace SlimeMaster.InGame.Controller
 
         protected virtual void OnEnable()
         {
-            GameManager.I.Event.AddEvent(GameEventType.GameOver, OnGameEnd);
+            GameManager.I.Event.AddEvent(GameEventType.DeadPlayer, OnDeadPlayer);
+            GameManager.I.Event.AddEvent(GameEventType.ResurrectionPlayer, OnResurrectionPlayer);
         }
 
         protected virtual void OnDisable()
         {
             if (GameManager.I)
             {
-                GameManager.I?.Event?.RemoveEvent(GameEventType.GameOver, OnGameEnd);
+                GameManager.I?.Event.RemoveEvent(GameEventType.DeadPlayer, OnDeadPlayer);
+                GameManager.I.Event.RemoveEvent(GameEventType.ResurrectionPlayer, OnResurrectionPlayer);
             }
             
             AllCancelCancellationTokenSource();
         }
 
-        private void OnGameEnd(object value)
+        private void OnDeadPlayer(object value)
         {
             AllCancelCancellationTokenSource();
         }
@@ -83,8 +88,7 @@ namespace SlimeMaster.InGame.Controller
 
             while (true)
             {
-                Debug.Log("ss " + _creatureData.Atk);
-                _player.TakeDamage(_creatureData.Atk);
+                _player.TakeDamage(_creatureData.Atk, this);
                 
                 try
                 {
@@ -108,7 +112,7 @@ namespace SlimeMaster.InGame.Controller
                 Vector3 prevPosition = _rigidbody.position;
                 Vector3 direction = (_player.transform.position - prevPosition).normalized;
                 Vector3 nextPosition = (Vector3) _rigidbody.position + direction;
-                Vector3 lerp = Vector3.Lerp(prevPosition, nextPosition, Time.fixedDeltaTime * _creatureData.MoveSpeed);
+                Vector3 lerp = Vector3.Lerp(prevPosition, nextPosition, Time.fixedDeltaTime * _moveSpeed);
                 _rigidbody.MovePosition(lerp);
                 SetSpriteFlipX(direction.x >= 0);
                 
@@ -125,42 +129,63 @@ namespace SlimeMaster.InGame.Controller
             }
         }
 
+        private void OnResurrectionPlayer(object value)
+        {
+            MoveToPlayer().Forget();
+        }
+
         private void AllCancelCancellationTokenSource()
         {
             Utils.SafeCancelCancellationTokenSource(ref _takeDamageCts);
             Utils.SafeCancelCancellationTokenSource(ref _moveCts);
         }
 
-        public virtual void Spawn(Vector3 spawnPosition, PlayerController playerController)
+        public virtual void Spawn(Vector3 spawnPosition, PlayerController player)
         {
             transform.position = spawnPosition;
-            _player = playerController;
+            _player = player;
             gameObject.SetActive(true);
             MoveToPlayer().Forget();
         }
 
-        public override void TakeDamage(float damage)
+        public override void TakeDamage(float damage, CreatureController attacker)
         {
-            if (IsDead)
+            if (IsDeadState)
             {
                 return;
             }
-            
-            _currentHp -= damage;
-            if (_currentHp <= 0)
+
+            bool isCritical = false;
+            if (attacker is PlayerController player)
             {
-                Dead();
+                if (player != null)
+                {
+                    float ratio = Random.value;
+                    if (ratio < player.CriRate)
+                    {
+                        damage *= player.CriticalDamage;
+                        isCritical = true;
+                    }
+                }
             }
             
-            base.TakeDamage(damage);
+            base.TakeDamage(damage, attacker);
+            GameManager.I.Object.ShowDamageFont(Position, damage, 0, transform, isCritical);
         }
 
         protected override async void Dead()
         {
+            if (CreatureStateType.Dead == _creatureStateType)
+            {
+                return;
+            }
+            
             base.Dead();
             await DeadAnimation();
             
-            _currentHp = 0;
+            HP = 0;
+            UpdateCreatureState(CreatureStateType.Dead);
+            Debug.Log($"Dead {transform.GetInstanceID()}");
             GameManager.I.Event.Raise(GameEventType.DeadMonster, this);
             AllCancelCancellationTokenSource();
         }

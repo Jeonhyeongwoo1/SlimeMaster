@@ -9,9 +9,15 @@ namespace SlimeMaster.InGame.Controller
         public GemType GemType => _gemType;
         private GemType _gemType;
 
+        public override void Spawn(Vector3 spawnPosition)
+        {
+            base.Spawn(spawnPosition);
+            
+            dropableItemType = DropableItemType.Gem;
+        }
+
         public void SetGemInfo(GemType gemType, Sprite sprite)
         {
-            dropableItemType = DropableItemType.Gem;
             _spriteRenderer.sprite = sprite;
             _gemType = gemType;
         }

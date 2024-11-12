@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using SlimeMaster.Data;
 using SlimeMaster.InGame.Enum;
 using SlimeMaster.InGame.Manager;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -14,6 +15,8 @@ namespace SlimeMaster.InGame.Skill
         public Action<Collider2D, Projectile> OnHit { get; set; }
         public MonoBehaviour Mono => this;
         public Projectile ProjectileMono => this;
+
+        public bool IsRelease { get; private set; }
 
         [SerializeField] protected Rigidbody2D _rigidbody;
 
@@ -29,27 +32,37 @@ namespace SlimeMaster.InGame.Skill
                 OnHit?.Invoke(other, this);
                 if (wantToSleepInTriggerEnter)
                 {
-                    Sleep();
+                    Release();
                 }
             }
+        }
+
+        private void OnEnable()
+        {
+            IsRelease = false;
         }
 
         protected virtual void OnTriggerExit2D(Collider2D other)
         {
         }
 
-        public virtual void Sleep()
+        public virtual void Release()
         {
-            if (!gameObject.activeSelf)
+            if (IsRelease)
             {
                 return;
             }
 
+            IsRelease = true;
             var go = gameObject;
             GameManager.I.Pool.ReleaseObject(go.name, go);
-            gameObject.SetActive(false);
         }
-        
+
+        public virtual void OnChangedSkillData(SkillData skillData)
+        {
+            
+        }
+
         protected async UniTaskVoid ApplyDamagedAsync(CancellationTokenSource cancellationTokenSource, Action damageAction)
         {
             float elapsed = 0;
@@ -71,7 +84,7 @@ namespace SlimeMaster.InGame.Skill
                 }
             }
             
-            Sleep();
+            Release();
         }
     }
 }

@@ -22,10 +22,22 @@ namespace SlimeMaster.InGame.Entity
             ActivateSpinObject(spawnPosition);
             
             float speed = skillData.RoatateSpeed * skillData.Duration;
+            DoRotate(speed, skillData.Duration);
+        }
+
+        private void DoRotate(float speed, float duration)
+        {
+            if (_rotateSequence != null)
+            {
+                _rotateSequence.Kill();
+            }
+            
             _rotateSequence = DOTween.Sequence();
-            Tween rotate = transform.DORotate(new Vector3(0, 0, speed), skillData.Duration, RotateMode.FastBeyond360).SetEase(Ease.Linear);
-            Tween rotate2 = transform.DORotate(new Vector3(0, 0, speed * 1), 1f, RotateMode.FastBeyond360).SetEase(Ease.Linear);
-            _rotateSequence.Append(rotate).Append(rotate2);
+            Tween rotate = transform.DORotate(new Vector3(0, 0, speed), duration, RotateMode.FastBeyond360)
+                .SetEase(Ease.Linear);
+            Tween rotate2 = transform.DORotate(new Vector3(0, 0, speed * 1), 1f, RotateMode.FastBeyond360)
+                .SetEase(Ease.Linear);
+            _rotateSequence.Append(rotate).Append(rotate2);            
         }
 
         private void ActivateSpinObject(Vector3 spawnPosition)
@@ -68,13 +80,19 @@ namespace SlimeMaster.InGame.Entity
             transform.position = position;
         }
 
-        public override void Sleep()
+        public override void Release()
         {
-            base.Sleep();
+            base.Release();
             if (_rotateSequence != null)
             {
                 _rotateSequence.Kill();
             }
+        }
+
+        public override void OnChangedSkillData(SkillData skillData)
+        {
+            float speed = skillData.RoatateSpeed * skillData.Duration;
+            DoRotate(speed, skillData.Duration);
         }
     }
 }

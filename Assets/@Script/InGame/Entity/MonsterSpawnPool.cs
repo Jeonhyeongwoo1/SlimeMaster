@@ -15,12 +15,9 @@ namespace SlimeMaster.InGame.Entity
     {
         private float _spawnInterval;
         private CancellationTokenSource _spawnCts;
-        private PlayerController _player;
 
-        public MonsterSpawnPool(PlayerController player)
+        public MonsterSpawnPool()
         {
-            _player = player;
-
             AddEvent();
         }
 
@@ -33,19 +30,13 @@ namespace SlimeMaster.InGame.Entity
         {
             Utils.SafeCancelCancellationTokenSource(ref _spawnCts);
         }
-
-        public void StartSpawnMonster(float spawnInterval, List<int> monsterIdList, int onceSpawnCount,
-            float firstMonsterSpanRate, List<int> eleteIdList, List<int> bossIdList)
-        {
-            SpawnMonsterAsync(spawnInterval, monsterIdList, onceSpawnCount, firstMonsterSpanRate, eleteIdList, bossIdList).Forget();
-        }
-
+        
         public void StopMonsterSpawn()
         {
             Utils.SafeCancelCancellationTokenSource(ref _spawnCts);
         }
 
-        public async UniTaskVoid SpawnMonsterAsync(float spawnInterval, List<int> monsterIdList, int onceSpawnCount,
+        public async UniTask SpawnMonsterAsync(float spawnInterval, List<int> monsterIdList, int onceSpawnCount,
             float firstMonsterSpanRate, List<int> eleteIdList, List<int> bossIdList)
         {
             _spawnCts = new CancellationTokenSource();
@@ -77,8 +68,6 @@ namespace SlimeMaster.InGame.Entity
                 catch (Exception e) when (!(e is OperationCanceledException))
                 {
                     Debug.LogError($"{nameof(SpawnMonsterAsync)} error {e}");
-                    // Debug.Log("Restart enemy spawn");
-                    // EnemySpawnAsync().Forget();
                     break;
                 }
                 
@@ -95,7 +84,7 @@ namespace SlimeMaster.InGame.Entity
         private void RaiseSpawnMonster(int index, int id, Type monsterType)
         {
             float angle = 360 / (index + 1);
-            var spawnPosition = GetCirclePosition(angle) + _player.transform.position;
+            var spawnPosition = GetCirclePosition(angle);
             SpawnObjectData spawnObjectData = new SpawnObjectData();
             spawnObjectData.spawnPosition = spawnPosition;
             spawnObjectData.id = id;

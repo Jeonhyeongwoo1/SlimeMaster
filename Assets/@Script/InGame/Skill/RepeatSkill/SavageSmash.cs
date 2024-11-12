@@ -10,21 +10,38 @@ namespace SlimeMaster.InGame.Skill
 {
     public class SavageSmash : RepeatSkill
     {
+        private IGeneratable _generatable;
+        
         public override void StopSkillLogic()
         {
             Utils.SafeCancelCancellationTokenSource(ref _skillLogicCts);
         }
 
+        private void Release()
+        {
+            if (_generatable != null)
+            {
+                _generatable.Release();
+                _generatable = null;
+            }
+        }
+
         protected override async UniTask UseSkill()
         {
+            Release();
             string prefabLabel = "SavageSmash";
             GameObject prefab = GameManager.I.Resource.Instantiate(prefabLabel);
-            var generatable = prefab.GetComponent<IGeneratable>();
-            generatable.OnHit = OnHit;
-            generatable.Level = CurrentLevel;
-            generatable.Generate(_owner.Position, Vector3.zero, _skillData, _owner);
+            _generatable = prefab.GetComponent<IGeneratable>();
+            _generatable.OnHit = OnHit;
+            _generatable.Level = CurrentLevel;
+            _generatable.Generate(_owner.Position, Vector3.zero, _skillData, _owner);
 
             await UniTask.WaitForSeconds(_skillData.ProjectileSpacing, cancellationToken: _skillLogicCts.Token);
+        }
+
+        public override void OnChangedSkillData()
+        {
+            _generatable?.OnChangedSkillData(_skillData);
         }
     }
 }

@@ -43,13 +43,17 @@ namespace SlimeMaster.InGame.Data
         public const string Soul = "Soul";
         public const string MeteorShadow = "MeteorShadow";
         public const string BossSmashHitEffect = "BossSmashHitEffect";
+        public const string Revival = "Revival";
 
         #endregion
         
-        public static readonly int STAGE_SOULCOUNT = 10;
-        public static readonly float STAGE_SOULDROP_RATE = 1f;//0.05f;
+        public static int STAGE_SOULCOUNT = 10;
+        public static float STAGE_SOULDROP_RATE = 1f;//0.05f;
         public static int SUPPORT_ITEM_USEABLECOUNT = 4;
         public static int CHANGE_SUPPORT_SKILL_AMOUNT = 80;
+        public static int DEFAULT_MagneticRange = 3;
+
+        public static int MONSTER_KILL_BONUS_COUNT = 500;
         
         #region 데이터아이디
         public static int ID_GOLD = 50001;

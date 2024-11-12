@@ -27,7 +27,7 @@ namespace SlimeMaster.InGame.Skill
                 if (list != null && list.Count > i)
                 {
                     MonsterController monster = list[i];
-                    if (monster.IsDead)
+                    if (monster.IsDeadState)
                     {
                         continue;
                     }
@@ -46,7 +46,7 @@ namespace SlimeMaster.InGame.Skill
         {
             base.OnHit(collider, projectile);
             
-            projectile.Sleep();
+            projectile.Release();
         }
     }
 }

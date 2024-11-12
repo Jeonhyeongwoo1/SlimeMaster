@@ -23,7 +23,7 @@ namespace SlimeMaster.InGame.Skill
                 {
                     if (v.ProjectileMono.gameObject)
                     {
-                        v.Sleep();
+                        v.Release();
                     }
                 });
                 _list.Clear();   
@@ -121,7 +121,7 @@ namespace SlimeMaster.InGame.Skill
                 StopSkillLogic();
             }
             
-            _list.ForEach(v=> v.Sleep());
+            _list.ForEach(v=> v.Release());
         }
     }
 }

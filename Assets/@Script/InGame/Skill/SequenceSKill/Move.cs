@@ -16,7 +16,7 @@ namespace SlimeMaster.InGame.Skill
             }
 
             float elapsed = 0;
-            while (!_owner.IsDead || _targetCreature.IsDead)
+            while (!_owner.IsDeadState || _targetCreature.IsDeadState)
             {
                 _owner.UpdateStateAndAnimation(CreatureStateType.Skill, "Move");
                 

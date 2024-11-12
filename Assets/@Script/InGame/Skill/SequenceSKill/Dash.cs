@@ -27,7 +27,7 @@ namespace SlimeMaster.InGame.Skill
             obj.SetActive(true);
             while (elapsed < _skillData.Duration)
             {
-                if (_owner.IsDead || _targetCreature.IsDead)
+                if (_owner.IsDeadState || _targetCreature.IsDeadState)
                 {
                     break;
                 }
@@ -58,7 +58,7 @@ namespace SlimeMaster.InGame.Skill
             float distance = Vector2.Distance(myPos, targetPos);
             while (distance > 2.0f)
             {
-                if (_owner.IsDead || _targetCreature.IsDead)
+                if (_owner.IsDeadState || _targetCreature.IsDeadState)
                 {
                     break;
                 }
@@ -80,7 +80,7 @@ namespace SlimeMaster.InGame.Skill
                 }
             }
 
-            if (_owner.IsDead || _targetCreature.IsDead)
+            if (_owner.IsDeadState || _targetCreature.IsDeadState)
             {
                 return;
             }

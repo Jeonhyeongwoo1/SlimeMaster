@@ -15,7 +15,7 @@ namespace SlimeMaster.InGame.Skill
         public override void StopSkillLogic()
         {
             Utils.SafeCancelCancellationTokenSource(ref _skillLogicCts);
-            _list.ForEach(v=> v.Sleep());
+            _list.ForEach(v=> v.Release());
         }
 
         protected override async UniTask UseSkill()

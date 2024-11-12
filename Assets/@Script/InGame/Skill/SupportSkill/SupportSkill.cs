@@ -11,6 +11,8 @@ namespace SlimeMaster.InGame.Skill
         public SupportSkill(SupportSkillData supportSkillData)
         {
             _supportSkillData = supportSkillData;
+            _supportSkillData.IsPurchased = true;
+            _supportSkillData.IsLocked = false;
         }
         
     }

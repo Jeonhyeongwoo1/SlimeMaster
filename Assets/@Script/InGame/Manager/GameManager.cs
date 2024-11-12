@@ -69,16 +69,24 @@ namespace SlimeMaster.InGame.Manager
                 _currentSupportSkillDataList = value;
             }
         }
+
+        public GameState GameState => _gameState;
         
         private List<SupportSkillData> _currentSupportSkillDataList;
         
         private GameState _gameState;
         private int _stageIndex = 1;
 
+        public GameContinueData GameContinueData => _gameContinueData ??= new GameContinueData();
+        private GameContinueData _gameContinueData;
+
+        public DateTime GameStartTime { get; private set; }
+        
         private void Start()
         {
             Initialize();
         }
+        
         private void CreateManager()
         {
             _pool = new PoolManager();
@@ -94,11 +102,11 @@ namespace SlimeMaster.InGame.Manager
         {
             CreateManager();
            
-            _player = FindObjectOfType<PlayerController>(true);
             await Resource.LoadResourceAsync<Object>("PreLoad", null);
             _data.Initialize();
-            _stage.Initialize(_stageIndex, _player);
+            _stage.Initialize(_stageIndex);
             _ui.ShowUI<UI_GameScene>();
+            _player = FindObjectOfType<PlayerController>(true);
             _object.Initialize(_player);
             AddEvents();
             GameStart();
@@ -109,6 +117,13 @@ namespace SlimeMaster.InGame.Manager
             _event.AddEvent(GameEventType.LevelUp, OnLevelUp);
             _event.AddEvent(GameEventType.UpgradeOrAddNewSkill, OnUpgradeOrAddNewSkill);
             _event.AddEvent(GameEventType.ActivateDropItem, OnActivateDropItem);
+            _event.AddEvent(GameEventType.DeadPlayer,OnDeadPlayer);
+            _event.AddEvent(GameEventType.ResurrectionPlayer, OnResurrectionPlayer);
+        }
+
+        private void OnResurrectionPlayer(object value)
+        {
+            UpdateGameState(GameState.Start);
         }
         
         private void OnActivateDropItem(object value)
@@ -127,7 +142,7 @@ namespace SlimeMaster.InGame.Manager
                     }
                     
                     learnSkillPopup.UpdateSKillItem(skillList[0]);
-                    Time.timeScale = 0;
+                    Time.timeScale = 1;
                     break;
             }
         }
@@ -176,12 +191,12 @@ namespace SlimeMaster.InGame.Manager
         private void GameStart()
         {
             _stage.StartStage();
+            GameStartTime = DateTime.UtcNow;
         }
 
-        private void OnPlayerDead()
+        private void OnDeadPlayer(object value)
         {
-            Debug.LogWarning("On player dead");
-            UpdateGameState(GameState.End);
+            UpdateGameState(GameState.DeadPlayer);
         }
 
         private void UpdateGameState(GameState gameState) => _gameState = gameState;

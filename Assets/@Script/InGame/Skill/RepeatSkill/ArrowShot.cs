@@ -10,9 +10,26 @@ namespace SlimeMaster.InGame.Skill
 {
     public class ArrowShot : RepeatSkill
     {
+        private List<IGeneratable> _generatableList;
+        
         public override void StopSkillLogic()
         {
             Utils.SafeCancelCancellationTokenSource(ref _skillLogicCts);
+            Release();
+        }
+
+        private void Release()
+        {
+            if (_generatableList == null)
+            {
+                _generatableList.ForEach(v=> v?.Release());
+                _generatableList.Clear();
+            }
+        }
+        
+        public override void OnChangedSkillData()
+        {
+            _generatableList?.ForEach(v=> v.OnChangedSkillData(_skillData));
         }
 
         protected override async UniTask UseSkill()
@@ -24,6 +41,8 @@ namespace SlimeMaster.InGame.Skill
                 var generatable = prefab.GetComponent<IGeneratable>();
                 generatable.OnHit = OnHit;
                 generatable.Generate(_owner.Position, _owner.GetDirection(), _skillData, _owner);
+                _generatableList.Add(generatable);
+                
                 try
                 {
                     await UniTask.WaitForSeconds(_skillData.ProjectileSpacing, cancelImmediately: true);

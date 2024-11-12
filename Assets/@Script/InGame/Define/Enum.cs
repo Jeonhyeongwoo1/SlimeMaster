@@ -5,7 +5,7 @@ namespace SlimeMaster.InGame.Enum
         None = -1,
         Ready,
         Start,
-        End
+        DeadPlayer
     }
     
     public enum CreatureStateType
@@ -20,6 +20,8 @@ namespace SlimeMaster.InGame.Enum
     public enum GameEventType
     {
         None = -1,
+        DeadPlayer,
+        ResurrectionPlayer,
         GameOver,
         SpawnMonster = 100,
         DeadMonster,
@@ -159,5 +161,51 @@ namespace SlimeMaster.InGame.Enum
         MonsterKill,
         EliteKill,
         Special
+    }
+    
+    public enum MaterialType
+    {
+        None,
+        Gold = 50001,
+        Dia,
+        Stamina,
+        Exp,
+        WeaponScroll,
+        GlovesScroll,
+        RingScroll,
+        BeltScroll,
+        ArmorScroll,
+        BootsScroll,
+        BronzeKey,
+        SilverKey,
+        GoldKey,
+        RandomScroll,
+        AllRandomEquipmentBox,
+        RandomEquipmentBox,
+        CommonEquipmentBox,
+        UncommonEquipmentBox,
+        RareEquipmentBox,
+        EpicEquipmentBox,
+        LegendaryEquipmentBox,
+        WeaponEnchantStone,
+        GlovesEnchantStone,
+        RingEnchantStone,
+        BeltEnchantStone,
+        ArmorEnchantStone,
+        BootsEnchantStone,
+    }
+
+    public enum MaterialGrade
+    {
+        Common,
+        Uncommon,
+        Rare,
+        Epic,
+        Epic1,
+        Epic2,
+        Legendary,
+        Legendary1,
+        Legendary2,
+        Legendary3,
     }
 }

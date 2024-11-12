@@ -46,6 +46,7 @@ namespace SlimeMaster.InGame.View
         [SerializeField] private Transform _supprotSkillGroupTransform;
         
         private List<UI_SkillSlotItem> _uiSkillSlotItemList;
+        private bool _isShowSupportSkillList;
         
         public override void Initialize()
         {
@@ -82,8 +83,6 @@ namespace SlimeMaster.InGame.View
             
             IsInitialize = true;
         }
-
-        private bool _isShowSupportSkillList;
         
         private void OnShowSupportSkillList()
         {
@@ -113,12 +112,12 @@ namespace SlimeMaster.InGame.View
                 uiSupportSkillItem.Release();
             }
             
+            _uiSupportSkillItemList.Clear();
             foreach (SupportSkill supportSkill in supportSkillList)
             {
                 GameObject prefab = GameManager.I.Resource.Instantiate(nameof(UI_SupportSkillItem));
                 var skillItem = prefab.GetComponent<UI_SupportSkillItem>();
-                skillItem.SetInfo(supportSkill.SupportSkillData);
-                skillItem.transform.SetParent(_supprotSkillGroupTransform);
+                skillItem.SetInfo(supportSkill.SupportSkillData, _supprotSkillGroupTransform);
                 _uiSupportSkillItemList.Add(skillItem);
             }
 

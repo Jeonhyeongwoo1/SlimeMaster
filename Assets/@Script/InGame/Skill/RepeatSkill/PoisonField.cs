@@ -20,7 +20,7 @@ namespace SlimeMaster.InGame.Skill
             {
                 float angle = _skillData.AngleBetweenProj * i;
                 Vector3 position = Quaternion.AngleAxis(angle, Vector3.forward) * _owner.GetDirection() *
-                                    _skillData.ProjRange;
+                                   _skillData.ProjRange;
 
                 string prefabName = CurrentLevel == 6 ? "PoisonFieldProjectile_Final" : "PoisonFieldProjectile";
                 GameObject prefab = GameManager.I.Resource.Instantiate(prefabName);

@@ -45,7 +45,6 @@ namespace SlimeMaster.InGame.Skill
                 AddSkill(skillData, ref skill);
                 if (skill != null)
                 {
-                    Debug.Log(skillData.DataId);
                     _skillList.Add(skill);
                 }
             }
@@ -56,7 +55,13 @@ namespace SlimeMaster.InGame.Skill
             if (useRepeatSkill)
             {
                 var repeatSkillList = _skillList.FindAll(v => v is RepeatSkill);
-                repeatSkillList.ForEach(v=> UpgradeOrAddSkill(v.SkillData));
+                repeatSkillList.ForEach(v =>
+                {
+                    if (v.IsLearn)
+                    {
+                        UseSkill(v);
+                    }
+                });
             }
 
             if (useSequenceSkill)
@@ -96,7 +101,6 @@ namespace SlimeMaster.InGame.Skill
             while (_useSequenceSkillCts != null && !_useSequenceSkillCts.IsCancellationRequested)
             {
                 var sequenceSkill = sequenceSkillList[index];
-                Debug.Log("NextSkill " + sequenceSkill.SkillType + " count : " + sequenceSkillList.Count);
                 try
                 {
                     await sequenceSkill.StartSkillLogicProcessAsync(_useSequenceSkillCts);
@@ -111,6 +115,24 @@ namespace SlimeMaster.InGame.Skill
                 index %= sequenceSkillList.Count;
                 
             }
+        }
+
+        public List<SupportSkillData> GetLevelSupportSkillDataList()
+        {
+            return _activateSupportSkillDataList.Select(x => x.SupportSkillData)
+                .Where(x => x.SupportSkillType == SupportSkillType.LevelUp).ToList();
+        }
+
+        public List<SupportSkillData> GetMonsterKillSupportSkillDataList()
+        {
+            return _activateSupportSkillDataList.Select(x => x.SupportSkillData)
+                .Where(x => x.SupportSkillType == SupportSkillType.MonsterKill).ToList();
+        }
+
+        public List<SupportSkillData> GetMonsterEliteSupportSkillDataList()
+        {
+            return _activateSupportSkillDataList.Select(x => x.SupportSkillData)
+                .Where(x => x.SupportSkillType == SupportSkillType.EliteKill).ToList();
         }
         
         public void StopSequenceSkill()
@@ -128,6 +150,26 @@ namespace SlimeMaster.InGame.Skill
             }
 
             return skill.CurrentLevel;
+        }
+
+        public bool TryResurrection(ref SupportSkill skillData)
+        {
+            var skillList = _activateSupportSkillDataList.FindAll(
+                v => v.SupportSkillData.SupportSkillName == SupportSkillName.Resurrection);
+            if (skillList.Count == 0)
+            {
+                return false;
+            }
+
+            skillList.Sort((a, b) => a.SupportSkillData.SupportSkillGrade.CompareTo(b.SupportSkillData.SupportSkillGrade));
+            SupportSkill skill = skillList[^1];
+            skillData = skill;
+            return true;
+        }
+
+        public void UsedResurrectionSupportSkill(SupportSkill resurrectionSupportSkill)
+        {
+            _activateSupportSkillDataList.Remove(resurrectionSupportSkill);
         }
 
         public void UpgradeOrAddSkill(SkillData skillData)
@@ -149,6 +191,27 @@ namespace SlimeMaster.InGame.Skill
             SkillData upgradeSkillData = GameManager.I.Data.SkillDict[skillData.DataId + 1];
             skill.UpdateSkillData(upgradeSkillData);
             UseSkill(skill);
+        }
+
+        public void UpdateSkill(SupportSkillData supportSkill)
+        {
+            foreach (BaseSkill skill in _skillList)
+            {
+                if (skill.SkillType.ToString() == supportSkill.SupportSkillName.ToString())
+                {
+                    skill.SkillData.NumBounce += supportSkill.NumBounce;
+                    skill.SkillData.NumPenerations += supportSkill.NumPenerations;
+                    skill.SkillData.ProjRange += supportSkill.ProjRange;
+                    skill.SkillData.NumProjectiles += supportSkill.NumProjectiles;
+                    skill.SkillData.RoatateSpeed += supportSkill.RoatateSpeed;
+                    skill.SkillData.ProjectileSpacing += supportSkill.ProjectileSpacing;
+                    skill.SkillData.Duration += supportSkill.Duration;
+                    skill.SkillData.AttackInterval += supportSkill.AttackInterval;
+                    skill.SkillData.ScaleMultiplier += supportSkill.ScaleMultiplier;
+                    
+                    skill.OnChangedSkillData();
+                }
+            }
         }
 
         public void AddSupportSkill(SupportSkillData supportSkillData)
@@ -303,6 +366,14 @@ namespace SlimeMaster.InGame.Skill
         {
             baseSkill.StopSkillLogic();
             baseSkill.StartSkillLogicProcessAsync().Forget();
+
+            List<SupportSkill> supportSkillList = _activateSupportSkillDataList.FindAll(v =>
+                v.SupportSkillData.SupportSkillName.ToString() == baseSkill.SkillType.ToString());
+            
+            foreach (SupportSkill supportSkill in supportSkillList)
+            {
+                UpdateSkill(supportSkill.SupportSkillData);
+            }
         }
 
         public void StopAllSkillLogic()

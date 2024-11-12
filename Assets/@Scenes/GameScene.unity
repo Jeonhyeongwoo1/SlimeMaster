@@ -439,6 +439,10 @@ PrefabInstance:
       propertyPath: m_RenderMode
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7101569471889071618, guid: 9400f3288861a0641a6c1d6449df7d8e, type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 65527
+      objectReference: {fileID: 0}
     - target: {fileID: 8447849847138890615, guid: 9400f3288861a0641a6c1d6449df7d8e, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -851,6 +855,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 134a5b3bb47b14880a227235d6d9f7ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lockSupportSkillDataList: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -17,7 +17,7 @@ namespace SlimeMaster.InGame.Skill
             }
 
             float elapsed = 0;
-            if (!_owner.IsDead || _targetCreature.IsDead)
+            if (!_owner.IsDeadState || _targetCreature.IsDeadState)
             {
                 _owner.UpdateStateAndAnimation(CreatureStateType.Skill, "Attack");
 

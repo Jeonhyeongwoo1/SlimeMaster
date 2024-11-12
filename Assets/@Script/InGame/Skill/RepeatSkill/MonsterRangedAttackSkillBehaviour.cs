@@ -15,7 +15,7 @@ namespace SlimeMaster.InGame.Skill
             _rigidbody.velocity = direction * skillData.ProjSpeed;
             
             CancelInvoke();
-            Invoke(nameof(Sleep), 10);
+            Invoke(nameof(Release), 10);
         }
 
         protected override void OnTriggerEnter2D(Collider2D other)
@@ -25,7 +25,7 @@ namespace SlimeMaster.InGame.Skill
                 OnHit?.Invoke(other, this);
                 if (wantToSleepInTriggerEnter)
                 {
-                    Sleep();
+                    Release();
                 }
             }
         }

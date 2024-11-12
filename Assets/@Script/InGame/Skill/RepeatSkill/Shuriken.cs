@@ -39,14 +39,14 @@ namespace SlimeMaster.InGame.Skill
         {
             if (collider.TryGetComponent(out MonsterController monster))
             {
-                monster.TakeDamage(_owner.AttackDamage * _skillData.DamageMultiplier);
+                monster.TakeDamage(_owner.AttackDamage * _skillData.DamageMultiplier, _owner);
 
                 var energyBolt = projectile as ShurikenBehaviour;
                 if (energyBolt != null)
                 {
                     if (energyBolt.BounceCount >= _skillData.NumBounce)
                     {
-                        projectile.Sleep();
+                        projectile.Release();
                         return;
                     }
                     

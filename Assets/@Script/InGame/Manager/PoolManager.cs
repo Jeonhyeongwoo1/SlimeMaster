@@ -25,9 +25,18 @@ namespace SlimeMaster.InGame.Manager
 
         public void ReleaseObject(string name, GameObject obj)
         {
+            if (obj == null)
+            {
+                return;
+            }
+
             if (_poolDict.TryGetValue(name, out var objectPool))
             {
-                objectPool.Release(obj);
+                if (obj.activeSelf)
+                {
+                    objectPool.Release(obj);
+                    obj.SetActive(false);
+                }
             }
         }
         

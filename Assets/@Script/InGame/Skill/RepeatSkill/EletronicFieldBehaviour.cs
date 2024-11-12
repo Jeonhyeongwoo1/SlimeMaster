@@ -53,13 +53,18 @@ namespace SlimeMaster.InGame.Entity
 
         private void OnDisable()
         {
-            Sleep();
+            Release();
         }
 
-        public override void Sleep()
+        public override void Release()
         {
-            base.Sleep();
+            base.Release();
             Utils.SafeCancelCancellationTokenSource(ref _applyDamagedCts);
+        }
+
+        public override void OnChangedSkillData(SkillData skillData)
+        {
+            transform.localScale = Vector3.one * skillData.ScaleMultiplier;
         }
 
         protected override void OnTriggerEnter2D(Collider2D other)

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
 using SlimeMaster.InGame.Manager;
@@ -8,13 +9,37 @@ namespace SlimeMaster.InGame.Skill
 {
     public class StormBlade : RepeatSkill
     {
+        private List<IGeneratable> _generatableList = new ();
+        
         public override void StopSkillLogic()
         {
+            Release();
             Utils.SafeCancelCancellationTokenSource(ref _skillLogicCts);
+        }
+
+        private void Release()
+        {
+            if (_generatableList.Count > 0)
+            {
+                _generatableList.ForEach(v=> v?.Release());
+                _generatableList.Clear();
+            }
+        }
+
+        public override void OnChangedSkillData()
+        {
+            if (_generatableList.Count > 0)
+            {
+                foreach (IGeneratable generatable in _generatableList)
+                {
+                    generatable.OnChangedSkillData(_skillData);
+                }
+            }
         }
 
         protected override async UniTask UseSkill()
         {
+            Release();
             int count = 7;
             int projectileCount = _skillData.NumProjectiles;
             for (int i = 0; i < count; i++)
@@ -28,6 +53,7 @@ namespace SlimeMaster.InGame.Skill
                     var generatable = prefab.GetComponent<IGeneratable>();
                     generatable.OnHit = OnHit;
                     generatable.Generate(_owner.Position, direction, _skillData, _owner);
+                    _generatableList.Add(generatable);
                 }
                 
                 try
