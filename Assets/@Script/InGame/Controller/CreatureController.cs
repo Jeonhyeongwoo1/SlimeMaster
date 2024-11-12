@@ -12,14 +12,17 @@ public class CreatureController : MonoBehaviour, IHitable
 {
     public string PrefabLabel=> _creatureData.PrefabLabel;
     public Vector3 Position => transform.position;
-    public float AttackDamage => _creatureData.Atk;
+    public virtual float AttackDamage => _attackDamage;
     public SkillBook SkillBook => _skillBook;
     public Rigidbody2D Rigidbody => _rigidbody;
     public CreatureData CreatureData => _creatureData;
     public float CircleColliderRadius => _collider ? _collider.radius : 0;
-    
-    public bool IsDead { get; set; }
+
+    public bool IsDeadState => _creatureStateType == CreatureStateType.Dead;
     public CreatureType CreatureType => _creatureType;
+    
+    public virtual float MaxHP { get; set; }
+    public virtual float HP { get; set; }
     
     [SerializeField] protected CreatureStateType _creatureStateType;
     [SerializeField] protected SpriteRenderer _spriteRenderer;
@@ -28,27 +31,44 @@ public class CreatureController : MonoBehaviour, IHitable
     protected CreatureType _creatureType;
     protected SkillBook _skillBook;
     protected CreatureData _creatureData;
-    protected float _currentHp;
     protected CircleCollider2D _collider;
+    protected float _attackDamage;
+    protected float _moveSpeed;
     
-    public virtual void TakeDamage(float damage)
+    public virtual void TakeDamage(float damage, CreatureController attacker)
     {
+        HP -= damage;
+        if (HP <= 0)
+        {
+            Dead();
+        }
     }
 
     public virtual void Initialize(CreatureData creatureData, Sprite sprite, List<SkillData> skillDataList)
     {
         _spriteRenderer.sprite = sprite;
         _creatureData = creatureData;
-        _currentHp = creatureData.MaxHp;
         _collider = GetComponentInChildren<CircleCollider2D>();
-        Reset();
+        InitCreatureStat();
         AddSkillBook(skillDataList);
+        Reset();
     }
 
     private void Reset()
     {
         _rigidbody.simulated = true;
-        IsDead = false;
+        _creatureStateType = CreatureStateType.Idle;
+    }
+
+    protected virtual void InitCreatureStat(bool isFullHP = true)
+    {
+        float waveRate = GameManager.I.Stage.WaveData.HpIncreaseRate;
+        MaxHP = (CreatureData.MaxHp + (CreatureData.MaxHpBonus * GameManager.I.Stage.StageData.StageLevel)) *
+                (CreatureData.HpRate + waveRate);
+        _attackDamage = (CreatureData.Atk + (CreatureData.AtkBonus * GameManager.I.Stage.StageData.StageLevel)) *
+                        CreatureData.AtkRate;
+        HP = MaxHP;
+        _moveSpeed = CreatureData.MoveSpeed * CreatureData.MoveSpeedRate;
     }
 
     private void AddSkillBook(List<SkillData> skillDataList)
@@ -58,7 +78,7 @@ public class CreatureController : MonoBehaviour, IHitable
 
     protected virtual async void Dead()
     {
-        IsDead = true;
+        _creatureStateType = CreatureStateType.Dead;
     }
 
     public Action<int, int> onHitReceived { get; set; }
@@ -82,7 +102,6 @@ public class CreatureController : MonoBehaviour, IHitable
             _rigidbody.simulated = true;
             _spriteRenderer.material = defaultMat;
             transform.localScale = Vector3.one;
-            gameObject.SetActive(false);
         });
 
         await UniTask.WaitForSeconds(0.2f);
@@ -100,6 +119,11 @@ public class CreatureController : MonoBehaviour, IHitable
     
     public virtual void UpdateStateAndAnimation(CreatureStateType stateType, string animationName)
     {
+    }
+
+    public void UpdateCreatureState(CreatureStateType stateType)
+    {
+        _creatureStateType = stateType;
     }
 
     public void RigidBodyMovePosition(Vector2 direction)

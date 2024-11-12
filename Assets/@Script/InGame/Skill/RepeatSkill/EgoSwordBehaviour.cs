@@ -11,7 +11,7 @@ namespace SlimeMaster.InGame.Skill
             transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
             gameObject.SetActive(true);
             _rigidbody.velocity = direction * skillData.ProjSpeed;
-            Invoke(nameof(Sleep), 3);
+            Invoke(nameof(Release), 3);
         }
     }
 }

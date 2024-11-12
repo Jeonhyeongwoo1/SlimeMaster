@@ -51,12 +51,12 @@ namespace SlimeMaster.InGame.Skill
                 catch (Exception e) when (!(e is OperationCanceledException))
                 {
                     Debug.LogError($"{nameof(ApplyDamagedAsync)} error {e.Message}");
-                    Sleep();
+                    Release();
                     break;
                 }
             }
             
-            Sleep();
+            Release();
         }
 
         protected override void OnTriggerEnter2D(Collider2D other)

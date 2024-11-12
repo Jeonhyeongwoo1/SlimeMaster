@@ -74,12 +74,12 @@ namespace SlimeMaster.InGame.Entity
                 OnHit?.Invoke(collider, this);
             }
             
-            Sleep();
+            Release();
         }
 
-        public override void Sleep()
+        public override void Release()
         {
-            base.Sleep();
+            base.Release();
             GameManager.I.Pool.ReleaseObject(_shadowObject.name, _shadowObject);
             _shadowObject.SetActive(false);
         }

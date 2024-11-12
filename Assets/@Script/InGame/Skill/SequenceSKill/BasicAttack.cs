@@ -31,7 +31,7 @@ namespace SlimeMaster.InGame.Skill
             float distance = Vector3.Distance(_owner.Position, _targetCreature.Position);
             if (distance <= radius)
             {
-                _targetCreature.TakeDamage(_owner.AttackDamage * _skillData.DamageMultiplier);
+                _targetCreature.TakeDamage(_owner.AttackDamage * _skillData.DamageMultiplier, _owner);
             }
             
             _owner.UpdateStateAndAnimation(CreatureStateType.Skill, "Attack");

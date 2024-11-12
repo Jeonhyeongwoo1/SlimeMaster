@@ -183,7 +183,7 @@ namespace SlimeMaster.Data
         public List<int> BossId;
         public float RemainsTime;
         public float FirstMonsterSpawnRate;
-        public float HpIncreaseRate;
+        public float HpIncreaseRate; //일반 몬스터 웨이브에 맞춰서 hp 증가률
         public float nonDropRate;
         public float SmallGemDropRate;
         public float GreenGemDropRate;
@@ -336,6 +336,33 @@ namespace SlimeMaster.Data
             Dictionary<int, SupportSkillData> dict = new Dictionary<int, SupportSkillData>();
             foreach (SupportSkillData skill in supportSkills)
                 dict.Add(skill.DataId, skill);
+            return dict;
+        }
+    }
+    #endregion
+    
+    #region MaterialtData
+    [Serializable]
+    public class MaterialData
+    {
+        public int DataId;
+        public MaterialType MaterialType;
+        public MaterialGrade MaterialGrade;
+        public string NameTextID;
+        public string DescriptionTextID;
+        public string SpriteName;
+
+    }
+
+    [Serializable]
+    public class MaterialDataLoader : ILoader<int, MaterialData>
+    {
+        public List<MaterialData> Materials = new List<MaterialData>();
+        public Dictionary<int, MaterialData> MakeDict()
+        {
+            Dictionary<int, MaterialData> dict = new Dictionary<int, MaterialData>();
+            foreach (MaterialData mat in Materials)
+                dict.Add(mat.DataId, mat);
             return dict;
         }
     }

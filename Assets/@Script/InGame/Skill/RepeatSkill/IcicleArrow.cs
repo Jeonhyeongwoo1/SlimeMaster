@@ -12,6 +12,16 @@ namespace SlimeMaster.InGame.Skill
             Utils.SafeCancelCancellationTokenSource(ref _skillLogicCts);
         }
 
+        protected override void OnHit(Collider2D collider, Projectile projectile)
+        {
+            base.OnHit(collider, projectile);
+
+            if (projectile is IcicleArrowBehaviour icicleArrowBehaviour)
+            {
+                icicleArrowBehaviour.PenerationCount--;
+            }
+        }
+
         protected async override UniTask UseSkill()
         {
             int projectileCount = _skillData.NumProjectiles;

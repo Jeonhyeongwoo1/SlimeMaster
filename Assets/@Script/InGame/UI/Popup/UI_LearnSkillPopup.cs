@@ -1,3 +1,4 @@
+using DG.Tweening;
 using SlimeMaster.InGame.Enum;
 using SlimeMaster.InGame.Manager;
 using SlimeMaster.InGame.Popup;

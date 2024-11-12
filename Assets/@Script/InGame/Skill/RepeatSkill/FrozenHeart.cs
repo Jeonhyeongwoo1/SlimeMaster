@@ -12,13 +12,22 @@ namespace SlimeMaster.InGame.Skill
         
         public override void StopSkillLogic()
         {
+            Release();
             Utils.SafeCancelCancellationTokenSource(ref _skillLogicCts);
-            _list.ForEach(v=> v.Sleep());
+        }
+
+        private void Release()
+        {
+            if (_list.Count > 0)
+            {
+                _list.ForEach(v=> v.Release());
+                _list.Clear();
+            }
         }
 
         protected override async UniTask UseSkill()
         {
-            _list.Clear();
+            Release();
             int projectileCount = _skillData.NumProjectiles;
             for (int i = 0; i < projectileCount; i++)
             {
@@ -26,7 +35,6 @@ namespace SlimeMaster.InGame.Skill
                 float x = Mathf.Cos(angle) * _skillData.ProjRange;
                 float y = Mathf.Sin(angle) * _skillData.ProjRange;
                 Vector3 position = new Vector3(x, y);
-                Debug.Log($"{_skillData.PrefabLabel}");
                 GameObject prefab = GameManager.I.Resource.Instantiate(_skillData.PrefabLabel);
                 var shootable = prefab.GetComponent<IGeneratable>();
                 shootable.OnHit = OnHit;
@@ -37,7 +45,20 @@ namespace SlimeMaster.InGame.Skill
 
             await UniTask.WaitForSeconds(_skillData.Duration, cancellationToken: _skillLogicCts.Token);
             
-            _list.ForEach(v=> v.Sleep());
+            _list.ForEach(v=> v.Release());
+        }
+
+        public override void OnChangedSkillData()
+        {
+            if (_list.Count == 0)
+            {
+                return;
+            }
+            
+            _list.ForEach(v =>
+            {
+                v?.OnChangedSkillData(_skillData);
+            });
         }
     }
 }

@@ -31,6 +31,17 @@ namespace SlimeMaster.Common
                 cts = null;
             }
         }
+        
+        public static Transform[] GetChilds(this Transform tr)
+        {
+            Transform[] children = new Transform[tr.transform.childCount];
+            for (int i = 0; i < tr.transform.childCount; i++)
+            {
+                children[i] = tr.GetChild(i);
+            }
+
+            return children;
+        }
 
         public static bool TryGetComponentInParent<T>(GameObject gameObject, out T t) where T : Component
         {

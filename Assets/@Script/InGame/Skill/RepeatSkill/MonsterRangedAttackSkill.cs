@@ -29,7 +29,7 @@ namespace SlimeMaster.InGame.Skill
 
         protected override async UniTask UseSkill()
         {
-            if (_player == null || _player.IsDead)
+            if (_player == null || _player.IsDeadState)
             {
                 return;
             }

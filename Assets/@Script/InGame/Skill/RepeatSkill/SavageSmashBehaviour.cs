@@ -29,7 +29,12 @@ namespace SlimeMaster.InGame.Skill
             }
             
             gameObject.SetActive(true);
-            Invoke(nameof(Sleep), 2);
+            Invoke(nameof(Release), 2);
+        }
+
+        public override void OnChangedSkillData(SkillData skillData)
+        {
+            transform.localScale = Vector3.one * skillData.ScaleMultiplier;
         }
 
         private void Update()
@@ -37,9 +42,9 @@ namespace SlimeMaster.InGame.Skill
             transform.position = _owner.Position;
         }
 
-        public override void Sleep()
+        public override void Release()
         {
-            base.Sleep();
+            base.Release();
 
             foreach (GameObject go in _normalParticleObjectArray)
             {

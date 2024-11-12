@@ -5,6 +5,7 @@ using SlimeMaster.Common;
 using SlimeMaster.Data;
 using SlimeMaster.InGame.Controller;
 using SlimeMaster.InGame.Data;
+using SlimeMaster.InGame.Entity;
 using SlimeMaster.InGame.Enum;
 using SlimeMaster.InGame.View;
 using Unity.Mathematics;
@@ -25,6 +26,7 @@ namespace SlimeMaster.InGame.Manager
     public class ObjectManager : IDisposable
     {
         public List<MonsterController> ActivateMonsterList => _activateMonsterList;
+        public List<DropItemController> DroppedItemControllerList => _droppedItemControllerList;
         public PlayerController Player => _player;
         
         private EventManager _event;
@@ -33,7 +35,7 @@ namespace SlimeMaster.InGame.Manager
         private PoolManager _pool;
         
         private List<MonsterController> _activateMonsterList = new();
-        private List<DropItemController> _dropItemControllerList = new();
+        private List<DropItemController> _droppedItemControllerList = new();
         private PlayerController _player;
         
         public void Initialize(PlayerController playerController)
@@ -48,11 +50,11 @@ namespace SlimeMaster.InGame.Manager
 
             CreatureData creatureData = _data.CreatureDict[(int)CreatureType.Player];
             
-            creatureData.SkillTypeList.Add(10071);
-            creatureData.SkillTypeList.Add(10081);
-            creatureData.SkillTypeList.Add(10091);
-            creatureData.SkillTypeList.Add(10101);
-            creatureData.SkillTypeList.Add(10111);
+            // creatureData.SkillTypeList.Add(10071);
+            // creatureData.SkillTypeList.Add(10081);
+            // creatureData.SkillTypeList.Add(10091);
+            // creatureData.SkillTypeList.Add(10101);
+            // creatureData.SkillTypeList.Add(10111);
             creatureData.SkillTypeList.Add(10131);
             
             List<SkillData> skillDataList = creatureData.SkillTypeList.Select(i => _data.SkillDict[i]).ToList();
@@ -98,12 +100,9 @@ namespace SlimeMaster.InGame.Manager
                     });
                     break;
                 case DropableItemType.Magnet:
-                    _dropItemControllerList.ForEach(v =>
+                    _droppedItemControllerList.ForEach(v =>
                     {
-                        if (v is GemController)
-                        {
-                            v.GetItem(_player.transform);
-                        }
+                        v.GetItem(_player.transform);
                     });
                     
                     GameManager.I.Stage.CurrentMap.Grid.RemoveAllItem(DropableItemType.Gem);
@@ -134,13 +133,15 @@ namespace SlimeMaster.InGame.Manager
                 Sprite sprite = _resource.Load<Sprite>(data.IconLabel);
                 List<SkillData> skillDataList = data.SkillTypeList.Select(i => _data.SkillDict[i]).ToList();
                 monster.Initialize(data, sprite, skillDataList);
-                monster.Spawn(spawnObjectData.spawnPosition, _player);
+                monster.Spawn(spawnObjectData.spawnPosition + _player.Position, _player);
                 _activateMonsterList.Add(monster);
 
                 if (spawnObjectData.Type == typeof(EliteMonsterController))
                 {
                     var uiGameScene = GameManager.I.UI.SceneUI as UI_GameScene;
                     uiGameScene.ShowMonsterInfo(MonsterType.Elete, data.DescriptionTextID, 1);
+
+                    _player.OnKillEliteMonster();
                 }
                 else if(spawnObjectData.Type == typeof(BossMonsterController))
                 {
@@ -158,7 +159,7 @@ namespace SlimeMaster.InGame.Manager
             gem.Spawn(spawnPosition);
             gem.SetGemInfo(gemType, sprite);
             
-            _dropItemControllerList.Add(gem);
+            _droppedItemControllerList.Add(gem);
             return gem;
         }
 
@@ -167,7 +168,7 @@ namespace SlimeMaster.InGame.Manager
             GameObject prefab = _resource.Instantiate(Const.Soul);
             var soul = prefab.GetOrAddComponent<SoulController>();
             soul.Spawn(spawnPosition);
-            _dropItemControllerList.Add(soul);
+            _droppedItemControllerList.Add(soul);
             return soul;
         }
 
@@ -252,6 +253,19 @@ namespace SlimeMaster.InGame.Manager
             List<Transform> monsterList =
                 _cachedMonsterList.OrderBy(a => (_player.Position - a.transform.position).sqrMagnitude).ToList();
             return monsterList;
+        }
+        
+        public void ShowDamageFont(Vector2 pos, float damage, float healAmount, Transform parent, bool isCritical = false)
+        {
+            string prefabName;
+            if (isCritical)
+                prefabName = "CriticalDamageFont";
+            else
+                prefabName = "DamageFont";
+
+            GameObject go = _resource.Instantiate(prefabName);
+            DamageFont damageText = go.GetOrAddComponent<DamageFont>();
+            damageText.SetInfo(pos, damage, healAmount, parent, isCritical);
         }
 
         private void OnDeadMonster(object value)

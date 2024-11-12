@@ -9,7 +9,9 @@ public interface IGeneratable
     void Generate(Vector3 spawnPosition, Vector3 direction, SkillData skillData, CreatureController owner);
     int Level { get; set; }
     Projectile ProjectileMono { get; }
-    void Sleep();
+    void Release();
+    void OnChangedSkillData(SkillData skillData);
+    bool IsRelease { get; }
 }
 
 namespace SlimeMaster.InGame.Entity
@@ -23,7 +25,7 @@ namespace SlimeMaster.InGame.Entity
             transform.position = spawnPosition;
             gameObject.SetActive(true);
             UpdateVelocity(direction, skillData.ProjSpeed);
-            Invoke(nameof(Sleep), 3);
+            Invoke(nameof(Release), 3);
         }
 
         public void Bounce(Vector3 direction, float speed)

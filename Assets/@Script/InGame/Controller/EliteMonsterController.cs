@@ -13,17 +13,17 @@ namespace SlimeMaster.InGame.Controller
             base.Initialize(creatureData, sprite, skillDataList);
         }
 
-        public override void Spawn(Vector3 spawnPosition, PlayerController playerController)
+        public override void Spawn(Vector3 spawnPosition, PlayerController player)
         {
-            base.Spawn(spawnPosition, playerController);
+            base.Spawn(spawnPosition, player);
             transform.localScale = new Vector3(2f, 2f, 2f);
         }
 
-        public override void TakeDamage(float damage)
+        public override void TakeDamage(float damage, CreatureController attacker)
         {
-            base.TakeDamage(damage);
-            
-            float ratio = _currentHp == 0 ? 0 : _currentHp / _creatureData.MaxHp;
+            base.TakeDamage(damage, attacker);
+
+            float ratio = HP == 0 ? 0 : HP / _creatureData.MaxHp;
             GameManager.I.Event.Raise(GameEventType.TakeDamageEliteOrBossMonster, ratio);
         }
     }

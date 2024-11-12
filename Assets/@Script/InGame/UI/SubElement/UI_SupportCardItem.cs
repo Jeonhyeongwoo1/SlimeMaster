@@ -26,7 +26,6 @@ namespace SlimeMaster.UISubItemElement
 
         private void OnChangedLockToggle(bool isOn)
         {
-            Debug.Log(isOn);
             GameManager gameManager = GameManager.I;
             SupportSkillData skillData = gameManager.Data.SupportSkillDataDict[_supportSkillId];
             if (isOn)

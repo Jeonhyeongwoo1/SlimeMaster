@@ -18,6 +18,8 @@ namespace SlimeMaster.InGame.Controller
         [SerializeField] protected DropableItemType dropableItemType;
         [SerializeField] protected SpriteRenderer _spriteRenderer;
 
+        protected bool IsRelease { get; private set; }
+        
         private DropItemData _dropItemData;
         private CancellationTokenSource _moveToTargetCts;
         
@@ -25,6 +27,7 @@ namespace SlimeMaster.InGame.Controller
         public virtual void Spawn(Vector3 spawnPosition)
         {
             transform.position = spawnPosition;
+            IsRelease = false;
             gameObject.SetActive(true);
         }
 
@@ -35,8 +38,11 @@ namespace SlimeMaster.InGame.Controller
 
         public virtual void Release()
         {
-            Utils.SafeCancelCancellationTokenSource(ref _moveToTargetCts);
-
+            if (IsRelease)
+            {
+                return;
+            }
+            
             string name = null;
             switch (dropableItemType)
             {
@@ -55,31 +61,51 @@ namespace SlimeMaster.InGame.Controller
                 default:
                         return;
             }
+            
+            Debug.Log($"Release {dropableItemType}");
 
+            IsRelease = true;
+            Utils.SafeCancelCancellationTokenSource(ref _moveToTargetCts);
             GameManager.I.Pool.ReleaseObject(name, gameObject);
-            gameObject.SetActive(false);
         }
 
         public virtual void GetItem(Transform target, Action callback = null)
         {
+            if (_moveToTargetCts != null)
+            {
+                return;
+            }
+            
             Utils.SafeCancelCancellationTokenSource(ref _moveToTargetCts);
             MoveToTargetAsync(target, callback).Forget();
         }
         
         protected async UniTaskVoid MoveToTargetAsync(Transform target, Action callback)
         {
+            if (IsRelease)
+            {
+                return;
+            }
+            
             _moveToTargetCts = new CancellationTokenSource();
             CancellationToken token = _moveToTargetCts.Token;
-            float elapsed = 0;
-            float duration = 0.5f;
-            float step = 1f / (duration / Time.deltaTime);
-            Vector3 startPosition = transform.position;
-            while (elapsed < 1f)
+            // float elapsed = 0;
+            // float duration = 1f;
+            // float step = 1f / (duration / Time.deltaTime);
+            // Vector3 startPosition = transform.position;
+            float speed = DropableItemType == DropableItemType.Soul ? 100 : 15;
+            while (!IsRelease)
             {
-                elapsed += step;
-                float t = Mathf.SmoothStep(0, 1, elapsed);
-                transform.position = Vector3.Lerp(startPosition, target.position, t);
+                // elapsed += step;
+                // float t = Mathf.SmoothStep(0, 1, elapsed);
+                Vector3 position = transform.position;
+                transform.position = Vector3.MoveTowards(position, target.position, Time.deltaTime * speed);
 
+                if (Vector2.Distance(transform.position, target.position) < 1.5f)
+                {
+                    break;
+                }
+                
                 try
                 {
                     await UniTask.Yield(cancellationToken: token);
@@ -89,7 +115,7 @@ namespace SlimeMaster.InGame.Controller
                     Debug.LogError($"{nameof(MoveToTargetAsync)} error {e.Message}");
                 }
             }
-            
+
             CompletedGetItem();
             callback?.Invoke();
         }

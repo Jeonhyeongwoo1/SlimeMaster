@@ -10,6 +10,7 @@ using SlimeMaster.InGame.Controller;
 using SlimeMaster.InGame.Data;
 using SlimeMaster.InGame.Entity;
 using SlimeMaster.InGame.Enum;
+using SlimeMaster.InGame.Popup;
 using SlimeMaster.Model;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -20,8 +21,9 @@ namespace SlimeMaster.InGame.Manager
     public class StageManager
     {
         public Map CurrentMap => _currentMap;
+        public StageData StageData => _stageData;
+        public WaveData WaveData => _waveData;
         
-        private PlayerController _player;
         private StageData _stageData;
         private WaveData _waveData;
         private MonsterSpawnPool _monsterSpawnPool;
@@ -33,15 +35,14 @@ namespace SlimeMaster.InGame.Manager
         private ResourcesManager _resource;
         private CancellationTokenSource _waveTimerCts;
         
-        public void Initialize(int stageIndex, PlayerController playerController)
+        public void Initialize(int stageIndex)
         {
             GameManager manager = GameManager.I;
             _event = manager.Event;
             _object = manager.Object;
             _resource = manager.Resource;
             
-            _player = playerController;
-            _monsterSpawnPool = new MonsterSpawnPool(_player);
+            _monsterSpawnPool = new MonsterSpawnPool();
             _stageModel = ModelFactory.CreateOrGetModel<StageModel>();
             SetStageData(stageIndex);
             AddEvent();
@@ -147,6 +148,11 @@ namespace SlimeMaster.InGame.Manager
       
             var monster = (MonsterController)value;
             SpawnDropItemByMonsterType(monster.MonsterType, monster.Position);
+
+            if (model.killCount.Value != 0 && model.killCount.Value % Const.MONSTER_KILL_BONUS_COUNT == 0)
+            {
+                GameManager.I.Object.Player.OnUpgradeStatByMonsterKill();
+            }
         }
         
         private void SetStageData(int index)
@@ -173,6 +179,7 @@ namespace SlimeMaster.InGame.Manager
             {
                 await StartWave();
                 
+                _currentMap.DoChangeMap(waveCount, i);
                 StopWave();
                 int nextIndex = i + 1;
                 if (nextIndex == waveCount)
@@ -185,20 +192,29 @@ namespace SlimeMaster.InGame.Manager
                 GameManager.I.Event.Raise(GameEventType.EndWave);
             }
             
-            StageClear();
+            CompleteStage();
         }
 
-        private void StageClear()
+        private void CompleteStage()
         {
-            
+            Time.timeScale = 0;
+            var gameResultPopup = GameManager.I.UI.OpenPopup<UI_GameResultPopup>();
+
+            TimeSpan playTimeSpan = DateTime.UtcNow - GameManager.I.GameStartTime;
+            string playTime = playTimeSpan.ToString(@"mm\:ss");
+            Debug.Log($"play Time {(DateTime.UtcNow - GameManager.I.GameStartTime).TotalSeconds} / {playTime}");
+            gameResultPopup.UpdateUI(_stageData.StageLevel.ToString(), playTime, _stageData.ClearReward_Gold,
+                _stageModel.killCount.ToString());
         }
 
         private async UniTask StartWave()
         {
-            _monsterSpawnPool.StartSpawnMonster(_waveData.SpawnInterval, _waveData.MonsterId, _waveData.OnceSpawnCount,
-                _waveData.FirstMonsterSpawnRate, _waveData.EleteId, _waveData.BossId);
+            _monsterSpawnPool.SpawnMonsterAsync(_waveData.SpawnInterval, _waveData.MonsterId,
+                _waveData.OnceSpawnCount,
+                _waveData.FirstMonsterSpawnRate, _waveData.EleteId, _waveData.BossId).Forget();
+         
+            await WaveTimerAsync();   
             SpawnDropItem();
-            await WaveTimerAsync();
         }
 
         enum EDropItemType
@@ -215,7 +231,8 @@ namespace SlimeMaster.InGame.Manager
             string prefabName = ((EDropItemType)random).ToString();
             GameObject prefab = GameManager.I.Resource.Instantiate(prefabName);
             var dropItem = prefab.GetComponent<DropItemController>();
-            Vector3 spawnPosition = Utils.GetPositionInDonut(_player.transform, 5, 10);
+            
+            Vector3 spawnPosition = Utils.GetPositionInDonut(_object.Player.transform, 5, 10);
             dropItem.Spawn(spawnPosition);
 
             DropItemData dropItemData = null;
@@ -255,11 +272,26 @@ namespace SlimeMaster.InGame.Manager
             _waveTimerCts = new();
             CancellationToken token = _waveTimerCts.Token;
             int timer = (int) _waveData.RemainsTime;
+            timer = 5;
+            GameManager gameManager = GameManager.I;
             while (timer > 0)
             {
+                if (gameManager.GameState == GameState.DeadPlayer)
+                {
+                    try
+                    {
+                        await UniTask.Yield(cancellationToken: _waveTimerCts.Token);
+                        continue;
+                    }
+                    catch (Exception e) when (!(e is OperationCanceledException))
+                    {
+                        Debug.LogError("error wave time " + e);
+                        break;
+                    }
+                }
+                
                 _stageModel.timer.Value = timer;
                 timer--;
-                
                 try
                 {
                     await UniTask.WaitForSeconds(1, cancellationToken: token);
@@ -270,6 +302,8 @@ namespace SlimeMaster.InGame.Manager
                     break;
                 }
             }
+            
+            Debug.Log("End");
         }
     }
 }

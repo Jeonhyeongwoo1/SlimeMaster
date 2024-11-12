@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using SlimeMaster.Data;
 using SlimeMaster.InGame.Data;
 using SlimeMaster.InGame.Enum;
@@ -26,7 +27,7 @@ namespace SlimeMaster.UISubItemElement
             
         }
 
-        public void SetInfo(SupportSkillData supportSkillData)
+        public void SetInfo(SupportSkillData supportSkillData, Transform parent)
         {
             _supportSkillIconImage.sprite = GameManager.I.Resource.Load<Sprite>(supportSkillData.IconLabel);
             
@@ -51,6 +52,8 @@ namespace SlimeMaster.UISubItemElement
             }
             
             _bgSkillImage.color = color;
+            transform.SetParent(parent);
+            transform.localScale = Vector3.one;
             gameObject.SetActive(true);
         }
 

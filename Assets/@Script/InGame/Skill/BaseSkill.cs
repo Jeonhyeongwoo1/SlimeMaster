@@ -50,6 +50,11 @@ namespace SlimeMaster.InGame.Skill
         public abstract UniTask StartSkillLogicProcessAsync(CancellationTokenSource cts = null);
         public abstract void StopSkillLogic();
         protected abstract UniTask UseSkill();
+
+        public virtual void OnChangedSkillData()
+        {
+            
+        }
         
         protected virtual void OnHit(Collider2D collider, Projectile projectile)
         {
@@ -57,7 +62,7 @@ namespace SlimeMaster.InGame.Skill
             {
                 // Debug.Log(_owner.AttackDamage * _skillData.DamageMultiplier);
                 float damage = _owner.AttackDamage * _skillData.DamageMultiplier;
-                creature.TakeDamage(damage);
+                creature.TakeDamage(damage, _owner);
                 AccumulatedDamage += damage;
             }
         }

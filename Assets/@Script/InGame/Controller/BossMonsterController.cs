@@ -19,11 +19,11 @@ namespace SlimeMaster.InGame.Controller
             _creatureStateType = CreatureStateType.Skill;
         }
 
-        public override void Spawn(Vector3 spawnPosition, PlayerController playerController)
+        public override void Spawn(Vector3 spawnPosition, PlayerController player)
         {
             transform.position = spawnPosition;
             gameObject.SetActive(true);
-            _player = playerController;
+            _player = player;
         }
 
         public void UpdateState(CreatureStateType stateType) => _creatureStateType = stateType;
@@ -39,11 +39,11 @@ namespace SlimeMaster.InGame.Controller
             UpdateAnimation(animationName);
         }
 
-        public override void TakeDamage(float damage)
+        public override void TakeDamage(float damage, CreatureController attacker)
         {
-            base.TakeDamage(damage);
-            
-            float ratio = _currentHp == 0 ? 0 : _currentHp / _creatureData.MaxHp;
+            base.TakeDamage(damage, attacker);
+
+            float ratio = HP == 0 ? 0 : HP / _creatureData.MaxHp;
             GameManager.I.Event.Raise(GameEventType.TakeDamageEliteOrBossMonster, ratio);
         }
     }

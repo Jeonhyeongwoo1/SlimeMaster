@@ -46,7 +46,7 @@ namespace SlimeMaster.InGame.Entity
                 await UniTask.Yield();
             }
             
-            Sleep();
+            Release();
         }
 
         private void Update()
@@ -77,9 +77,9 @@ namespace SlimeMaster.InGame.Entity
             }
         }
         
-        public override void Sleep()
+        public override void Release()
         {
-            base.Sleep();
+            base.Release();
 
             if (_sequence != null)
             {

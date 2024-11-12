@@ -13,7 +13,7 @@ namespace SlimeMaster.InGame.Skill
             transform.localScale = Vector3.one * skillData.ScaleMultiplier;
             gameObject.SetActive(true);
             UpdateVelocity(direction, skillData.ProjSpeed);
-            Invoke(nameof(Sleep), 3);
+            Invoke(nameof(Release), 3);
         }
         
         public void Bounce(Vector3 direction, float speed)
