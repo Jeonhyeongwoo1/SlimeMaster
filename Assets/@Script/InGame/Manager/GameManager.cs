@@ -15,7 +15,7 @@ using Object = UnityEngine.Object;
 
 namespace SlimeMaster.InGame.Manager
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager
     {
         public static GameManager I
         {
@@ -23,9 +23,10 @@ namespace SlimeMaster.InGame.Manager
             {
                 if (_instance == null)
                 {
-                    _instance = FindObjectOfType<GameManager>();
+                    _instance = new GameManager();
+                    CreateManager();
                 }
-
+                
                 return _instance;
             }
         }
@@ -40,54 +41,18 @@ namespace SlimeMaster.InGame.Manager
         public ObjectManager Object => _object;
         public UIManager UI => _ui;
 
-        private EventManager _event;
-        private PoolManager _pool;
-        private ResourcesManager _resource;
-        private DataManager _data;
-        private StageManager _stage;
-        private ObjectManager _object;
-        private UIManager _ui;
-        
-        private PlayerController _player;
-
-        public List<SupportSkillData> lockSupportSkillDataList = new(Const.SUPPORT_ITEM_USEABLECOUNT);
-
-        public List<SupportSkillData> CurrentSupportSkillDataList
-        {
-            get
-            {
-                if (_currentSupportSkillDataList == null || _currentSupportSkillDataList.Count == 0)
-                {
-                    _currentSupportSkillDataList = Object.Player.SkillBook.GetRecommendSupportSkillDataList();
-                }
-
-                return _currentSupportSkillDataList;
-            }
-            set
-            {
-                _currentSupportSkillDataList ??= new List<SupportSkillData>();
-                _currentSupportSkillDataList = value;
-            }
-        }
-
-        public GameState GameState => _gameState;
-        
-        private List<SupportSkillData> _currentSupportSkillDataList;
-        
-        private GameState _gameState;
-        private int _stageIndex = 1;
+        private static EventManager _event;
+        private static PoolManager _pool;
+        private static ResourcesManager _resource;
+        private static DataManager _data;
+        private static StageManager _stage;
+        private static ObjectManager _object;
+        private static UIManager _ui;
 
         public GameContinueData GameContinueData => _gameContinueData ??= new GameContinueData();
         private GameContinueData _gameContinueData;
-
-        public DateTime GameStartTime { get; private set; }
         
-        private void Start()
-        {
-            Initialize();
-        }
-        
-        private void CreateManager()
+        private static void CreateManager()
         {
             _pool = new PoolManager();
             _event = new EventManager();
@@ -97,121 +62,12 @@ namespace SlimeMaster.InGame.Manager
             _object = new ObjectManager();
             _ui = new UIManager();
         }
-        
-        private async void Initialize()
+
+        public static void ManagerInitialize()
         {
-            CreateManager();
-           
-            await Resource.LoadResourceAsync<Object>("PreLoad", null);
             _data.Initialize();
-            _stage.Initialize(_stageIndex);
-            _ui.ShowUI<UI_GameScene>();
-            _player = FindObjectOfType<PlayerController>(true);
-            _object.Initialize(_player);
-            AddEvents();
-            GameStart();
-        }
-
-        private void AddEvents()
-        {
-            _event.AddEvent(GameEventType.LevelUp, OnLevelUp);
-            _event.AddEvent(GameEventType.UpgradeOrAddNewSkill, OnUpgradeOrAddNewSkill);
-            _event.AddEvent(GameEventType.ActivateDropItem, OnActivateDropItem);
-            _event.AddEvent(GameEventType.DeadPlayer,OnDeadPlayer);
-            _event.AddEvent(GameEventType.ResurrectionPlayer, OnResurrectionPlayer);
-        }
-
-        private void OnResurrectionPlayer(object value)
-        {
-            UpdateGameState(GameState.Start);
-        }
-        
-        private void OnActivateDropItem(object value)
-        {
-            DropItemData dropItemData = (DropItemData)value;
-            switch (dropItemData.DropItemType)
-            {
-                case DropableItemType.DropBox:
-                    var learnSkillPopup = _ui.OpenPopup<UI_LearnSkillPopup>();
-                    List<BaseSkill> skillList = Object.Player.SkillBook.GetRecommendSkillList(1);
-                    if (skillList == null)
-                    {
-                        Debug.LogError("failed get skill list");
-                        learnSkillPopup.ClosePopup();
-                        return;
-                    }
-                    
-                    learnSkillPopup.UpdateSKillItem(skillList[0]);
-                    Time.timeScale = 1;
-                    break;
-            }
-        }
-
-        private void OnLevelUp(object value)
-        {
-            SkillBook skillBook = (SkillBook)value;
-            
-            /*
-             *  스킬리스트 정리
-             *  총 6개의 스킬을 얻음.
-             *  6개의 스킬을 가지고 있으면
-             *      만랩이 아닌 스킬중에서 3개를 선택
-             *  아니면
-             *  선택할 수 있는 스킬들 중에서 만랩이 아닌 스킬 3개를 선택
-             */
-
-            List<BaseSkill> skillList = skillBook.GetRecommendSkillList();
-            if (skillList.Count == 0)
-            {
-                Debug.Log($"recommend skill list {skillList.Count}");
-                return;
-            }
-            
-            var popup = _ui.OpenPopup<UI_SkillSelectPopup>();
-            popup.UpdateUI(skillList, skillBook.ActivateSkillList);
-            
-            Time.timeScale = 0;
-        }
-
-        private void OnUpgradeOrAddNewSkill(object value)
-        {
-            int skillId = (int)value;
-            SkillData skill = _data.SkillDict[skillId];
-            _player.UpgradeOrAddSKill(skill);
-            _player.LevelUp();
-            _ui.ClosePopup();
-
-            List<BaseSkill> skillList = _player.SkillBook.ActivateSkillList;
-            var gamesceneUI = _ui.SceneUI as UI_GameScene;
-            gamesceneUI.UpdateSkillSlotItem(skillList);
-
-            Time.timeScale = 1;
-        }
-        
-        private void GameStart()
-        {
-            _stage.StartStage();
-            GameStartTime = DateTime.UtcNow;
-        }
-
-        private void OnDeadPlayer(object value)
-        {
-            UpdateGameState(GameState.DeadPlayer);
-        }
-
-        private void UpdateGameState(GameState gameState) => _gameState = gameState;
-
-        public bool TryResetSupportSkillList()
-        {
-            PlayerController player = Object.Player;
-            if (player.SoulAmount < Const.CHANGE_SUPPORT_SKILL_AMOUNT)
-            {
-                return false;
-            }
-
-            player.SoulAmount -= Const.CHANGE_SUPPORT_SKILL_AMOUNT;
-            CurrentSupportSkillDataList = player.SkillBook.GetRecommendSupportSkillDataList();
-            return true;
+            _stage.Initialize();
+            _object.Initialize();
         }
     }
 }

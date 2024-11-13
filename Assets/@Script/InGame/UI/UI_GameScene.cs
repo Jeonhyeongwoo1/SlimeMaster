@@ -126,13 +126,13 @@ namespace SlimeMaster.InGame.View
 
         private void OnResetSupportSkillCard()
         {
-            bool isSuccess = GameManager.I.TryResetSupportSkillList();
+            bool isSuccess = GameManager.I.Object.TryResetSupportSkillList();
             if (!isSuccess)
             {
                 return;    
             }
 
-            SetSupportSkillInfo(GameManager.I.CurrentSupportSkillDataList);
+            SetSupportSkillInfo(GameManager.I.Object.Player.SkillBook.CurrentSupportSkillDataList);
         }
 
         private void OnOpenStaticsPopup()
@@ -243,7 +243,7 @@ namespace SlimeMaster.InGame.View
             _soulShopBGButton.gameObject.SetActive(true);
             _OwnBattleSkillInfoObject.SetActive(true);
             InputHandler.onActivateInputHandlerAction.Invoke(false);
-            SetSupportSkillInfo(GameManager.I.CurrentSupportSkillDataList);
+            SetSupportSkillInfo(GameManager.I.Object.Player.SkillBook.CurrentSupportSkillDataList);
             Time.timeScale = 0;
         }
 

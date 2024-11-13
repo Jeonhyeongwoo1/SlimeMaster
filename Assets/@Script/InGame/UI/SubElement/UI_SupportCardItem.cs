@@ -30,14 +30,15 @@ namespace SlimeMaster.UISubItemElement
             SupportSkillData skillData = gameManager.Data.SupportSkillDataDict[_supportSkillId];
             if (isOn)
             {
-                gameManager.lockSupportSkillDataList.Add(skillData);
+                gameManager.Object.Player.SkillBook.lockSupportSkillDataList.Add(skillData);
             }
             else
             {
-                gameManager.lockSupportSkillDataList.Remove(skillData);
+                gameManager.Object.Player.SkillBook.lockSupportSkillDataList.Remove(skillData);
             }
-            
-            SupportSkillData supportSkillData = gameManager.CurrentSupportSkillDataList.Find(v => v == skillData);
+
+            SupportSkillData supportSkillData =
+                gameManager.Object.Player.SkillBook.CurrentSupportSkillDataList.Find(v => v == skillData);
             if (supportSkillData != null)
             {
                 supportSkillData.IsLocked = isOn;

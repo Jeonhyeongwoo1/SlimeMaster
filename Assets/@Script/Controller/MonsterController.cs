@@ -52,12 +52,9 @@ namespace SlimeMaster.InGame.Controller
 
         protected virtual void OnDisable()
         {
-            if (GameManager.I)
-            {
-                GameManager.I?.Event.RemoveEvent(GameEventType.DeadPlayer, OnDeadPlayer);
-                GameManager.I.Event.RemoveEvent(GameEventType.ResurrectionPlayer, OnResurrectionPlayer);
-            }
-            
+            GameManager.I.Event.RemoveEvent(GameEventType.DeadPlayer, OnDeadPlayer);
+            GameManager.I.Event.RemoveEvent(GameEventType.ResurrectionPlayer, OnResurrectionPlayer);
+           
             AllCancelCancellationTokenSource();
         }
 

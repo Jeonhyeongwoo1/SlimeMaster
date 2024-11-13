@@ -38,16 +38,23 @@ namespace SlimeMaster.InGame.Manager
         private List<DropItemController> _droppedItemControllerList = new();
         private PlayerController _player;
         
-        public void Initialize(PlayerController playerController)
+        public void Initialize()
         {
             GameManager manager = GameManager.I;
             _event = manager.Event;
             _resource = manager.Resource;
             _data = manager.Data;
             _pool = manager.Pool;
+            
+            AddEvent();
+        }
 
-            _player = playerController;
-
+        public void CreatePlayer()
+        {
+            GameObject playerPrefab = GameManager.I.Resource.Instantiate("Player");
+            var player = Utils.AddOrGetComponent<PlayerController>(playerPrefab);
+            _player = player;
+            
             CreatureData creatureData = _data.CreatureDict[(int)CreatureType.Player];
             
             // creatureData.SkillTypeList.Add(10071);
@@ -59,7 +66,6 @@ namespace SlimeMaster.InGame.Manager
             
             List<SkillData> skillDataList = creatureData.SkillTypeList.Select(i => _data.SkillDict[i]).ToList();
             _player.Initialize(creatureData, _resource.Load<Sprite>(creatureData.IconLabel), skillDataList);
-            AddEvent();
         }
 
         private void AddEvent()
@@ -77,12 +83,21 @@ namespace SlimeMaster.InGame.Manager
 
         private void RemoveEvent()
         {
-            if (GameManager.I)
+            GameManager.I.Event.RemoveEvent(GameEventType.SpawnMonster, OnSpawnObject);
+            GameManager.I.Event.RemoveEvent(GameEventType.DeadMonster, OnDeadMonster);
+            GameManager.I.Event.RemoveEvent(GameEventType.ActivateDropItem, OnActivateDropItem);
+        }
+        
+        public bool TryResetSupportSkillList()
+        {
+            if (_player.SoulAmount < Const.CHANGE_SUPPORT_SKILL_AMOUNT)
             {
-                GameManager.I.Event.RemoveEvent(GameEventType.SpawnMonster, OnSpawnObject);
-                GameManager.I.Event.RemoveEvent(GameEventType.DeadMonster, OnDeadMonster);
-                GameManager.I.Event.RemoveEvent(GameEventType.ActivateDropItem, OnActivateDropItem);
+                return false;
             }
+
+            _player.SoulAmount -= Const.CHANGE_SUPPORT_SKILL_AMOUNT;
+            _player.SkillBook.CurrentSupportSkillDataList = _player.SkillBook.GetRecommendSupportSkillDataList();
+            return true;
         }
 
         private void OnActivateDropItem(object value)
