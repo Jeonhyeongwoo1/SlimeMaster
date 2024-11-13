@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Script.InGame.UI.Popup;
 using SlimeMaster.Common;
 using SlimeMaster.Data;
 using SlimeMaster.Factory;
@@ -137,7 +138,7 @@ namespace SlimeMaster.InGame.Controller
                 _playerModel.CurrentExpRatio.Value = _currentExp / levelData.TotalExp;
                 if (_currentExp >= levelData.TotalExp)
                 {
-                    GameManager.I.Event.Raise(GameEventType.LevelUp, _skillBook);
+                    OnLevelUp();
                     _currentExp -= levelData.TotalExp;
                 }
             }
@@ -183,7 +184,7 @@ namespace SlimeMaster.InGame.Controller
             SkillData skillData = skillDataList.Find(v => v.DataId == (int)SkillType.StormBlade);
             _skillBook.UpgradeOrAddSkill(skillData);
             
-            GameManager.I.CurrentSupportSkillDataList = _skillBook.GetRecommendSupportSkillDataList();
+            _skillBook.CurrentSupportSkillDataList = _skillBook.GetRecommendSupportSkillDataList();
             List<BaseSkill> skillList = _skillBook.ActivateSkillList;
             UIManager uiManager = GameManager.I.UI;
             var gamesceneUI = uiManager.SceneUI as UI_GameScene;
@@ -213,6 +214,29 @@ namespace SlimeMaster.InGame.Controller
         private void OnDestroy()
         {
             Utils.SafeCancelCancellationTokenSource(ref _recoveryHPCts);
+        }
+        
+        private void OnLevelUp()
+        {
+            /*
+             *  스킬리스트 정리
+             *  총 6개의 스킬을 얻음.
+             *  6개의 스킬을 가지고 있으면
+             *      만랩이 아닌 스킬중에서 3개를 선택
+             *  아니면
+             *  선택할 수 있는 스킬들 중에서 만랩이 아닌 스킬 3개를 선택
+             */
+            List<BaseSkill> skillList = _skillBook.GetRecommendSkillList();
+            if (skillList.Count == 0)
+            {
+                Debug.Log($"recommend skill list {skillList.Count}");
+                return;
+            }
+            
+            var popup = GameManager.I.UI.OpenPopup<UI_SkillSelectPopup>();
+            popup.UpdateUI(skillList, _skillBook.ActivateSkillList);
+            
+            Time.timeScale = 0;
         }
 
         private async UniTaskVoid RecoveryHpAsync()
@@ -259,8 +283,24 @@ namespace SlimeMaster.InGame.Controller
             InputHandler.onPointerDownAction += OnChangedInputVector;
             InputHandler.onPointerUpAction += () => OnChangedInputVector(Vector2.zero);
             GameManager.I.Event.AddEvent(GameEventType.ActivateDropItem, OnActivateDropItem);
+            GameManager.I.Event.AddEvent(GameEventType.UpgradeOrAddNewSkill, OnUpgradeOrAddNewSkill);
         }
+        
+        private void OnUpgradeOrAddNewSkill(object value)
+        {
+            int skillId = (int)value;
+            SkillData skill = GameManager.I.Data.SkillDict[skillId];
+            UpgradeOrAddSKill(skill);
+            LevelUp();
+            
+            GameManager.I.UI.ClosePopup();
+            List<BaseSkill> skillList = _skillBook.ActivateSkillList;
+            var gamesceneUI = GameManager.I.UI.SceneUI as UI_GameScene;
+            gamesceneUI.UpdateSkillSlotItem(skillList);
 
+            Time.timeScale = 1;
+        }
+        
         public bool TryPurchaseSupportSkill(int supportSkillId)
         {
             SupportSkillData skillData = GameManager.I.Data.SupportSkillDataDict[supportSkillId];
@@ -274,7 +314,7 @@ namespace SlimeMaster.InGame.Controller
             SoulAmount -= (int) skillData.Price;
             Debug.Log($"{SoulAmount}/ {skillData.Price}");
             _skillBook.AddSupportSkill(skillData);
-            var lockSupportSkillList = GameManager.I.lockSupportSkillDataList;
+            var lockSupportSkillList = _skillBook.lockSupportSkillDataList;
             if (lockSupportSkillList.Contains(skillData))
             {
                 lockSupportSkillList.Remove(skillData);
@@ -331,10 +371,7 @@ namespace SlimeMaster.InGame.Controller
             InputHandler.onPointerDownAction -= OnChangedInputVector;
             InputHandler.onPointerUpAction -= () => OnChangedInputVector(Vector2.zero);
 
-            if (GameManager.I)
-            {
-                GameManager.I.Event.RemoveEvent(GameEventType.ActivateDropItem, OnActivateDropItem);
-            }
+            GameManager.I.Event.RemoveEvent(GameEventType.ActivateDropItem, OnActivateDropItem);
         }
         
         private void FixedUpdate()
@@ -376,6 +413,19 @@ namespace SlimeMaster.InGame.Controller
                         healAmount *= HealBonusRate;
                         Heal(healAmount);
                     }
+                    break;
+                case DropableItemType.DropBox:
+                    var learnSkillPopup = GameManager.I.UI.OpenPopup<UI_LearnSkillPopup>();
+                    List<BaseSkill> skillList = _skillBook.GetRecommendSkillList(1);
+                    if (skillList == null)
+                    {
+                        Debug.LogError("failed get skill list");
+                        learnSkillPopup.ClosePopup();
+                        return;
+                    }
+                    
+                    learnSkillPopup.UpdateSKillItem(skillList[0]);
+                    Time.timeScale = 1;
                     break;
             }
         }

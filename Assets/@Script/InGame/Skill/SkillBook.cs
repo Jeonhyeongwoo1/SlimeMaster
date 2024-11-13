@@ -25,6 +25,30 @@ namespace SlimeMaster.InGame.Skill
         private CancellationTokenSource _useSequenceSkillCts;
         private CreatureController _owner;
 
+        
+        public List<SupportSkillData> lockSupportSkillDataList = new(Const.SUPPORT_ITEM_USEABLECOUNT);
+
+        
+        private List<SupportSkillData> _currentSupportSkillDataList;
+        public List<SupportSkillData> CurrentSupportSkillDataList
+        {
+            get
+            {
+                if (_currentSupportSkillDataList == null || _currentSupportSkillDataList.Count == 0)
+                {
+                    _currentSupportSkillDataList =
+                        GameManager.I.Object.Player.SkillBook.GetRecommendSupportSkillDataList();
+                }
+
+                return _currentSupportSkillDataList;
+            }
+            set
+            {
+                _currentSupportSkillDataList ??= new List<SupportSkillData>();
+                _currentSupportSkillDataList = value;
+            }
+        }
+        
         public SkillBook(CreatureController owner, List<SkillData> skillList)
         {
             _owner = owner;
@@ -232,7 +256,7 @@ namespace SlimeMaster.InGame.Skill
 
             int count = Const.SUPPORT_ITEM_USEABLECOUNT;
             var recommendSkillDataList = new List<SupportSkillData>();
-            recommendSkillDataList.AddRange(GameManager.I.lockSupportSkillDataList);
+            recommendSkillDataList.AddRange(lockSupportSkillDataList);
 
             count -= recommendSkillDataList.Count;
             for (int i = 0; i < count; i++)
@@ -277,7 +301,7 @@ namespace SlimeMaster.InGame.Skill
             var skillDataList = GameManager.I.Data.SupportSkillDataDict.Values.ToList();
             var excludeList =
                 new HashSet<SupportSkillData>().Concat(_activateSupportSkillDataList.Select(c => c.SupportSkillData))
-                    .Concat(GameManager.I.lockSupportSkillDataList)
+                    .Concat(lockSupportSkillDataList)
                     .Concat(addedSupportSkillDataList);
             
             return skillDataList.Where(x => !excludeList.Contains(x) && x.SupportSkillGrade == grade).ToList();

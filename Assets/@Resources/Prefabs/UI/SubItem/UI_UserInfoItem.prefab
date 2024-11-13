@@ -237,6 +237,7 @@ GameObject:
   - component: {fileID: 6656565562543333958}
   - component: {fileID: 6851319755976673255}
   - component: {fileID: 1362073113645799114}
+  - component: {fileID: 5877641079011284795}
   m_Layer: 5
   m_Name: DiaButton
   m_TagString: Untagged
@@ -348,6 +349,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5877641079011284795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7031717886608417301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9f243782e63d4d78934f05dc6868134, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 1362073113645799114}
+  _goodsCountText: {fileID: 7031717886897799750}
+  _goodsType: 1
 --- !u!1 &7031717886623988181
 GameObject:
   m_ObjectHideFlags: 0
@@ -1352,6 +1368,7 @@ GameObject:
   - component: {fileID: 947520880152616773}
   - component: {fileID: 4693176871315518575}
   - component: {fileID: 4895017367108472673}
+  - component: {fileID: 1404302550839172372}
   m_Layer: 5
   m_Name: StaminaButton
   m_TagString: Untagged
@@ -1463,6 +1480,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1404302550839172372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7031717887631469276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9f243782e63d4d78934f05dc6868134, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 4895017367108472673}
+  _goodsCountText: {fileID: 7031717887182539222}
+  _goodsType: 0
 --- !u!1 &7031717887837628429
 GameObject:
   m_ObjectHideFlags: 0
@@ -1473,6 +1505,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7031717887837628418}
   - component: {fileID: 7031717887837628416}
+  - component: {fileID: 3381567916061603328}
   m_Layer: 5
   m_Name: UI_UserInfoItem
   m_TagString: Untagged
@@ -1509,6 +1542,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7031717887837628429}
   m_CullTransparentMesh: 1
+--- !u!114 &3381567916061603328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7031717887837628429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb5c879e3a33a4b06809cffa49babb81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7031717887871638477
 GameObject:
   m_ObjectHideFlags: 0
@@ -1521,6 +1566,7 @@ GameObject:
   - component: {fileID: 7524661676947180557}
   - component: {fileID: 7425896309643922073}
   - component: {fileID: 8641452141723805227}
+  - component: {fileID: 7790401289984354584}
   m_Layer: 5
   m_Name: GoldButton
   m_TagString: Untagged
@@ -1632,6 +1678,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7790401289984354584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7031717887871638477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9f243782e63d4d78934f05dc6868134, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 8641452141723805227}
+  _goodsCountText: {fileID: 7031717887225072187}
+  _goodsType: 2
 --- !u!1 &7031717888051260095
 GameObject:
   m_ObjectHideFlags: 0

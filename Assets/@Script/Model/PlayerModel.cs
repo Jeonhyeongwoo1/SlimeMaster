@@ -10,7 +10,5 @@ namespace SlimeMaster.Model
         public ReactiveProperty<float> CurrentExpRatio = new();
         public ReactiveProperty<int> CurrentLevel = new();
         public ReactiveProperty<int> SoulAmount = new();
-        public ReactiveProperty<int> SupportSkillCount = new();
-        public ReactiveProperty<List<SupportSkillData>> supportSkillDataList = new();
     }
 }

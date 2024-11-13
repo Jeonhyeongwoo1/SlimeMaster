@@ -23,6 +23,7 @@ namespace SlimeMaster.InGame.Manager
         public Map CurrentMap => _currentMap;
         public StageData StageData => _stageData;
         public WaveData WaveData => _waveData;
+        public GameState GameState => _gameState;
         
         private StageData _stageData;
         private WaveData _waveData;
@@ -34,8 +35,11 @@ namespace SlimeMaster.InGame.Manager
         private ObjectManager _object;
         private ResourcesManager _resource;
         private CancellationTokenSource _waveTimerCts;
+        private GameState _gameState;
         
-        public void Initialize(int stageIndex)
+        public DateTime GameStartTime { get; private set; }
+        
+        public void Initialize()
         {
             GameManager manager = GameManager.I;
             _event = manager.Event;
@@ -44,13 +48,19 @@ namespace SlimeMaster.InGame.Manager
             
             _monsterSpawnPool = new MonsterSpawnPool();
             _stageModel = ModelFactory.CreateOrGetModel<StageModel>();
-            SetStageData(stageIndex);
             AddEvent();
         }
 
         private void AddEvent()
         {
             _event.AddEvent(GameEventType.DeadMonster, OnDeadMonster);
+            _event.AddEvent(GameEventType.DeadPlayer,OnDeadPlayer);
+            _event.AddEvent(GameEventType.ResurrectionPlayer, OnResurrectionPlayer);
+        }
+        
+        private void OnResurrectionPlayer(object value)
+        {
+            UpdateGameState(GameState.Start);
         }
 
         private bool TrySpawnGem(ref GemType gemType)
@@ -155,13 +165,11 @@ namespace SlimeMaster.InGame.Manager
             }
         }
         
-        private void SetStageData(int index)
+        private void SetStageData(StageData stageData)
         {
-            _stageData = GameManager.I.Data.StageDict[1];
+            _stageData = stageData;
             _waveData = _stageData.WaveArray[0];
             _stageModel.currentWaveStep.Value = _waveData.WaveIndex;
-            
-            MakeMap();
         }
 
         private void MakeMap()
@@ -172,8 +180,17 @@ namespace SlimeMaster.InGame.Manager
             map.SetActive(true);
         }
 
+        public async UniTaskVoid StartStage(StageData stageData)
+        {
+            _object.CreatePlayer();
+            SetStageData(stageData);
+            MakeMap();
+            await StartStage();
+        }
+        
         public async UniTask StartStage()
         {
+            GameStartTime = DateTime.UtcNow;
             int waveCount = _stageData.WaveArray.Count;
             for (int i = 0; i < waveCount; i++)
             {
@@ -200,9 +217,9 @@ namespace SlimeMaster.InGame.Manager
             Time.timeScale = 0;
             var gameResultPopup = GameManager.I.UI.OpenPopup<UI_GameResultPopup>();
 
-            TimeSpan playTimeSpan = DateTime.UtcNow - GameManager.I.GameStartTime;
+            TimeSpan playTimeSpan = DateTime.UtcNow - GameStartTime;
             string playTime = playTimeSpan.ToString(@"mm\:ss");
-            Debug.Log($"play Time {(DateTime.UtcNow - GameManager.I.GameStartTime).TotalSeconds} / {playTime}");
+            Debug.Log($"play Time {(DateTime.UtcNow - GameStartTime).TotalSeconds} / {playTime}");
             gameResultPopup.UpdateUI(_stageData.StageLevel.ToString(), playTime, _stageData.ClearReward_Gold,
                 _stageModel.killCount.ToString());
         }
@@ -276,7 +293,7 @@ namespace SlimeMaster.InGame.Manager
             GameManager gameManager = GameManager.I;
             while (timer > 0)
             {
-                if (gameManager.GameState == GameState.DeadPlayer)
+                if (GameState == GameState.DeadPlayer)
                 {
                     try
                     {
@@ -305,5 +322,12 @@ namespace SlimeMaster.InGame.Manager
             
             Debug.Log("End");
         }
+        
+        private void OnDeadPlayer(object value)
+        {
+            UpdateGameState(GameState.DeadPlayer);
+        }
+        
+        private void UpdateGameState(GameState gameState) => _gameState = gameState;
     }
 }
