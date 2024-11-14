@@ -1060,7 +1060,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 10
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 10
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1662,6 +1662,7 @@ GameObject:
   - component: {fileID: 6659865860802521119}
   - component: {fileID: 6069247309801399699}
   - component: {fileID: 1919862003679578441}
+  - component: {fileID: 1522078130403250816}
   m_Layer: 5
   m_Name: SecondClearRewardButton
   m_TagString: Untagged
@@ -1744,6 +1745,23 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1522078130403250816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2155460785456763611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49a2e36c11017492dabd3ff392657d26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 1919862003679578441}
+  _unlockObject: {fileID: 247272126084119025}
+  _getRewardObject: {fileID: 423068952701557881}
+  _redDotObject: {fileID: 4174344890293573933}
+  _waveClearType: 1
 --- !u!1 &2163541550328493316
 GameObject:
   m_ObjectHideFlags: 0
@@ -2524,6 +2542,7 @@ GameObject:
   - component: {fileID: 3239162486246496395}
   - component: {fileID: 3263812233747321246}
   - component: {fileID: 1467064498447103843}
+  - component: {fileID: 7582945410945288025}
   m_Layer: 5
   m_Name: FirstClearRewardButton
   m_TagString: Untagged
@@ -2606,6 +2625,23 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7582945410945288025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3175709576192631338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49a2e36c11017492dabd3ff392657d26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 1467064498447103843}
+  _unlockObject: {fileID: 6696580794543056230}
+  _getRewardObject: {fileID: 5391553216405350758}
+  _redDotObject: {fileID: 3932057875730295623}
+  _waveClearType: 0
 --- !u!1 &3177554489707034518
 GameObject:
   m_ObjectHideFlags: 0
@@ -5103,6 +5139,7 @@ GameObject:
   - component: {fileID: 399049422237386232}
   - component: {fileID: 7438073508532622129}
   - component: {fileID: 4701683602072192649}
+  - component: {fileID: 1834300636029483412}
   m_Layer: 5
   m_Name: ThirdClearRewardButton
   m_TagString: Untagged
@@ -5185,6 +5222,23 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1834300636029483412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6119536226264437872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49a2e36c11017492dabd3ff392657d26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 4701683602072192649}
+  _unlockObject: {fileID: 3146791047124336224}
+  _getRewardObject: {fileID: 9039119098760607438}
+  _redDotObject: {fileID: 8221555509820797749}
+  _waveClearType: 2
 --- !u!1 &6130188605916577611
 GameObject:
   m_ObjectHideFlags: 0
@@ -9195,6 +9249,7 @@ GameObject:
   - component: {fileID: 8592733701058478637}
   - component: {fileID: 8592733701058478636}
   - component: {fileID: 8592733701058478635}
+  - component: {fileID: 3238558331786506579}
   m_Layer: 5
   m_Name: UI_BattlePopup
   m_TagString: Untagged
@@ -9285,6 +9340,28 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 65527
+--- !u!114 &3238558331786506579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8592733701058478633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c6d888b561e344aba5fa0c9a0fc8f6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bgCloseButton: {fileID: 0}
+  _currentStageNameText: {fileID: 8592733700942172173}
+  _clearWaveIndexText: {fileID: 8592733700544694822}
+  _gameStartButton: {fileID: 8592733700706149985}
+  _gameStartCostText: {fileID: 8592733700311434819}
+  _waveIndexTextArray:
+  - {fileID: 6357724915248169670}
+  - {fileID: 1776280167676851323}
+  - {fileID: 6350377685422454269}
+  _waveSlider: {fileID: 4523771075848409440}
 --- !u!1 &8592733701531849200
 GameObject:
   m_ObjectHideFlags: 0

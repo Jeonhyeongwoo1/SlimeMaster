@@ -1,4 +1,4 @@
-namespace SlimeMaster.InGame.Controller
+namespace SlimeMaster.Presenter
 {
     public class BasePresenter
     {

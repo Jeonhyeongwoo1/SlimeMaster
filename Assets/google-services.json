@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "138438818620",
+    "project_id": "slimemaster",
+    "storage_bucket": "slimemaster.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:138438818620:android:a9f792b340af3326f33c39",
+        "android_client_info": {
+          "package_name": "com.Jeonhyeongwoo.SlimeMaster"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD74tptF1por0-xcWXrIeAQFxJHxPvtg2Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

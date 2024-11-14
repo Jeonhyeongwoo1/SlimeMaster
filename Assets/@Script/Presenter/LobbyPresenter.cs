@@ -1,9 +1,12 @@
+using System.Collections.Generic;
 using Script.InGame.UI;
 using SlimeMaster.Factory;
+using SlimeMaster.InGame.Data;
+using SlimeMaster.Presenter;
 using SlimeMaster.View;
 using UniRx;
 
-namespace SlimeMaster.InGame.Controller
+namespace SlimeMaster.Presenter
 {
     public class LobbyPresenter : BasePresenter
     {
@@ -23,16 +26,18 @@ namespace SlimeMaster.InGame.Controller
             {
                 _compositeDisposable.Clear();
             }
-            
+
             _compositeDisposable = new();
-            _model.Diamond
-                .Subscribe((v) => _lobbySceneView.UpdateUserGoodsInfo(GoodsType.Dia, v.ToString()))
+            var goldItemData = _model.GetItemData(Const.ID_GOLD);
+            goldItemData.ItemValue.Subscribe((v) => _lobbySceneView.UpdateUserGoodsInfo(GoodsType.Gold, v.ToString()))
                 .AddTo(_compositeDisposable);
-            _model.Gold
-                .Subscribe((v) => _lobbySceneView.UpdateUserGoodsInfo(GoodsType.Gold, v.ToString()))
+
+            var diamondItemData = _model.GetItemData(Const.ID_DIA);
+            diamondItemData.ItemValue.Subscribe((v) => _lobbySceneView.UpdateUserGoodsInfo(GoodsType.Dia, v.ToString()))
                 .AddTo(_compositeDisposable);
-            _model.Stamina
-                .Subscribe((v) => _lobbySceneView.UpdateUserGoodsInfo(GoodsType.Stamina, v.ToString()))
+
+            var staminaData = _model.GetItemData(Const.ID_STAMINA);
+            staminaData.ItemValue.Subscribe((v) => _lobbySceneView.UpdateUserGoodsInfo(GoodsType.Stamina, v.ToString()))
                 .AddTo(_compositeDisposable);
         }
 

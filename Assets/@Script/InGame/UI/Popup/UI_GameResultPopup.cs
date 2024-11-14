@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using SlimeMaster.Common;
@@ -20,6 +21,11 @@ namespace SlimeMaster.InGame.Popup
         [SerializeField] private TextMeshProUGUI _totalMonsterKillText;
         [SerializeField] private Transform _resultRewardScrollContent;
         [FormerlySerializedAs("_closeButton")] [SerializeField] private Button _confirmButton;
+
+        private void Start()
+        {
+            SafeButtonAddListener(ref _confirmButton, () => GameManager.I.MoveToLobbyScene());
+        }
 
         public void UpdateUI(string stageDepth, string gameplayTime, int rewardGold, string totalMonsterKillCount)
         {

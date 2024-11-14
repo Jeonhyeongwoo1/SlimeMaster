@@ -182,13 +182,13 @@ namespace SlimeMaster.InGame.Manager
 
         public async UniTaskVoid StartStage(StageData stageData)
         {
-            _object.CreatePlayer();
             SetStageData(stageData);
             MakeMap();
-            await StartStage();
+            _object.CreatePlayer();
+            await StartStageAsync();
         }
-        
-        public async UniTask StartStage()
+
+        private async UniTask StartStageAsync()
         {
             GameStartTime = DateTime.UtcNow;
             int waveCount = _stageData.WaveArray.Count;
@@ -222,6 +222,19 @@ namespace SlimeMaster.InGame.Manager
             Debug.Log($"play Time {(DateTime.UtcNow - GameStartTime).TotalSeconds} / {playTime}");
             gameResultPopup.UpdateUI(_stageData.StageLevel.ToString(), playTime, _stageData.ClearReward_Gold,
                 _stageModel.killCount.ToString());
+            
+            _object.AllObjectRelease();
+            var userModel = ModelFactory.CreateOrGetModel<UserModel>();
+            // userModel.LastClearStageIndex.Value++;
+            userModel.UpdateStage(_stageData.StageIndex, _waveData.WaveIndex);
+
+            DataManager dataManager = GameManager.I.Data;
+            StageData stageData = dataManager.StageDict[_stageData.StageIndex];
+            int rewardItemId = stageData.FirstWaveClearRewardItemId;
+            int rewardItemValue = stageData.FirstWaveClearRewardItemValue;
+            if (rewardItemId == Const.ID_GOLD)
+            {
+            }
         }
 
         private async UniTask StartWave()

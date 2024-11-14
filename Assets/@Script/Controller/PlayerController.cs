@@ -179,17 +179,16 @@ namespace SlimeMaster.InGame.Controller
             _moveSpeed = creatureData.MoveSpeed * creatureData.MoveSpeedRate;
 
             InitCreatureStat();
+            gameObject.SetActive(true);
             
             //Default -> 추후에 장비에 맞춰서 변경되어야함.
             SkillData skillData = skillDataList.Find(v => v.DataId == (int)SkillType.StormBlade);
             _skillBook.UpgradeOrAddSkill(skillData);
-            
             _skillBook.CurrentSupportSkillDataList = _skillBook.GetRecommendSupportSkillDataList();
             List<BaseSkill> skillList = _skillBook.ActivateSkillList;
             UIManager uiManager = GameManager.I.UI;
             var gamesceneUI = uiManager.SceneUI as UI_GameScene;
             gamesceneUI.UpdateSkillSlotItem(skillList);
-            gameObject.SetActive(true);
         }
 
         protected override void InitCreatureStat(bool isFullHP = true)

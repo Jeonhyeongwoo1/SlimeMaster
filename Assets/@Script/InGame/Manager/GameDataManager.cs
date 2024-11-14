@@ -15,6 +15,8 @@ namespace SlimeMaster.InGame.Manager
         public Dictionary<int, SupportSkillData> SupportSkillDataDict { get; private set; } = new();
 
         public Dictionary<int, MaterialData> MaterialDataDict { get; private set; } = new();
+
+        public Dictionary<int, DefaultUserData> DefaultUserDataDict { get; private set; } = new();
         
         public void Initialize()
         {
@@ -26,6 +28,7 @@ namespace SlimeMaster.InGame.Manager
             SupportSkillDataDict =
                 LoadJson<SupportSkillDataLoader, int, SupportSkillData>("SupportSkillData").MakeDict();
             MaterialDataDict = LoadJson<MaterialDataLoader, int, MaterialData>("MaterialData").MakeDict();
+            DefaultUserDataDict = LoadJson<DefaultUserDataLoader, int, DefaultUserData>("DefaultUserData").MakeDict();
         }
 
         TLoader LoadJson<TLoader, TKey, TValue>(string path) where TLoader : ILoader<TKey, TValue>

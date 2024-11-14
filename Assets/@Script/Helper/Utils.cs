@@ -1,14 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 using ColorUtility = UnityEngine.ColorUtility;
+using Random = UnityEngine.Random;
 
 namespace SlimeMaster.Common
 {
     public static class Utils
     {
+        public static void SafeAddButtonListener(this Button button, UnityAction listener)
+        {
+            button.onClick.RemoveAllListeners();
+            button.onClick.AddListener(listener);
+        }
+        
         public static List<T> Shuffle<T>(this List<T> shuffleList)
         {
             int n = shuffleList.Count;

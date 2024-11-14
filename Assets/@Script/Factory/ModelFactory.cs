@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using SlimeMaster.InGame.Interface;
-using UnityEngine;
 
 namespace SlimeMaster.Factory
 {

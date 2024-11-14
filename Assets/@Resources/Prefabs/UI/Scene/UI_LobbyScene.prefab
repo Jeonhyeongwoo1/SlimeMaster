@@ -1034,6 +1034,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _userInfoItem: {fileID: 269146792297081624}
+  _toggleGroup: {fileID: 5531585444061864112}
 --- !u!114 &6109598621078166549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1209,7 +1210,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!1 &5531585442750752874
 GameObject:
   m_ObjectHideFlags: 0
@@ -2314,7 +2315,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &5531585443762335773
 GameObject:
   m_ObjectHideFlags: 0

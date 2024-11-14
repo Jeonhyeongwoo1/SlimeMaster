@@ -182,7 +182,6 @@ namespace SlimeMaster.InGame.Controller
             
             HP = 0;
             UpdateCreatureState(CreatureStateType.Dead);
-            Debug.Log($"Dead {transform.GetInstanceID()}");
             GameManager.I.Event.Raise(GameEventType.DeadMonster, this);
             AllCancelCancellationTokenSource();
         }

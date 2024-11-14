@@ -170,16 +170,16 @@ namespace SlimeMaster.InGame.Enum
         Dia,
         Stamina,
         Exp,
-        WeaponScroll,
+        WeaponScroll = 50101,
         GlovesScroll,
         RingScroll,
         BeltScroll,
         ArmorScroll,
         BootsScroll,
-        BronzeKey,
+        BronzeKey = 50201,
         SilverKey,
         GoldKey,
-        RandomScroll,
+        RandomScroll = 50301,
         AllRandomEquipmentBox,
         RandomEquipmentBox,
         CommonEquipmentBox,
@@ -187,7 +187,7 @@ namespace SlimeMaster.InGame.Enum
         RareEquipmentBox,
         EpicEquipmentBox,
         LegendaryEquipmentBox,
-        WeaponEnchantStone,
+        WeaponEnchantStone = 50401,
         GlovesEnchantStone,
         RingEnchantStone,
         BeltEnchantStone,
@@ -207,5 +207,24 @@ namespace SlimeMaster.InGame.Enum
         Legendary1,
         Legendary2,
         Legendary3,
+    }
+    
+    public enum ToggleType
+    {
+        None,
+        BattleToggle,
+        EquipmentToggle,
+        ShopToggle
+    }
+
+    public enum ServerErrorCode
+    {
+        Success,
+        FailedFirebaseError
+    }
+
+    public enum WaveType
+    {
+        
     }
 }

@@ -6,6 +6,8 @@ namespace SlimeMaster.InGame.Data
 {
     public class Const
     {
+        public const int GAME_START_STAMINA_COUNT = 3;
+        public const int WAVE_COUNT = 3;
         public const int MAX_SKILL_Level = 6;
         public const int MAX_SKILL_COUNT = 6;
         public const int SKILL_CARD_ITEM_COUNT = 3;
@@ -112,6 +114,5 @@ namespace SlimeMaster.InGame.Data
             public static readonly Color MythBg = Utils.HexToColor("FF7F6E");
             #endregion
         }
-        
     }
 }

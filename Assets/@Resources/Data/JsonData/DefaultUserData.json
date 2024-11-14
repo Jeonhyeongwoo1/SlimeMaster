@@ -1,0 +1,19 @@
+{
+  "defaultUserDataList": [
+    {
+      "itemId": 50001,
+      "itemName": "Gold",
+      "itemValue": 1000
+    },
+    {
+      "itemId": 50002,
+      "itemName": "Dia",
+      "itemValue": 0
+    },
+    {
+      "itemId": 50003,
+      "itemName": "Stamina",
+      "itemValue": 10
+    }
+  ]
+}

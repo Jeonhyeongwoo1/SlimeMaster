@@ -81,6 +81,11 @@ public class CreatureController : MonoBehaviour, IHitable
         _creatureStateType = CreatureStateType.Dead;
     }
 
+    public void Release()
+    {
+        GameManager.I.Pool.ReleaseObject(gameObject.name, gameObject);
+    }
+
     public Action<int, int> onHitReceived { get; set; }
 
     protected async UniTask DeadAnimation()

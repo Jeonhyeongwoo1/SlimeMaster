@@ -100,6 +100,13 @@ namespace SlimeMaster.InGame.Manager
             return true;
         }
 
+        public void AllObjectRelease()
+        {
+            _droppedItemControllerList.ForEach(v=> v?.Release());
+            _activateMonsterList.ForEach(v=> v?.Release());
+            _player.Release();
+        }
+
         private void OnActivateDropItem(object value)
         {
             DropItemData dropItemData = (DropItemData)value;

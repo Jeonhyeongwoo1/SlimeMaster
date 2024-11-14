@@ -9,7 +9,8 @@ namespace SlimeMaster.InGame.Skill
 {
     public abstract class SequenceSkill : BaseSkill
     {
-        public bool _useCollTime;
+        public bool UseCollTime { get; protected set; }
+        
         protected CreatureController _targetCreature;
         protected CancellationTokenSource _skillLogicCts;
         
@@ -21,7 +22,7 @@ namespace SlimeMaster.InGame.Skill
             try
             {
                 await UseSkill();
-                if (_useCollTime)
+                if (UseCollTime)
                 {
                     await UniTask.WaitForSeconds(_skillData.CoolTime, cancellationToken: token);
                 }

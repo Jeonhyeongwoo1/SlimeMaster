@@ -1,11 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Script.InGame.UI;
 using SlimeMaster.Factory;
-using SlimeMaster.InGame.Controller;
-using SlimeMaster.InGame.Interface;
 using SlimeMaster.InGame.Manager;
+using SlimeMaster.Presenter;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -13,17 +9,18 @@ namespace SlimeMaster.Controller
 {
     public class LobbySceneController : MonoBehaviour
     {
-        private async void Start()
+        private void Start()
         {
             GameManager gameManager = GameManager.I;
-            await gameManager.Resource.LoadResourceAsync<Object>("PreLoad", null);
-            GameManager.ManagerInitialize();
-
             var lobbyUI = gameManager.UI.ShowUI<UI_LobbyScene>();
 
             var lobbyPresenter = PresenterFactory.CreateOrGet<LobbyPresenter>();
-            var characterModel = ModelFactory.CreateOrGetModel<UserModel>();
-            lobbyPresenter.Initialize(characterModel, lobbyUI);
+            var userModel = ModelFactory.CreateOrGetModel<UserModel>();
+            lobbyPresenter.Initialize(userModel, lobbyUI);
+
+            var battlePresenter = PresenterFactory.CreateOrGet<BattlePopupPresenter>();
+            battlePresenter.Initialize(userModel);
+            battlePresenter.OpenBattlePopup();
         }
     }
 }

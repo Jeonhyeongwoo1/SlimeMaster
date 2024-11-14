@@ -67,14 +67,14 @@ namespace SlimeMaster.InGame.Manager
             return element;
         }
 
-        public T OpenPopup<T>(string name = null) where T : BasePopup
+        public T OpenPopup<T>(string name = null, bool isPool = true) where T : BasePopup
         {
             if (string.IsNullOrEmpty(name))
             {
                 name = typeof(T).Name;
             }
             
-            GameObject prefab = GameManager.I.Resource.Instantiate($"{name}");
+            GameObject prefab = GameManager.I.Resource.Instantiate($"{name}", isPool);
             T popup = prefab.GetOrAddComponent<T>();
             popup.transform.SetParent(UIRootObject.transform);
             popup.transform.SetAsLastSibling();
@@ -92,6 +92,5 @@ namespace SlimeMaster.InGame.Manager
             BasePopup popup = _popupStack.Pop();
             popup.ClosePopup();
         }
-        
     }
 }

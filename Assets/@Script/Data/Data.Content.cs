@@ -190,6 +190,7 @@ namespace SlimeMaster.Data
         public float BlueGemDropRate;
         public float YellowGemDropRate;
         public List<int> EliteDropItemId;
+        public WaveType WaveType;
     }
 
     public class WaveDataLoader : ILoader<int, WaveData>
@@ -367,4 +368,31 @@ namespace SlimeMaster.Data
         }
     }
     #endregion
+
+    #region DefaultUserData
+
+    [Serializable]
+    public class DefaultUserData
+    {
+        public int itemId;
+        public string itemName;
+        public int itemValue;
+    }
+
+    [Serializable]
+    public class DefaultUserDataLoader : ILoader<int, DefaultUserData>
+    {
+        public List<DefaultUserData> defaultUserDataList = new ();
+
+        public Dictionary<int, DefaultUserData> MakeDict()
+        {
+            Dictionary<int, DefaultUserData> dict = new ();
+            foreach (DefaultUserData item in defaultUserDataList)
+                dict.Add(item.itemId, item);
+            return dict;
+        }
+    }
+
+    #endregion
+    
 }

@@ -57,7 +57,7 @@ namespace SlimeMaster.InGame.Manager
             return newGameObject;
         }
 
-        public async UniTask LoadResourceAsync<T>(string key, Action callback) where T : Object
+        public async UniTask LoadResourceAsync<T>(string key, Action<float> callback) where T : Object
         {
             var tcs = new UniTaskCompletionSource();
             AsyncOperationHandle<IList<IResourceLocation>> op = Addressables.LoadResourceLocationsAsync(key, typeof(T));
@@ -72,11 +72,19 @@ namespace SlimeMaster.InGame.Manager
                     string key = location.PrimaryKey;
                     if (key.Contains(_defineSprite))
                     {
-                        LoadAssetAsync<Sprite>(key, ()=> currentLoadedCount++);
+                        LoadAssetAsync<Sprite>(key, ()=>
+                        {
+                            currentLoadedCount++;
+                            callback.Invoke((float)currentLoadedCount / resultCount);
+                        });
                     }
                     else
                     {
-                        LoadAssetAsync<T>(key, ()=> currentLoadedCount++);
+                        LoadAssetAsync<T>(key, ()=>
+                        {
+                            currentLoadedCount++;
+                            callback.Invoke((float)currentLoadedCount / resultCount);
+                        });
                     }
                 }
 
@@ -88,6 +96,7 @@ namespace SlimeMaster.InGame.Manager
 
             await tcs.Task;
             await UniTask.WaitUntil(() => resultCount == currentLoadedCount);
+            Debug.Log($"Done {resultCount} / {currentLoadedCount}");
         }
 
         private async UniTask LoadAssetAsync<T>(string key, Action callback) where T : Object
@@ -115,8 +124,6 @@ namespace SlimeMaster.InGame.Manager
                 _resourceDict.Add(key, result);
                 callback?.Invoke();
             };
-
-            await UniTask.WaitUntil(() => op.IsDone);
         }
     }
 }
