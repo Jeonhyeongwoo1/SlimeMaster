@@ -7,6 +7,7 @@ using System.Linq;
 using Unity.Plastic.Newtonsoft.Json;
 using System.ComponentModel;
 using SlimeMaster.Data;
+using SlimeMaster.Enum;
 using SlimeMaster.InGame.Enum;
 
 public class DataTransformer : EditorWindow
@@ -34,6 +35,7 @@ public class DataTransformer : EditorWindow
         ParseSupportSkillData("SupportSkill");
         ParseDropItemData("DropItem");
         ParseDefaultUserData("DefaultUser");
+        ParseShopData("Shop");
         // ParseGachaDataData("GachaTable"); // DictionaryŰ�� ���� �����Ͱ� ���� #Neo
         // ParseStagePackageData("StagePackage");
         // ParseMissionData("Mission");
@@ -428,6 +430,43 @@ public class DataTransformer : EditorWindow
         File.WriteAllText($"{Application.dataPath}/@Resources/Data/JsonData/{filename}Data.json", jsonStr);
         AssetDatabase.Refresh();
     }
+
+    static void ParseShopData(string filename)
+    {
+        ShopDataDataLoader loader = new();
+        #region ExcelData
+        string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
+
+        for (int y = 1; y < lines.Length; y++)
+        {
+            string[] row = lines[y].Replace("\r", "").Split(',');
+            if (row.Length == 0)
+                continue;
+            if (string.IsNullOrEmpty(row[0]))
+                continue;
+
+            int i = 0;
+
+            ShopData item = new ShopData();
+            item.ID = ConvertValue<int>(row[i++]);
+            item.Title = ConvertValue<string>(row[i++]);
+            item.ShopType = ConvertValue<ShopType>(row[i++]);
+            item.ShopItemType = ConvertValue<ShopItemType>(row[i++]);
+            item.CostItemType = ConvertValue<int>(row[i++]);
+            item.CostValue = ConvertValue<int>(row[i++]);
+            item.RewardItemType = ConvertValue<int>(row[i++]);
+            item.RewardItemValue = ConvertValue<int>(row[i++]);
+            item.RewardSpriteName = ConvertValue<string>(row[i++]);
+            item.CostSpriteName = ConvertValue<string>(row[i++]);
+            item.GachaType = ConvertValue<GachaType>(row[i++]);
+            loader.shops.Add(item);
+        }
+        #endregion
+
+        string jsonStr = JsonConvert.SerializeObject(loader, Formatting.Indented);
+        File.WriteAllText($"{Application.dataPath}/@Resources/Data/JsonData/{filename}Data.json", jsonStr);
+        AssetDatabase.Refresh();
+    }
     
 //     static void ParseEquipmentLevelData(string filename)
 //     {
@@ -515,81 +554,81 @@ public class DataTransformer : EditorWindow
 //         AssetDatabase.Refresh();
 //     }
 //
-//     static void ParseGachaDataData(string filename)
-//     {
-//         Dictionary<GachaType, List<GachaRateData>> gachaTable = ParseGachaRateData("GachaTable");
-//         GachaDataLoader loader = new GachaDataLoader();
-//
-//         #region ExcelData
-//         /*        string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
-//
-//                 for (int y = 1; y < lines.Length; y++)
-//                 {
-//                     string[] row = lines[y].Replace("\r", "").Split(',');
-//                     if (row.Length == 0)
-//                         continue;
-//                     if (string.IsNullOrEmpty(row[0]))
-//                         continue;
-//
-//                     int i = 0;
-//
-//                     GachaData gacha = new GachaData();
-//                     gacha.DropItemType = ConvertValue<Define.DropItemType>(row[i++]);
-//
-//                     loader.Gachas.Add(gacha);
-//                 }*/
-//         for (int i = 0; i < gachaTable.Count+1; i++)
-//         {
-//             GachaTableData gachaData = new GachaTableData()
-//             {
-//                 Type = (GachaType)i,
-//             };
-//             if (gachaTable.TryGetValue(gachaData.Type, out List<GachaRateData> gachaRate))
-//                 gachaData.GachaRateTable.AddRange(gachaRate);
-//
-//             loader.GachaTable.Add(gachaData);
-//         }
-//         #endregion
-//
-//         string jsonStr = JsonConvert.SerializeObject(loader, Formatting.Indented);
-//         File.WriteAllText($"{Application.dataPath}/@Resources/Data/JsonData/{filename}Data.json", jsonStr);
-//         AssetDatabase.Refresh();
-//     }
-//
-//     static Dictionary<GachaType, List<GachaRateData>> ParseGachaRateData(string filename)
-//     {
-//         Dictionary<GachaType, List<GachaRateData>> gachaTable = new Dictionary<GachaType, List<GachaRateData>>();
-//
-//         #region ExcelData
-//         string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
-//
-//         for(int y=1; y<lines.Length; y++)
-//         {
-//             string[] row = lines[y].Replace("\r", "").Split(',');
-//             if (row.Length == 0)
-//                 continue;
-//
-//             if (string.IsNullOrEmpty(row[0]))
-//                 continue;
-//
-//             int i = 0;
-//             GachaType dropType = (GachaType)Enum.Parse(typeof(GachaType), row[i++]);
-//             GachaRateData rateData = new GachaRateData()
-//             {
-//                 EquipmentID = row[i++],
-//                 GachaRate = float.Parse(row[i++]),
-//                 EquipGrade = ConvertValue<EquipmentGrade>(row[i++]),
-//             };
-//
-//             if (gachaTable.ContainsKey(dropType) == false)
-//                 gachaTable.Add(dropType, new List<GachaRateData>());
-//
-//             gachaTable[dropType].Add(rateData);
-//         }
-//         #endregion
-//
-//         return gachaTable;
-//     }
+     static void ParseGachaDataData(string filename)
+     {
+         Dictionary<GachaType, List<GachaRateData>> gachaTable = ParseGachaRateData("GachaTable");
+         GachaDataLoader loader = new GachaDataLoader();
+
+         #region ExcelData
+         /*        string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
+
+                 for (int y = 1; y < lines.Length; y++)
+                 {
+                     string[] row = lines[y].Replace("\r", "").Split(',');
+                     if (row.Length == 0)
+                         continue;
+                     if (string.IsNullOrEmpty(row[0]))
+                         continue;
+
+                     int i = 0;
+
+                     GachaData gacha = new GachaData();
+                     gacha.DropItemType = ConvertValue<Define.DropItemType>(row[i++]);
+
+                     loader.Gachas.Add(gacha);
+                 }*/
+         for (int i = 0; i < gachaTable.Count+1; i++)
+         {
+             GachaTableData gachaData = new GachaTableData()
+             {
+                 Type = (GachaType)i,
+             };
+             if (gachaTable.TryGetValue(gachaData.Type, out List<GachaRateData> gachaRate))
+                 gachaData.GachaRateTable.AddRange(gachaRate);
+
+             loader.GachaTable.Add(gachaData);
+         }
+         #endregion
+
+         string jsonStr = JsonConvert.SerializeObject(loader, Formatting.Indented);
+         File.WriteAllText($"{Application.dataPath}/@Resources/Data/JsonData/{filename}Data.json", jsonStr);
+         AssetDatabase.Refresh();
+     }
+
+     static Dictionary<GachaType, List<GachaRateData>> ParseGachaRateData(string filename)
+     {
+         Dictionary<GachaType, List<GachaRateData>> gachaTable = new Dictionary<GachaType, List<GachaRateData>>();
+
+         #region ExcelData
+         string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
+
+         for(int y=1; y<lines.Length; y++)
+         {
+             string[] row = lines[y].Replace("\r", "").Split(',');
+             if (row.Length == 0)
+                 continue;
+
+             if (string.IsNullOrEmpty(row[0]))
+                 continue;
+
+             int i = 0;
+             GachaType dropType = (GachaType)Enum.Parse(typeof(GachaType), row[i++]);
+             GachaRateData rateData = new GachaRateData()
+             {
+                 EquipmentID = row[i++],
+                 GachaRate = float.Parse(row[i++]),
+                 EquipGrade = ConvertValue<EquipmentGrade>(row[i++]),
+             };
+
+             if (gachaTable.ContainsKey(dropType) == false)
+                 gachaTable.Add(dropType, new List<GachaRateData>());
+
+             gachaTable[dropType].Add(rateData);
+         }
+         #endregion
+
+         return gachaTable;
+     }
 //
 //     static void ParseStagePackageData(string filename)
 //     {

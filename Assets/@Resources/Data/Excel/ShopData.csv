@@ -1,0 +1,12 @@
+﻿ID,Title,ShopType,ShopItemType,CostItemType,CostValue,RewardItemType,RewardItemValue,RewardSpriteName,CostSpriteName,GachaType
+1,부활권,CommonItem,Ad,0,0,50201,1,Clover_Icon.sprite,Tv_Icon.sprite,None
+2,실버 열쇠,CommonItem,SilverKeyItem,50002,150,50202,1,Key_Silver_Icon.sprite,Dia_Icon.sprite,None
+3,골드 열쇠,CommonItem,GoldKeyItem,50002,300,50203,1,Key_Gold_Icon.sprite,Dia_Icon.sprite,None
+4,장비 상자,Advance_EquipmentItem,Ad,,,50302,1,,Tv_Icon.sprite,AdvancedGacha
+5,장비 상자,Advance_EquipmentItem,EquipmentItem_one,50203,1,50302,1,,Key_Gold_Icon.sprite,AdvancedGacha
+6,장비 상자,Advance_EquipmentItem,EquipmentItem_ten,50203,10,50302,10,,Key_Gold_Icon.sprite,AdvancedGacha
+7,일반 상자,Normal_EquipmentItem,Ad,0,0,50302,1,,Tv_Icon.sprite,CommonGacha
+8,일반 상자,Normal_EquipmentItem,Normal,50202,1,50302,1,,Key_Silver_Icon.sprite,CommonGacha
+9,골드,Gold,Ad,0,0,50001,1500,Gold_Icon.sprite,Tv_Icon.sprite,None
+10,골드,Gold,Normal,50002,300,50001,11500,Gold_Icon.sprite,Dia_Icon.sprite,None
+11,골드,Gold,Normal,50002,500,50001,21200,Gold_Icon.sprite,Dia_Icon.sprite,None

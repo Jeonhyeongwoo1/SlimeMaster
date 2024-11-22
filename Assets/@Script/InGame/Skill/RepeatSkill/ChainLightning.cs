@@ -4,8 +4,7 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
 using SlimeMaster.InGame.Controller;
-using SlimeMaster.InGame.Data;
-using SlimeMaster.InGame.Manager;
+using SlimeMaster.Manager;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill

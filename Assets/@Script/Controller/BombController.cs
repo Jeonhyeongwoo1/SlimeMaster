@@ -1,6 +1,4 @@
-using System;
-using SlimeMaster.InGame.Enum;
-using SlimeMaster.InGame.Manager;
+using SlimeMaster.Enum;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Controller

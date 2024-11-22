@@ -11,7 +11,9 @@ namespace SlimeMaster.Firebase.Data
         [FirestoreProperty] public DateTime LastLoginTime { get; set; }
         [FirestoreProperty] public Dictionary<string, DBItemData> ItemDataDict { get; set; }
         [FirestoreProperty] public Dictionary<string, DBStageData> StageDataDict { get; set; }
-
+        [FirestoreProperty] public List<DBEquipmentData> EquippedItemDataList { get; set; }
+        [FirestoreProperty] public List<DBEquipmentData> UnEquippedItemDataList { get; set; }
+        
         public DBUserData()
         {
             ItemDataDict = new();
@@ -57,5 +59,14 @@ namespace SlimeMaster.Firebase.Data
     {
         [FirestoreProperty] public int ItemId { get; set; }
         [FirestoreProperty] public int ItemValue { get; set; }
+    }
+
+    [FirestoreData]
+    public class DBEquipmentData
+    {
+        [FirestoreProperty] public string DataId { get; set; }
+        [FirestoreProperty] public string UID { get; set; }
+        [FirestoreProperty] public int Level { get; set; }
+        [FirestoreProperty] public int EquipmentType { get; set; }
     }
 }

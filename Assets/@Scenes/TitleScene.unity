@@ -491,6 +491,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7585355888155611815, guid: 43e2b00d921cfda4f81cf6eb938b51c1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7585355888172306898, guid: 43e2b00d921cfda4f81cf6eb938b51c1, type: 3}
       propertyPath: m_Name
       value: UI_TitleScene

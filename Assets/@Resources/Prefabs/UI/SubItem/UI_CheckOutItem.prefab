@@ -377,7 +377,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6294388657078436876
 RectTransform:
   m_ObjectHideFlags: 0
@@ -580,6 +580,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7315676831529991718}
   - component: {fileID: 6284969333373012328}
+  - component: {fileID: 2392793408817729325}
   m_Layer: 5
   m_Name: UI_CheckOutItem
   m_TagString: Untagged
@@ -620,6 +621,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3712763397831257340}
   m_CullTransparentMesh: 1
+--- !u!114 &2392793408817729325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3712763397831257340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4500f963cccee4b3db7ca2de2bd4f572, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6267608362228927742
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using SlimeMaster.Enum;
 using SlimeMaster.InGame.Enum;
+using UnityEngine.Serialization;
 
 public interface ILoader<Key, Value>
 {
@@ -394,5 +396,163 @@ namespace SlimeMaster.Data
     }
 
     #endregion
+ 
+    #region EquipmentData
+    [Serializable]
+    public class EquipmentData
+    {
+        public string DataId;
+        public GachaRarity GachaRarity;
+        public EquipmentType EquipmentType;
+        public EquipmentGrade EquipmentGrade;
+        public string NameTextID;
+        public string DescriptionTextID;
+        public string SpriteName;
+        public string HpRegen;
+        public int MaxHpBonus;
+        public int MaxHpBonusPerUpgrade;
+        public int AtkDmgBonus;
+        public int AtkDmgBonusPerUpgrade;
+        public int MaxLevel;
+        public int UncommonGradeSkill;
+        public int RareGradeSkill;
+        public int EpicGradeSkill;
+        public int LegendaryGradeSkill;
+        public int BasicSkill;
+        public MergeEquipmentType MergeEquipmentType1;
+        public string MergeEquipment1;
+        public MergeEquipmentType MergeEquipmentType2;
+        public string MergeEquipment2;
+        public string MergedItemCode;
+        public int LevelupMaterialID;
+        public string DowngradeEquipmentCode;
+        public string DowngradeMaterialCode;
+        public int DowngradeMaterialCount;
+    }
+
+    [Serializable]
+    public class EquipmentDataLoader : ILoader<string, EquipmentData>
+    {
+        public List<EquipmentData> Equipments = new List<EquipmentData>();
+        public Dictionary<string, EquipmentData> MakeDict()
+        {
+            Dictionary<string, EquipmentData> dict = new Dictionary<string, EquipmentData>();
+            foreach (EquipmentData equip in Equipments)
+                dict.Add(equip.DataId, equip);
+            return dict;
+        }
+    }
+    #endregion
     
+    #region LevelData
+    [Serializable]
+    public class EquipmentLevelData
+    {
+        public int Level;
+        public int UpgradeCost;
+        public int UpgradeRequiredItems;
+    }
+
+    [Serializable]
+    public class EquipmentLevelDataLoader : ILoader<int, EquipmentLevelData>
+    {
+        public List<EquipmentLevelData> levels = new List<EquipmentLevelData>();
+        public Dictionary<int, EquipmentLevelData> MakeDict()
+        {
+            Dictionary<int, EquipmentLevelData> dict = new Dictionary<int, EquipmentLevelData>();
+
+            foreach (EquipmentLevelData levelData in levels)
+                dict.Add(levelData.Level, levelData);
+            return dict;
+        }
+    }
+    #endregion
+
+    #region ShopData
+    [Serializable]
+    public class ShopData
+    {
+        public int ID;
+        public string Title;
+        public ShopType ShopType;
+        public ShopItemType ShopItemType;
+        public int CostItemType;
+        public int CostValue;
+        public int RewardItemType;
+        public int RewardItemValue;
+        public string RewardSpriteName;
+        public string CostSpriteName;
+        public GachaType GachaType;
+    }
+
+    [Serializable]
+    public class ShopDataDataLoader : ILoader<int, ShopData>
+    {
+        public List<ShopData> shops = new List<ShopData>();
+        public Dictionary<int, ShopData> MakeDict()
+        {
+            Dictionary<int, ShopData> dict = new Dictionary<int, ShopData>();
+
+            foreach (ShopData shopData in shops)
+                dict.Add(shopData.ID, shopData);
+            return dict;
+        }
+    }
+    
+    #endregion
+    
+    #region GachaData
+    public class GachaTableData
+    {
+        public GachaType Type;
+        public List<GachaRateData> GachaRateTable = new List<GachaRateData>();
+    }
+    
+    [Serializable]
+    public class GachaDataLoader : ILoader<GachaType, GachaTableData>
+    {
+        public List<GachaTableData> GachaTable = new List<GachaTableData>();
+        public Dictionary<GachaType, GachaTableData> MakeDict()
+        {
+            Dictionary<GachaType, GachaTableData> dict = new Dictionary<GachaType, GachaTableData>();
+            foreach (GachaTableData gacha in GachaTable)
+                dict.Add(gacha.Type, gacha);
+            return dict;
+        }
+    }
+    #endregion
+
+    #region GachaRateData
+    public class GachaRateData
+    {
+        public string EquipmentID;
+        public float GachaRate;
+        public EquipmentGrade EquipGrade;
+
+    }
+
+    #endregion
+
+    
+    #region CheckOutData
+    public class CheckOutData
+    {
+        public int Day;
+        public int RewardItemId;
+        public int MissionTarRewardItemValuegetValue;
+    }
+
+    [Serializable]
+    public class CheckOutDataLoader : ILoader<int, CheckOutData>
+    {
+        public List<CheckOutData> checkouts = new List<CheckOutData>();
+        public Dictionary<int, CheckOutData> MakeDict()
+        {
+            Dictionary<int, CheckOutData> dict = new Dictionary<int, CheckOutData>();
+            foreach (CheckOutData chk in checkouts)
+                dict.Add(chk.Day, chk);
+            return dict;
+        }
+    }
+    #endregion
 }

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
+using SlimeMaster.Enum;
 using SlimeMaster.InGame.Controller;
-using SlimeMaster.InGame.Enum;
 using SlimeMaster.InGame.Manager;
+using SlimeMaster.Manager;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using SlimeMaster.Data;
-using SlimeMaster.InGame.Enum;
-using SlimeMaster.InGame.Manager;
+using SlimeMaster.Enum;
 using SlimeMaster.InGame.Skill;
+using SlimeMaster.Manager;
 using UnityEngine;
 
 public class CreatureController : MonoBehaviour, IHitable

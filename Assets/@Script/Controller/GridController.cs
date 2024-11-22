@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using SlimeMaster.Enum;
 using SlimeMaster.InGame.Enum;
 using UnityEngine;
 

@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using SlimeMaster.Data;
-using SlimeMaster.InGame.Enum;
-using SlimeMaster.InGame.Manager;
+using SlimeMaster.Enum;
+using SlimeMaster.Manager;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace SlimeMaster.InGame.Controller
 {

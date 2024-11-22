@@ -10665,6 +10665,7 @@ GameObject:
   m_Component:
   - component: {fileID: 227676948238618901}
   - component: {fileID: 78745297133115714}
+  - component: {fileID: 4077028509830099306}
   m_Layer: 5
   m_Name: UI_EquipItem
   m_TagString: Untagged
@@ -10711,6 +10712,31 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5904645845743091008}
   m_CullTransparentMesh: 1
+--- !u!114 &4077028509830099306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5904645845743091008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b504c617aa4034bef8ff0b3f5c6d1866, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _getEffectObject: {fileID: 4662636054423378470}
+  _equipmentGradeBackgroundImage: {fileID: 2601765518056898687}
+  _equipImage: {fileID: 4416127920918593415}
+  _specialEquipImage: {fileID: 6870488391905376406}
+  _equipmentTypeBackgroundImage: {fileID: 6425330400101210481}
+  _equipmentTypeImage: {fileID: 6046647570093323091}
+  _equipmentLevelValueText: {fileID: 8502543119713201267}
+  _equipmentEnforceBackgroundImage: {fileID: 1091026955431992011}
+  _newTextObject: {fileID: 2291376134101260946}
+  _redDotObject: {fileID: 6578136926731177016}
+  _equippedObject: {fileID: 5336262736505187595}
+  _selectObject: {fileID: 6191729127644053308}
+  _lockObject: {fileID: 5106174026919562295}
 --- !u!1 &6191729127644053308
 GameObject:
   m_ObjectHideFlags: 0

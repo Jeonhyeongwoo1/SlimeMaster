@@ -1,22 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Cysharp.Threading.Tasks;
-using Script.InGame.UI.Popup;
-using SlimeMaster.Common;
 using SlimeMaster.Data;
+using SlimeMaster.Enum;
 using SlimeMaster.Factory;
-using SlimeMaster.InGame.Controller;
 using SlimeMaster.InGame.Data;
-using SlimeMaster.InGame.Enum;
-using SlimeMaster.InGame.Popup;
-using SlimeMaster.InGame.Skill;
+using SlimeMaster.InGame.Manager;
 using SlimeMaster.InGame.View;
-using UnityEngine;
+using SlimeMaster.Model;
 using UnityEngine.SceneManagement;
-using Object = UnityEngine.Object;
 
-namespace SlimeMaster.InGame.Manager
+namespace SlimeMaster.Manager
 {
     public class GameManager
     {
@@ -27,7 +19,6 @@ namespace SlimeMaster.InGame.Manager
                 if (_instance == null)
                 {
                     _instance = new GameManager();
-                    CreateManager();
                 }
                 
                 return _instance;
@@ -36,41 +27,30 @@ namespace SlimeMaster.InGame.Manager
         
         private static GameManager _instance;
         
-        public PoolManager Pool => _pool;
-        public EventManager Event => _event;
-        public ResourcesManager Resource => _resource;
-        public DataManager Data => _data;
-        public StageManager Stage => _stage;
-        public ObjectManager Object => _object;
-        public UIManager UI => _ui;
+        public PoolManager Pool => I._pool ??= new PoolManager();
+        public EventManager Event => I._event ??= new EventManager();
+        public ResourcesManager Resource => I._resource ??= new ResourcesManager();
+        public DataManager Data => I._data ??= new DataManager();
+        public StageManager Stage => I._stage ??= new StageManager();
+        public ObjectManager Object => I._object ??= new ObjectManager();
+        public UIManager UI => I._ui ??= new UIManager();
 
-        private static EventManager _event;
-        private static PoolManager _pool;
-        private static ResourcesManager _resource;
-        private static DataManager _data;
-        private static StageManager _stage;
-        private static ObjectManager _object;
-        private static UIManager _ui;
+        private EventManager _event;
+        private PoolManager _pool;
+        private ResourcesManager _resource;
+        private DataManager _data;
+        private StageManager _stage;
+        private ObjectManager _object;
+        private UIManager _ui;
 
         public GameContinueData GameContinueData => _gameContinueData ??= new GameContinueData();
         private GameContinueData _gameContinueData;
-        
-        private static void CreateManager()
-        {
-            _pool = new PoolManager();
-            _event = new EventManager();
-            _resource = new ResourcesManager();
-            _data = new DataManager();
-            _stage = new StageManager();
-            _object = new ObjectManager();
-            _ui = new UIManager();
-        }
 
-        public static void ManagerInitialize()
+        public void ManagerInitialize()
         {
-            _data.Initialize();
-            _stage.Initialize();
-            _object.Initialize();
+            Data.Initialize();
+            Stage.Initialize();
+            Object.Initialize();
         }
 
         public async void StartGame()
@@ -88,8 +68,8 @@ namespace SlimeMaster.InGame.Manager
             
                 UserModel userModel = ModelFactory.CreateOrGetModel<UserModel>();
                 int stageIndex = userModel.GetLastClearStageIndex();
-                StageData stageData = _data.StageDict[stageIndex];
-                _stage.StartStage(stageData).Forget();
+                StageData stageData = Data.StageDict[stageIndex];
+                Stage.StartStage(stageData).Forget();
             };
             
             var operation = SceneManager.LoadSceneAsync(sceneName);

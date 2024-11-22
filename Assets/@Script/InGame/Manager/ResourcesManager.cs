@@ -8,7 +8,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
 using Object = UnityEngine.Object;
 
-namespace SlimeMaster.InGame.Manager
+namespace SlimeMaster.Manager
 {
     public class ResourcesManager
     {

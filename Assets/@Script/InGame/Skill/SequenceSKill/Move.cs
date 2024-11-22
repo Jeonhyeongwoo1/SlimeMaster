@@ -1,7 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
-using SlimeMaster.InGame.Enum;
+using SlimeMaster.Enum;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill

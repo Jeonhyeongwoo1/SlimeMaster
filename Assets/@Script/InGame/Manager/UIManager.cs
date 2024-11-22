@@ -11,7 +11,7 @@ using SlimeMaster.View;
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace SlimeMaster.InGame.Manager
+namespace SlimeMaster.Manager
 {
     public class UIManager
     {
@@ -63,6 +63,7 @@ namespace SlimeMaster.InGame.Manager
 
             GameObject prefab = GameManager.I.Resource.Instantiate($"{name}");
             T element = prefab.GetOrAddComponent<T>();
+            element.Initialize();
             element.transform.SetParent(parent);
             return element;
         }

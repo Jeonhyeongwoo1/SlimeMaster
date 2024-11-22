@@ -1,7 +1,6 @@
 using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
-using SlimeMaster.InGame.Entity;
-using SlimeMaster.InGame.Manager;
+using SlimeMaster.Manager;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill

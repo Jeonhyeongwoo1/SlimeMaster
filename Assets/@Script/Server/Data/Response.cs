@@ -1,4 +1,4 @@
-using SlimeMaster.InGame.Enum;
+using SlimeMaster.Enum;
 
 namespace SlimeMaster.Shared
 {

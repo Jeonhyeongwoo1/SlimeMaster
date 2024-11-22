@@ -3,9 +3,8 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
 using SlimeMaster.Data;
-using SlimeMaster.InGame.Data;
-using SlimeMaster.InGame.Enum;
-using SlimeMaster.InGame.Manager;
+using SlimeMaster.Enum;
+using SlimeMaster.Manager;
 using UnityEngine;
 
 //죽었을 때, 새로운 웨이브가 시작되었을때 스폰

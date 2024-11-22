@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using SlimeMaster.Data;
+using SlimeMaster.Enum;
 using UnityEngine;
 
-namespace SlimeMaster.InGame.Manager
+namespace SlimeMaster.Manager
 {
     public class DataManager
     {
@@ -17,6 +18,10 @@ namespace SlimeMaster.InGame.Manager
         public Dictionary<int, MaterialData> MaterialDataDict { get; private set; } = new();
 
         public Dictionary<int, DefaultUserData> DefaultUserDataDict { get; private set; } = new();
+        public Dictionary<string, EquipmentData> EquipmentDataDict { get; private set; } = new();
+        public Dictionary<int, EquipmentLevelData> EquipmentLevelDataDict { get; private set; } = new();
+        public Dictionary<int, ShopData> ShopDataDict { get; private set; } = new();
+        public Dictionary<GachaType, GachaTableData> GachaTableDataDict { get; private set; } = new();
         
         public void Initialize()
         {
@@ -29,6 +34,11 @@ namespace SlimeMaster.InGame.Manager
                 LoadJson<SupportSkillDataLoader, int, SupportSkillData>("SupportSkillData").MakeDict();
             MaterialDataDict = LoadJson<MaterialDataLoader, int, MaterialData>("MaterialData").MakeDict();
             DefaultUserDataDict = LoadJson<DefaultUserDataLoader, int, DefaultUserData>("DefaultUserData").MakeDict();
+            EquipmentDataDict = LoadJson<EquipmentDataLoader, string, EquipmentData>("EquipmentData").MakeDict();
+            EquipmentLevelDataDict =
+                LoadJson<EquipmentLevelDataLoader, int, EquipmentLevelData>("EquipmentLevelData").MakeDict();
+            ShopDataDict = LoadJson<ShopDataDataLoader, int, ShopData>("ShopData").MakeDict();
+            GachaTableDataDict = LoadJson<GachaDataLoader, GachaType, GachaTableData>("GachaTableData").MakeDict();
         }
 
         TLoader LoadJson<TLoader, TKey, TValue>(string path) where TLoader : ILoader<TKey, TValue>

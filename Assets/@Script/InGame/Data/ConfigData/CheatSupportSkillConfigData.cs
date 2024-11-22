@@ -1,7 +1,7 @@
-using SlimeMaster.InGame.Manager;
 using UnityEngine;
 using Sirenix.OdinInspector;
-using SlimeMaster.InGame.Enum;
+using SlimeMaster.Enum;
+using SlimeMaster.Manager;
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/CheatSupportSkillConfigData", order = 1)]
 public class CheatSupportSkillConfigData : ScriptableObject

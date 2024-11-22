@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-using SlimeMaster.Data;
-using SlimeMaster.InGame.Interface;
+using SlimeMaster.Interface;
 using UniRx;
 
 namespace SlimeMaster.Model

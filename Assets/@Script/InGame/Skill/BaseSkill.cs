@@ -2,9 +2,8 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
 using SlimeMaster.Data;
-using SlimeMaster.InGame.Data;
-using SlimeMaster.InGame.Enum;
-using SlimeMaster.InGame.Manager;
+using SlimeMaster.Enum;
+using SlimeMaster.Manager;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill

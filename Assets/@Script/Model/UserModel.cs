@@ -2,21 +2,31 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SlimeMaster.Data;
-using SlimeMaster.InGame.Interface;
-using SlimeMaster.InGame.Manager;
+using SlimeMaster.Enum;
+using SlimeMaster.Equipmenets;
+using SlimeMaster.Firebase.Data;
+using SlimeMaster.Interface;
+using SlimeMaster.Manager;
 using UniRx;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
-namespace SlimeMaster.Factory
+namespace SlimeMaster.Model
 {
     public class UserModel : IModel
-    {
+    {        
+        public int MaxHp => (int)(CreatureData.MaxHp + (CreatureData.MaxHpBonus * _level) * CreatureData.HpRate);
+        public int MaxAttackDamage => (int)(CreatureData.Atk + (CreatureData.AtkBonus * _level) * CreatureData.AtkRate);
+
         public ReactiveProperty<Dictionary<int, ItemData>> ItemDataDict = new();
         public ReactiveProperty<List<StageInfo>> StageInfoList = new();
+        public ReactiveProperty<List<Equipment>> EquippedItemDataList = new();
+        public ReactiveProperty<List<Equipment>> UnEquippedItemDataList = new();
         public DateTime LastLoginTime;
+        public CreatureData CreatureData;
+        
+        private readonly int _level = 1;
 
-        public void AddItem(int itemId, long itemValue)
+        public void CreateItem(int itemId, long itemValue)
         {
             ItemDataDict.Value ??= new Dictionary<int, ItemData>();
             if (ItemDataDict.Value.ContainsKey(itemId))
@@ -29,7 +39,7 @@ namespace SlimeMaster.Factory
             ItemDataDict.Value.Add(itemId, itemData);
         }
 
-        public void UpdateItem(int itemId, long itemValue)
+        public void AddItemValue(int itemId, long itemValue)
         {
             ItemDataDict.Value ??= new Dictionary<int, ItemData>();
             if (!ItemDataDict.Value.TryGetValue(itemId, out ItemData itemData))
@@ -42,16 +52,35 @@ namespace SlimeMaster.Factory
             itemData.ItemValue.Value += itemValue;
         }
 
-        public ItemData GetItemData(int itemId)
+        public void SetItemValue(int itemId, long itemValue)
         {
             ItemDataDict.Value ??= new Dictionary<int, ItemData>();
             if (!ItemDataDict.Value.TryGetValue(itemId, out ItemData itemData))
             {
-                itemData = new ItemData(itemId, 0);
+                itemData = new ItemData(itemId, itemValue);
                 ItemDataDict.Value.Add(itemId, itemData);
+                return;
             }
 
-            return itemData;
+            itemData.ItemValue.Value = itemValue;
+        }
+
+        public ItemData GetItemData(int itemId)
+        {
+            ItemDataDict.Value ??= new Dictionary<int, ItemData>();
+            if (ItemDataDict.Value.TryGetValue(itemId, out ItemData itemData))
+            {
+                return itemData;
+            }
+
+            Debug.LogError("Failed Get item " + itemId);
+            return null;
+        }
+
+        public StageInfo GetStageInfo(int stageIndex)
+        {
+            StageInfo stageInfo = StageInfoList.Value.Find(v => v.StageIndex.Value == stageIndex);
+            return stageInfo;
         }
 
         public int GetLastClearStageIndex()
@@ -131,6 +160,128 @@ namespace SlimeMaster.Factory
                 stageInfo.UpdateWaveClear(stageData.FirstWaveCountValue);
             }
         }
+
+        public Equipment FindEquippedItem(EquipmentType equipmentType)
+        {
+            if (EquippedItemDataList.Value == null)
+            {
+                Debug.LogError("Failed find equipped : " + equipmentType);
+                return null;
+            }
+
+            foreach (var equipment in EquippedItemDataList.Value)
+            {
+                if (equipment.IsEquippedByType(equipmentType))
+                {
+                    return equipment;
+                }
+            }
+
+            Debug.LogWarning("Failed find equipped : " + equipmentType);
+            return null;
+        }
+
+        public Equipment FindEquippedItemOrUnEquippedItem(string uid)
+        {
+            if (EquippedItemDataList.Value != null)
+            {
+                foreach (var equipment in EquippedItemDataList.Value)
+                {
+                    if (equipment.UID == uid)
+                    {
+                        return equipment;
+                    }
+                }
+            }
+
+            if (UnEquippedItemDataList.Value != null)
+            {
+                foreach (var equipment in UnEquippedItemDataList.Value)
+                {
+                    if (equipment.UID == uid)
+                    {
+                        return equipment;
+                    }
+                }
+            }
+            
+            Debug.LogError("Failed find equipped : " + uid);
+            return null;
+        }
+        
+        public (int hp, int atk) GetEquipmentBonus()
+        {
+            if (EquippedItemDataList.Value == null)
+            {
+                Debug.LogError("Failed find equipped");
+                return (0, 0);
+            }
+
+            int hp = 0;
+            int atk = 0;
+            foreach (var equipment in EquippedItemDataList.Value)
+            {
+                if (equipment.IsEquipped())
+                {
+                    hp += equipment.EquipmentData.MaxHpBonus;
+                    atk += equipment.EquipmentData.AtkDmgBonus;
+                }
+            }
+
+            return (hp, atk);
+        }
+
+        public void AddUnEquipmentDataList(List<DBEquipmentData> equipmentDataList)
+        {
+            UnEquippedItemDataList.Value ??= new List<Equipment>();
+            foreach (DBEquipmentData equipmentData in equipmentDataList)
+            {
+                var data = GameManager.I.Data.EquipmentDataDict[equipmentData.DataId];
+                Equipment equipment =
+                    new Equipment(data, false, equipmentData.Level, equipmentData.UID);
+                UnEquippedItemDataList.Value.Add(equipment);
+            }
+        }
+
+        public void ClearAndSetUnEquipmentDataList(List<DBEquipmentData> equipmentDataList)
+        {
+            UnEquippedItemDataList.Value ??= new List<Equipment>();
+            if (UnEquippedItemDataList.Value.Count > 0)
+            {
+                UnEquippedItemDataList.Value.Clear();
+            }
+
+            foreach (DBEquipmentData equipmentData in equipmentDataList)
+            {
+                var data = GameManager.I.Data.EquipmentDataDict[equipmentData.DataId];
+                Equipment equipment =
+                    new Equipment(data, false, equipmentData.Level, equipmentData.UID);
+                UnEquippedItemDataList.Value.Add(equipment);
+            }
+        }
+        
+        public void ClearAndSetEquipmentDataList(List<DBEquipmentData> equipmentDataList)
+        {
+            EquippedItemDataList.Value ??= new List<Equipment>();
+            if (EquippedItemDataList.Value.Count > 0)
+            {
+                EquippedItemDataList.Value.Clear();
+            }
+            
+            foreach (DBEquipmentData equipmentData in equipmentDataList)
+            {
+                var data = GameManager.I.Data.EquipmentDataDict[equipmentData.DataId];
+                Equipment equipment =
+                    new Equipment(data, true, equipmentData.Level, equipmentData.UID);
+                EquippedItemDataList.Value.Add(equipment);
+            }
+        }
+
+        public List<Equipment> GetUnequipItemList()
+        {
+            UnEquippedItemDataList.Value ??= new List<Equipment>();
+            return UnEquippedItemDataList.Value;
+        }
     }
 
     [Serializable]
@@ -148,7 +299,7 @@ namespace SlimeMaster.Factory
         
         public int GetLastClearWaveIndex()
         {
-            var waveInfo = WaveInfoList.Value?.FindLast(v => v.IsGet.Value);
+            var waveInfo = WaveInfoList.Value?.FindLast(v => v.IsClear.Value);
             return waveInfo == null ? 0 : waveInfo.WaveIndex.Value;
         }
 
@@ -173,12 +324,14 @@ namespace SlimeMaster.Factory
         public ReactiveProperty<int> WaveIndex = new();
         public ReactiveProperty<bool> IsGet = new();
         public ReactiveProperty<bool> IsClear = new();
+        public WaveClearType WaveClearType;
         
-        public WaveInfo(int waveIndex, bool isClear, bool isGet)
+        public WaveInfo(int waveIndex, bool isClear, bool isGet, WaveClearType waveClearType)
         {
             WaveIndex.Value = waveIndex;
             IsClear.Value = isClear;
             IsGet.Value = isGet;
+            WaveClearType = waveClearType;
         }
     }
 
@@ -194,4 +347,12 @@ namespace SlimeMaster.Factory
             ItemValue.Value = itemValue;
         }
     }
+
+    // [Serializable]
+    // public class EquipmentData
+    // {
+    //     public bool IsEquipped;
+    //     public string DataId;
+    //     
+    // }
 }

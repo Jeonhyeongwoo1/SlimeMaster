@@ -1,13 +1,11 @@
 using SlimeMaster.Common;
-using SlimeMaster.InGame.Manager;
+using SlimeMaster.Manager;
+using UnityEngine;
+using TMPro;
+using DG.Tweening;
 
 namespace SlimeMaster.InGame.Entity
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using UnityEngine;
-    using TMPro;
-    using DG.Tweening;
 
     public class DamageFont : MonoBehaviour
     {

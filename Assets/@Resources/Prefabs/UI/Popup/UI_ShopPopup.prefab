@@ -161,6 +161,8 @@ GameObject:
   - component: {fileID: 3293349138795171351}
   - component: {fileID: 2891324077023908227}
   - component: {fileID: 3291956083122263843}
+  - component: {fileID: 6993642680730091344}
+  - component: {fileID: 8410270160459319107}
   m_Layer: 5
   m_Name: FreeGoldButton
   m_TagString: Untagged
@@ -271,6 +273,39 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6993642680730091344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 66976232740176937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c582ab72b5d491f809afee603fbd04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _productImage: {fileID: 6789624648325170392}
+  _productCostImage: {fileID: 8628955533180110911}
+  _productCostValueText: {fileID: 7469732428494682437}
+  _productTitleText: {fileID: 5605854677148094731}
+  _soldoutObject: {fileID: 3224097144198456614}
+  _redDotObject: {fileID: 1180504167972539129}
+--- !u!114 &8410270160459319107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 66976232740176937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &71238308665273480
 GameObject:
   m_ObjectHideFlags: 0
@@ -1147,6 +1182,7 @@ GameObject:
   - component: {fileID: 3363813846991165073}
   - component: {fileID: 4520304007590589734}
   - component: {fileID: 7435033064761693057}
+  - component: {fileID: 1101554119830331387}
   m_Layer: 5
   m_Name: StagePackageNextButton
   m_TagString: Untagged
@@ -1256,6 +1292,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1101554119830331387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188866777378925360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &191152173491455182
 GameObject:
   m_ObjectHideFlags: 0
@@ -2354,6 +2405,7 @@ GameObject:
   - component: {fileID: 37353605259593378}
   - component: {fileID: 2559659646271716999}
   - component: {fileID: 8375614431900374020}
+  - component: {fileID: 6938499337262620416}
   m_Layer: 5
   m_Name: FirstDiaProductButton
   m_TagString: Untagged
@@ -2465,6 +2517,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6938499337262620416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618227085824419190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &640192505908957714
 GameObject:
   m_ObjectHideFlags: 0
@@ -3600,6 +3667,8 @@ GameObject:
   - component: {fileID: 5957287378927938618}
   - component: {fileID: 8448166903976668004}
   - component: {fileID: 1774563164728471862}
+  - component: {fileID: 3709307591252372197}
+  - component: {fileID: 3885376790316408846}
   m_Layer: 5
   m_Name: FirstGoldProductButton
   m_TagString: Untagged
@@ -3710,6 +3779,39 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3709307591252372197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 856366981115234676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c582ab72b5d491f809afee603fbd04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _productImage: {fileID: 5733204538951402838}
+  _productCostImage: {fileID: 5125855154279406365}
+  _productCostValueText: {fileID: 986398873207894964}
+  _productTitleText: {fileID: 4018588003151264014}
+  _soldoutObject: {fileID: 0}
+  _redDotObject: {fileID: 0}
+--- !u!114 &3885376790316408846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 856366981115234676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &887658665789218946
 GameObject:
   m_ObjectHideFlags: 0
@@ -4560,6 +4662,8 @@ GameObject:
   - component: {fileID: 1639278801400075537}
   - component: {fileID: 3165246455831607734}
   - component: {fileID: 3691583178159401705}
+  - component: {fileID: 7049194921650647982}
+  - component: {fileID: 6478328060678034102}
   m_Layer: 5
   m_Name: AdvancedGachaOpenButton
   m_TagString: Untagged
@@ -4703,6 +4807,35 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &7049194921650647982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1008551148454875947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 969d8977b40734a7daae0b39dcce0633, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gachaCostImage: {fileID: 5428551660822396386}
+  _gachaCostText: {fileID: 3632859439462504175}
+--- !u!114 &6478328060678034102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1008551148454875947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &1012408679525395604
 GameObject:
   m_ObjectHideFlags: 0
@@ -6387,6 +6520,7 @@ GameObject:
   - component: {fileID: 5902471484279364932}
   - component: {fileID: 5834453924513656659}
   - component: {fileID: 273003316510594590}
+  - component: {fileID: 3738787602767616495}
   m_Layer: 5
   m_Name: OpenOneButton
   m_TagString: Untagged
@@ -6510,6 +6644,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3738787602767616495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1375509802407737265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &1384555193751880884
 GameObject:
   m_ObjectHideFlags: 0
@@ -6671,6 +6820,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7648029591223956082}
+  - component: {fileID: 1947983878815047186}
   m_Layer: 5
   m_Name: CommonGacha
   m_TagString: Untagged
@@ -6700,6 +6850,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 900, y: 600}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &1947983878815047186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400333085434404879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edb8784e8a1ea4b428bd2227fa4fafa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gachaElementList:
+  - shopItemType: 0
+    gachaElement: {fileID: 9018300648297574545}
+  - shopItemType: 3
+    gachaElement: {fileID: 3334412339638315720}
+  _probabilityTableButton: {fileID: 4142820546799755155}
+  _gachaType: 1
 --- !u!1 &1413895768267412853
 GameObject:
   m_ObjectHideFlags: 0
@@ -9079,6 +9248,8 @@ GameObject:
   - component: {fileID: 1392781955369591938}
   - component: {fileID: 9179271480368454097}
   - component: {fileID: 55053036537460699}
+  - component: {fileID: 2904965843651354843}
+  - component: {fileID: 4309903626056687324}
   m_Layer: 5
   m_Name: AdvancedGachaOpenTenButton
   m_TagString: Untagged
@@ -9222,6 +9393,35 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &2904965843651354843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872495505912326741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 969d8977b40734a7daae0b39dcce0633, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gachaCostImage: {fileID: 9037646073862140685}
+  _gachaCostText: {fileID: 3759641397238085357}
+--- !u!114 &4309903626056687324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872495505912326741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &1887081639845351952
 GameObject:
   m_ObjectHideFlags: 0
@@ -9612,6 +9812,7 @@ GameObject:
   - component: {fileID: 3021402033183298385}
   - component: {fileID: 8332412636343718032}
   - component: {fileID: 5662010074495044752}
+  - component: {fileID: 5233034328901376790}
   m_Layer: 5
   m_Name: BeginnerPackageButton
   m_TagString: Untagged
@@ -9722,6 +9923,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1987932582724037600}
   m_CullTransparentMesh: 1
+--- !u!114 &5233034328901376790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1987932582724037600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &1993358762495242815
 GameObject:
   m_ObjectHideFlags: 0
@@ -9735,6 +9951,7 @@ GameObject:
   - component: {fileID: 360827361124215050}
   - component: {fileID: 2216531961859199282}
   - component: {fileID: 3093180646271909170}
+  - component: {fileID: 1078631633182307465}
   m_Layer: 5
   m_Name: OpenTenButton
   m_TagString: Untagged
@@ -9858,6 +10075,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1078631633182307465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993358762495242815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &2011220831314273002
 GameObject:
   m_ObjectHideFlags: 0
@@ -11246,6 +11478,7 @@ GameObject:
   - component: {fileID: 4028162114127247018}
   - component: {fileID: 3510792571047757241}
   - component: {fileID: 4142820546799755155}
+  - component: {fileID: 1444606423829094278}
   m_Layer: 5
   m_Name: CommonGachaListButton
   m_TagString: Untagged
@@ -11368,6 +11601,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1444606423829094278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2276950907649520100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &2330018627909325546
 GameObject:
   m_ObjectHideFlags: 0
@@ -12082,6 +12330,7 @@ GameObject:
   - component: {fileID: 3539547024095600404}
   - component: {fileID: 7923915115486674535}
   - component: {fileID: 6794927837850202364}
+  - component: {fileID: 8844414921424312707}
   m_Layer: 5
   m_Name: UI_DailyShopItem (4)
   m_TagString: Untagged
@@ -12192,6 +12441,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2489269853748549298}
   m_CullTransparentMesh: 1
+--- !u!114 &8844414921424312707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2489269853748549298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &2502811637092514356
 GameObject:
   m_ObjectHideFlags: 0
@@ -13971,6 +14235,7 @@ GameObject:
   - component: {fileID: 1614025561793135140}
   - component: {fileID: 9122187446273918189}
   - component: {fileID: 5476241144898160513}
+  - component: {fileID: 3922839993099737505}
   m_Layer: 5
   m_Name: ThirdDiaProductButton
   m_TagString: Untagged
@@ -14082,6 +14347,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3922839993099737505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2789677154898189983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &2814112500023447250
 GameObject:
   m_ObjectHideFlags: 0
@@ -16122,6 +16402,7 @@ GameObject:
   - component: {fileID: 5475041538714268588}
   - component: {fileID: 1572981666086959314}
   - component: {fileID: 5833828515823597029}
+  - component: {fileID: 6481148119086239310}
   m_Layer: 5
   m_Name: StagePackageButton
   m_TagString: Untagged
@@ -16232,6 +16513,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6481148119086239310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3137826776063472882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &3141090033781783648
 GameObject:
   m_ObjectHideFlags: 0
@@ -16642,6 +16938,8 @@ GameObject:
   - component: {fileID: 3767268495753430357}
   - component: {fileID: 5473469593501236361}
   - component: {fileID: 3448267998126002640}
+  - component: {fileID: 3334412339638315720}
+  - component: {fileID: 2879484345566158668}
   m_Layer: 5
   m_Name: CommonGachaOpenButton
   m_TagString: Untagged
@@ -16785,6 +17083,35 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &3334412339638315720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3215538181995568797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 969d8977b40734a7daae0b39dcce0633, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gachaCostImage: {fileID: 3780471922881050754}
+  _gachaCostText: {fileID: 7245642671653332761}
+--- !u!114 &2879484345566158668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3215538181995568797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &3224097144198456614
 GameObject:
   m_ObjectHideFlags: 0
@@ -16940,6 +17267,7 @@ GameObject:
   - component: {fileID: 3320513836978082852}
   - component: {fileID: 4567212527350179966}
   - component: {fileID: 345344176338822645}
+  - component: {fileID: 5517067697770079417}
   m_Layer: 5
   m_Name: UI_DailyShopItem
   m_TagString: Untagged
@@ -17050,6 +17378,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3238813404869492592}
   m_CullTransparentMesh: 1
+--- !u!114 &5517067697770079417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3238813404869492592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &3249768202161767857
 GameObject:
   m_ObjectHideFlags: 0
@@ -19241,7 +19584,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6224582529293290254
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23297,7 +23640,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 540, y: -630}
+  m_AnchoredPosition: {x: 540, y: -580}
   m_SizeDelta: {x: 1000, y: 640}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4627414029836199652
@@ -23312,6 +23655,7 @@ GameObject:
   - component: {fileID: 4627414029836199651}
   - component: {fileID: 4627414029836199650}
   - component: {fileID: 4627414029836199653}
+  - component: {fileID: 6640836915488101640}
   m_Layer: 5
   m_Name: UI_ShopPopup
   m_TagString: Untagged
@@ -23402,7 +23746,30 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 65527
+--- !u!114 &6640836915488101640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4627414029836199652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6afcdb8e99a7e46da9bdd7d1432255f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bgCloseButton: {fileID: 0}
+  _shopKeyContentList:
+  - {fileID: 3267080206381461601}
+  - {fileID: 3857027567837173516}
+  - {fileID: 3553585659035589924}
+  _advancedGachaContent: {fileID: 1219252478203051760}
+  _normalGachaContent: {fileID: 1947983878815047186}
+  _shopGoldContentList:
+  - {fileID: 6993642680730091344}
+  - {fileID: 3709307591252372197}
+  - {fileID: 1185673452202538436}
 --- !u!1 &4627414030083508989
 GameObject:
   m_ObjectHideFlags: 0
@@ -27358,6 +27725,8 @@ GameObject:
   - component: {fileID: 1567891899803234245}
   - component: {fileID: 4297250562023778296}
   - component: {fileID: 9055123405414994486}
+  - component: {fileID: 9018300648297574545}
+  - component: {fileID: 1973656161696766044}
   m_Layer: 5
   m_Name: ADCommonGachaOpenButton
   m_TagString: Untagged
@@ -27480,6 +27849,35 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &9018300648297574545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5129532357015782035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 969d8977b40734a7daae0b39dcce0633, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gachaCostImage: {fileID: 1767003126516441307}
+  _gachaCostText: {fileID: 0}
+--- !u!114 &1973656161696766044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5129532357015782035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &5144218074978389060
 GameObject:
   m_ObjectHideFlags: 0
@@ -27717,6 +28115,8 @@ GameObject:
   - component: {fileID: 7087587683871721497}
   - component: {fileID: 6230412855822777608}
   - component: {fileID: 8093900554649459448}
+  - component: {fileID: 3267080206381461601}
+  - component: {fileID: 1978512797905805572}
   m_Layer: 5
   m_Name: AdKeyButton
   m_TagString: Untagged
@@ -27827,6 +28227,39 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3267080206381461601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5156803897935278553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d316c86def94a4dbf99ea130bc5b2fa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _productImage: {fileID: 3830710826643992331}
+  _productCostImage: {fileID: 2834031699827558575}
+  _productCostValueText: {fileID: 5397404437228067670}
+  _productTitleText: {fileID: 7720909851397390703}
+  _soldoutObject: {fileID: 3718103182051280189}
+  _redDotObject: {fileID: 6757659160628585273}
+--- !u!114 &1978512797905805572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5156803897935278553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &5181116823297591992
 GameObject:
   m_ObjectHideFlags: 0
@@ -30310,6 +30743,7 @@ GameObject:
   - component: {fileID: 4255913479653795838}
   - component: {fileID: 3997700731888573828}
   - component: {fileID: 3599730756461797786}
+  - component: {fileID: 327631041935030555}
   m_Layer: 5
   m_Name: UI_DailyShopItem (3)
   m_TagString: Untagged
@@ -30420,6 +30854,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5802103605422013197}
   m_CullTransparentMesh: 1
+--- !u!114 &327631041935030555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5802103605422013197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &5805271616287585709
 GameObject:
   m_ObjectHideFlags: 0
@@ -31825,7 +32274,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 540, y: -590}
+  m_AnchoredPosition: {x: 540, y: -1240}
   m_SizeDelta: {x: 1000, y: 560}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6127206333400951127
@@ -32684,6 +33133,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2296559822030791089}
+  - component: {fileID: 1219252478203051760}
   m_Layer: 5
   m_Name: AdvancedGacha
   m_TagString: Untagged
@@ -32713,6 +33163,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 900, y: 600}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &1219252478203051760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6282997804891110505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edb8784e8a1ea4b428bd2227fa4fafa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gachaElementList:
+  - shopItemType: 0
+    gachaElement: {fileID: 3039185513046078602}
+  - shopItemType: 4
+    gachaElement: {fileID: 7049194921650647982}
+  - shopItemType: 5
+    gachaElement: {fileID: 2904965843651354843}
+  _probabilityTableButton: {fileID: 7233530742626891394}
+  _gachaType: 2
 --- !u!1 &6297734975931480783
 GameObject:
   m_ObjectHideFlags: 0
@@ -33419,6 +33890,7 @@ GameObject:
   - component: {fileID: 6145874626451552723}
   - component: {fileID: 4841405656281156637}
   - component: {fileID: 7233530742626891394}
+  - component: {fileID: 3705863250340812612}
   m_Layer: 5
   m_Name: AdvancedGachaListButton
   m_TagString: Untagged
@@ -33541,6 +34013,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3705863250340812612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6404266693308851470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &6428518049347207505
 GameObject:
   m_ObjectHideFlags: 0
@@ -36037,7 +36524,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2432910706407159662
 RectTransform:
   m_ObjectHideFlags: 0
@@ -36514,6 +37001,8 @@ GameObject:
   - component: {fileID: 6208486981739500109}
   - component: {fileID: 3674988312871822853}
   - component: {fileID: 6847385778079483521}
+  - component: {fileID: 3857027567837173516}
+  - component: {fileID: 7584349280802954111}
   m_Layer: 5
   m_Name: SilverKeyProductButton
   m_TagString: Untagged
@@ -36624,6 +37113,39 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3857027567837173516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6848466016136740843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d316c86def94a4dbf99ea130bc5b2fa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _productImage: {fileID: 8606470185616253484}
+  _productCostImage: {fileID: 3939220228030911220}
+  _productCostValueText: {fileID: 566492614701883298}
+  _productTitleText: {fileID: 7889800568704047964}
+  _soldoutObject: {fileID: 0}
+  _redDotObject: {fileID: 0}
+--- !u!114 &7584349280802954111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6848466016136740843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &6930087431023319136
 GameObject:
   m_ObjectHideFlags: 0
@@ -36862,6 +37384,7 @@ GameObject:
   - component: {fileID: 3252316348948961287}
   - component: {fileID: 939730083517557748}
   - component: {fileID: 6695512864826901516}
+  - component: {fileID: 3234934481164167639}
   m_Layer: 5
   m_Name: PickupGachaListButton
   m_TagString: Untagged
@@ -36984,6 +37507,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3234934481164167639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6977768086929545439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &7026869000542802358
 GameObject:
   m_ObjectHideFlags: 0
@@ -38733,6 +39271,7 @@ GameObject:
   - component: {fileID: 677892811709995820}
   - component: {fileID: 4186247881603818817}
   - component: {fileID: 1100718059341953345}
+  - component: {fileID: 1492371724259249734}
   m_Layer: 5
   m_Name: UI_DailyShopItem (1)
   m_TagString: Untagged
@@ -38843,6 +39382,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7327115604215508580}
   m_CullTransparentMesh: 1
+--- !u!114 &1492371724259249734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7327115604215508580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &7329067466202198046
 GameObject:
   m_ObjectHideFlags: 0
@@ -38855,6 +39409,7 @@ GameObject:
   - component: {fileID: 9017897232852063291}
   - component: {fileID: 6091760399636087223}
   - component: {fileID: 1764560979940385828}
+  - component: {fileID: 8859134824299077023}
   m_Layer: 5
   m_Name: StagePackagePrevButton
   m_TagString: Untagged
@@ -38964,6 +39519,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8859134824299077023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7329067466202198046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &7342828135716129014
 GameObject:
   m_ObjectHideFlags: 0
@@ -39981,6 +40551,7 @@ GameObject:
   - component: {fileID: 3643056264839005920}
   - component: {fileID: 5767038888453328387}
   - component: {fileID: 6784516190586126669}
+  - component: {fileID: 4156389457000467061}
   m_Layer: 5
   m_Name: FifthDiaProductButton
   m_TagString: Untagged
@@ -40092,6 +40663,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4156389457000467061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7564900603964297218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &7603783658038178690
 GameObject:
   m_ObjectHideFlags: 0
@@ -40561,6 +41147,7 @@ GameObject:
   - component: {fileID: 6695672670343553784}
   - component: {fileID: 500671096169292458}
   - component: {fileID: 3486891498166899935}
+  - component: {fileID: 6504958976789934979}
   m_Layer: 5
   m_Name: SecondDiaProductButton
   m_TagString: Untagged
@@ -40672,6 +41259,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6504958976789934979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7691108842113325854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &7699994282392631375
 GameObject:
   m_ObjectHideFlags: 0
@@ -40834,6 +41436,7 @@ GameObject:
   - component: {fileID: 7269072063357500320}
   - component: {fileID: 6713871579265058652}
   - component: {fileID: 8564322523226342061}
+  - component: {fileID: 5125508710140961685}
   m_Layer: 5
   m_Name: PickupGachaInfoButton
   m_TagString: Untagged
@@ -40956,6 +41559,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5125508710140961685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7706431558359292014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &7726084233364015020
 GameObject:
   m_ObjectHideFlags: 0
@@ -42542,6 +43160,8 @@ GameObject:
   - component: {fileID: 91504754866042735}
   - component: {fileID: 5233631644152192838}
   - component: {fileID: 1462052296120593407}
+  - component: {fileID: 3039185513046078602}
+  - component: {fileID: 2388643013650282064}
   m_Layer: 5
   m_Name: ADAdvancedGachaOpenButton
   m_TagString: Untagged
@@ -42664,6 +43284,35 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3039185513046078602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8106769541717722659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 969d8977b40734a7daae0b39dcce0633, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gachaCostImage: {fileID: 6596327698440416591}
+  _gachaCostText: {fileID: 0}
+--- !u!114 &2388643013650282064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8106769541717722659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &8109009860092684284
 GameObject:
   m_ObjectHideFlags: 0
@@ -42845,6 +43494,7 @@ GameObject:
   - component: {fileID: 194728256484632449}
   - component: {fileID: 8211305108636680322}
   - component: {fileID: 4444711719097160964}
+  - component: {fileID: 7152854190085958781}
   m_Layer: 5
   m_Name: FourthDiaProductButton
   m_TagString: Untagged
@@ -42956,6 +43606,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7152854190085958781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8159341780248541381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &8164839513583716188
 GameObject:
   m_ObjectHideFlags: 0
@@ -43177,6 +43842,7 @@ GameObject:
   - component: {fileID: 3057343412649216058}
   - component: {fileID: 5144275758047169354}
   - component: {fileID: 2723087900958572831}
+  - component: {fileID: 7595764489996474871}
   m_Layer: 5
   m_Name: UI_DailyShopItem (2)
   m_TagString: Untagged
@@ -43287,6 +43953,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8198050117851650807}
   m_CullTransparentMesh: 1
+--- !u!114 &7595764489996474871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8198050117851650807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &8221581836824861270
 GameObject:
   m_ObjectHideFlags: 0
@@ -43748,6 +44429,8 @@ GameObject:
   - component: {fileID: 4966813451443508511}
   - component: {fileID: 6058408473042529541}
   - component: {fileID: 1107613960022150784}
+  - component: {fileID: 1185673452202538436}
+  - component: {fileID: 2550150073758657547}
   m_Layer: 5
   m_Name: SecondGoldProductButton
   m_TagString: Untagged
@@ -43858,6 +44541,39 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1185673452202538436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8280829811697017875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c582ab72b5d491f809afee603fbd04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _productImage: {fileID: 5535221049797221133}
+  _productCostImage: {fileID: 1057371260190648473}
+  _productCostValueText: {fileID: 4359531091052766701}
+  _productTitleText: {fileID: 1079446621508281590}
+  _soldoutObject: {fileID: 0}
+  _redDotObject: {fileID: 0}
+--- !u!114 &2550150073758657547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8280829811697017875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &8301281221935597654
 GameObject:
   m_ObjectHideFlags: 0
@@ -44020,6 +44736,7 @@ GameObject:
   - component: {fileID: 5655582119081791938}
   - component: {fileID: 2789520867345353747}
   - component: {fileID: 5085436566497503324}
+  - component: {fileID: 9141665310379670767}
   m_Layer: 5
   m_Name: FreeDiaButton
   m_TagString: Untagged
@@ -44130,6 +44847,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8306972184374949421}
   m_CullTransparentMesh: 1
+--- !u!114 &9141665310379670767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8306972184374949421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &8345409935305727542
 GameObject:
   m_ObjectHideFlags: 0
@@ -44142,6 +44874,7 @@ GameObject:
   - component: {fileID: 7738324557122528795}
   - component: {fileID: 7963399007003470785}
   - component: {fileID: 3667509816227658822}
+  - component: {fileID: 4516039426978832961}
   m_Layer: 5
   m_Name: UI_DailyShopItem (5)
   m_TagString: Untagged
@@ -44252,6 +44985,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8345409935305727542}
   m_CullTransparentMesh: 1
+--- !u!114 &4516039426978832961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8345409935305727542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &8349951505692290082
 GameObject:
   m_ObjectHideFlags: 0
@@ -44862,6 +45610,8 @@ GameObject:
   - component: {fileID: 7427068609720608404}
   - component: {fileID: 1865326406771084552}
   - component: {fileID: 2280969771477961162}
+  - component: {fileID: 3553585659035589924}
+  - component: {fileID: 958800623533735418}
   m_Layer: 5
   m_Name: GoldKeyProductButton
   m_TagString: Untagged
@@ -44972,6 +45722,39 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3553585659035589924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8430035735890517343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d316c86def94a4dbf99ea130bc5b2fa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _productImage: {fileID: 3748150894514510607}
+  _productCostImage: {fileID: 8637659205613381647}
+  _productCostValueText: {fileID: 2371910017211686685}
+  _productTitleText: {fileID: 8471255906595138221}
+  _soldoutObject: {fileID: 0}
+  _redDotObject: {fileID: 0}
+--- !u!114 &958800623533735418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8430035735890517343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &8522563792436535836
 GameObject:
   m_ObjectHideFlags: 0
@@ -46451,6 +47234,7 @@ GameObject:
   - component: {fileID: 8284446614168274157}
   - component: {fileID: 8152232230137813562}
   - component: {fileID: 7759745176709972439}
+  - component: {fileID: 8390243669370039000}
   m_Layer: 5
   m_Name: FreeDia
   m_TagString: Untagged
@@ -46579,6 +47363,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
+--- !u!114 &8390243669370039000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8714573655528887191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &8729169997406029844
 GameObject:
   m_ObjectHideFlags: 0
@@ -47890,6 +48689,7 @@ GameObject:
   - component: {fileID: 1502875653255357585}
   - component: {fileID: 8649670041994147539}
   - component: {fileID: 844547866408810693}
+  - component: {fileID: 3579579297914513678}
   m_Layer: 5
   m_Name: PickupGachaContentGroup
   m_TagString: Untagged
@@ -48015,6 +48815,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
+--- !u!114 &3579579297914513678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8973380517695028117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterScale: {x: 0.85, y: 0.85, z: 0.85}
+  _onExitScale: {x: 1, y: 1, z: 1}
+  _duration: 0.15
 --- !u!1 &9002105771201495732
 GameObject:
   m_ObjectHideFlags: 0

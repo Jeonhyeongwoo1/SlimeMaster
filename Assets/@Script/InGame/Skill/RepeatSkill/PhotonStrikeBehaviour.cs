@@ -1,7 +1,7 @@
 using System.Linq;
 using SlimeMaster.Data;
 using SlimeMaster.InGame.Controller;
-using SlimeMaster.InGame.Manager;
+using SlimeMaster.Manager;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

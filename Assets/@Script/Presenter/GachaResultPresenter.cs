@@ -1,0 +1,58 @@
+using System;
+using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using SlimeMaster.Enum;
+using SlimeMaster.Equipmenets;
+using SlimeMaster.Firebase.Data;
+using SlimeMaster.Manager;
+using SlimeMaster.Model;
+using SlimeMaster.OutGame.Popup;
+using SlimeMaster.UISubItemElement;
+using UnityEngine;
+
+namespace SlimeMaster.Presenter
+{
+    public class GachaResultPresenter : BasePresenter
+    {
+        private UserModel _model;
+        public void Initialize(UserModel model)
+        {
+            _model = model;
+            GameManager.I.Event.AddEvent(GameEventType.ShowGachaResultPopup, OnShowResultPopup);
+        }
+        
+        private void OnShowResultPopup(object value)
+        {
+            var rewardEquipmentList = (List<DBEquipmentData>)value;
+            if (rewardEquipmentList == null)
+            {
+                return;
+            }
+
+            UIManager uiManager = GameManager.I.UI;
+            ResourcesManager resourcesManager = GameManager.I.Resource;
+            var popup = uiManager.OpenPopup<UI_GachaResultsPopup>();
+            popup.ReleaseItem();
+            popup.AddEvents();
+            
+            popup.onEndGachaAnimationAction = () =>
+            {
+                int count = rewardEquipmentList.Count;
+                for (int i = 0; i < count; i++)
+                {
+                    DBEquipmentData equipmentData = rewardEquipmentList[i];
+                    Equipment equipment = _model.FindEquippedItemOrUnEquippedItem(equipmentData.UID);
+                    if (equipment == null)
+                    {
+                        Debug.LogError("Failed get equipment :" + equipmentData.UID);
+                        continue;
+                    }
+                
+                    var materialItem = uiManager.AddSubElementItem<UI_MaterialItem>(popup.ResultsContentScrollObject);
+                    var sprite = resourcesManager.Load<Sprite>(equipment.EquipmentData.SpriteName);
+                    materialItem.UpdateUI(sprite, 1.ToString(), true);
+                }
+            };
+        }
+    }
+}

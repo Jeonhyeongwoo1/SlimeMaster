@@ -1,8 +1,8 @@
-using System.Collections.Generic;
 using Script.InGame.UI;
-using SlimeMaster.Factory;
-using SlimeMaster.InGame.Data;
-using SlimeMaster.Presenter;
+using SlimeMaster.Data;
+using SlimeMaster.Enum;
+using SlimeMaster.Manager;
+using SlimeMaster.Model;
 using SlimeMaster.View;
 using UniRx;
 
@@ -20,6 +20,7 @@ namespace SlimeMaster.Presenter
             _model = model;
 
             _lobbySceneView.onGoodsClickAction = OnClickGoods;
+            _lobbySceneView.onClickToggleAction = OnClickToggles;
             _lobbySceneView.Initialize();
 
             if (_compositeDisposable != null)
@@ -41,9 +42,25 @@ namespace SlimeMaster.Presenter
                 .AddTo(_compositeDisposable);
         }
 
+        private void OnClickToggles(ToggleType selectedToggleType, ToggleType activatedToggleType)
+        {
+            UIManager uiManager = GameManager.I.UI;
+            uiManager.ClosePopup();
+            // switch (activatedToggleType)
+            // {
+            //     case ToggleType.BattleToggle:
+            //         break;
+            //     case ToggleType.EquipmentToggle:
+            //         break;
+            //     case ToggleType.ShopToggle:
+            //         break;
+            // }
+            
+            GameManager.I.Event.Raise(GameEventType.MoveToTap, selectedToggleType);
+        }
+
         private void OnClickGoods(GoodsType goodsType)
         {
-            
         }
     }
 }

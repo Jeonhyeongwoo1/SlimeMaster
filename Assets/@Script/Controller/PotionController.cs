@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using SlimeMaster.InGame.Enum;
+using SlimeMaster.Enum;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Controller

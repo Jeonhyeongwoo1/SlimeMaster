@@ -1,16 +1,17 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
 using SlimeMaster.Data;
+using SlimeMaster.Enum;
 using SlimeMaster.Factory;
 using SlimeMaster.InGame.Controller;
 using SlimeMaster.InGame.Data;
 using SlimeMaster.InGame.Entity;
-using SlimeMaster.InGame.Enum;
 using SlimeMaster.InGame.Popup;
+using SlimeMaster.Interface;
+using SlimeMaster.Manager;
 using SlimeMaster.Model;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -212,7 +213,7 @@ namespace SlimeMaster.InGame.Manager
             CompleteStage();
         }
 
-        private void CompleteStage()
+        private async void CompleteStage()
         {
             Time.timeScale = 0;
             var gameResultPopup = GameManager.I.UI.OpenPopup<UI_GameResultPopup>();
@@ -224,17 +225,23 @@ namespace SlimeMaster.InGame.Manager
                 _stageModel.killCount.ToString());
             
             _object.AllObjectRelease();
-            var userModel = ModelFactory.CreateOrGetModel<UserModel>();
-            // userModel.LastClearStageIndex.Value++;
-            userModel.UpdateStage(_stageData.StageIndex, _waveData.WaveIndex);
 
-            DataManager dataManager = GameManager.I.Data;
-            StageData stageData = dataManager.StageDict[_stageData.StageIndex];
-            int rewardItemId = stageData.FirstWaveClearRewardItemId;
-            int rewardItemValue = stageData.FirstWaveClearRewardItemValue;
-            if (rewardItemId == Const.ID_GOLD)
+            var response = await ServerHandlerFactory.Get<IUserClientSender>().StageClearRequest(_stageData.StageIndex);
+            if (response.responseCode != ServerErrorCode.Success)
             {
+                switch (response.responseCode)
+                {
+                    case ServerErrorCode.FailedFirebaseError:
+                    case ServerErrorCode.FailedGetUserData:
+                        //Alert
+                        Debug.LogError("Failed :" + response.errorMessage);
+                        return;
+                }
             }
+
+            var userModel = ModelFactory.CreateOrGetModel<UserModel>();
+            userModel.AddItemValue(response.ItemData.ItemId, response.ItemData.ItemValue);
+            userModel.UpdateStage(response.StageData.StageIndex, response.StageData.WaveDataList.Last().WaveIndex);
         }
 
         private async UniTask StartWave()

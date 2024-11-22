@@ -8062,7 +8062,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 116.79, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8592733700267450340
@@ -8360,7 +8360,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 257.51, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8592733700544694823
@@ -9362,6 +9362,19 @@ MonoBehaviour:
   - {fileID: 1776280167676851323}
   - {fileID: 6350377685422454269}
   _waveSlider: {fileID: 4523771075848409440}
+  _waveClearButtonList:
+  - {fileID: 7582945410945288025}
+  - {fileID: 1522078130403250816}
+  - {fileID: 1834300636029483412}
+  _buttonElementList:
+  - contentButtonType: 0
+    button: {fileID: 8592733700185937650}
+  - contentButtonType: 1
+    button: {fileID: 8592733700178482373}
+  - contentButtonType: 2
+    button: {fileID: 8592733699620505412}
+  - contentButtonType: 3
+    button: {fileID: 1189047211824199750}
 --- !u!1 &8592733701531849200
 GameObject:
   m_ObjectHideFlags: 0

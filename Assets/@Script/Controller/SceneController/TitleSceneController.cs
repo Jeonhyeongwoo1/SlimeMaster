@@ -2,12 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using SlimeMaster.Data;
+using SlimeMaster.Enum;
+using SlimeMaster.Equipmenets;
 using SlimeMaster.Factory;
 using SlimeMaster.Firebase;
 using SlimeMaster.Firebase.Data;
-using SlimeMaster.InGame.Enum;
-using SlimeMaster.InGame.Manager;
-using SlimeMaster.Server;
+using SlimeMaster.Interface;
+using SlimeMaster.Manager;
+using SlimeMaster.Model;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -43,9 +46,9 @@ namespace SlimeMaster.Controller
             }
 
             await GameManager.I.Resource.LoadResourceAsync<Object>("PreLoad", (v) => _slider.value = v);
-            GameManager.ManagerInitialize();
+            GameManager.I.ManagerInitialize();
             ServerHandlerFactory.InitializeServerHandlerRequest(firebaseController, GameManager.I.Data);
-            var response = await ServerHandlerFactory.Get<ServerUserRequestHandler>()
+            var response = await ServerHandlerFactory.Get<IUserClientSender>()
                 .LoadUserDataRequest(new UserRequest());
             if (response.responseCode != ServerErrorCode.Success)
             {
@@ -56,24 +59,38 @@ namespace SlimeMaster.Controller
             var userModel = ModelFactory.CreateOrGetModel<UserModel>();
             foreach (var (key, itemData) in response.DBUserData.ItemDataDict)
             {
-                userModel.AddItem(itemData.ItemId, itemData.ItemValue);
+                userModel.CreateItem(itemData.ItemId, itemData.ItemValue);
             }
 
             List<WaveInfo> waveInfoList = new List<WaveInfo>(3);
             foreach (var (key, stageData) in response.DBUserData.StageDataDict)
             {
                 waveInfoList.Clear();
+                int index = 0;
                 foreach (DBWaveData dbWaveData in stageData.WaveDataList)
                 {
-                    var waveInfo = new WaveInfo(dbWaveData.WaveIndex, dbWaveData.IsClear, dbWaveData.IsGet);
+                    var waveInfo = new WaveInfo(dbWaveData.WaveIndex, dbWaveData.IsClear, dbWaveData.IsGet,
+                        (WaveClearType)index);
                     waveInfoList.Add(waveInfo);
+                    index++;
                 }
                 
                 StageInfo stageInfo = new StageInfo(stageData.StageIndex, waveInfoList);
                 userModel.AddStage(stageInfo);
             }
 
+            DataManager dataManager = GameManager.I.Data;
+            userModel.ClearAndSetEquipmentDataList(response.DBUserData.EquippedItemDataList);
+
+            if (response.DBUserData.UnEquippedItemDataList != null)
+            {
+                userModel.ClearAndSetUnEquipmentDataList(response.DBUserData.UnEquippedItemDataList);
+            }
+
+            userModel.CreatureData = dataManager.CreatureDict[Const.PLAYER_DATA_ID];
+            
             _button.interactable = true;
+            SceneManager.LoadScene(SceneType.LobbyScene.ToString());
         }
 
         public void MoveToLobbyScene()

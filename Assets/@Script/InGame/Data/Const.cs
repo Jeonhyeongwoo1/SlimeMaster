@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using SlimeMaster.Common;
+using SlimeMaster.Enum;
+using SlimeMaster.InGame.Enum;
 using UnityEngine;
 
-namespace SlimeMaster.InGame.Data
+namespace SlimeMaster.Data
 {
     public class Const
     {
+        public const int PLAYER_DATA_ID = 201000;
         public const int GAME_START_STAMINA_COUNT = 3;
         public const int WAVE_COUNT = 3;
         public const int MAX_SKILL_Level = 6;
@@ -36,7 +39,33 @@ namespace SlimeMaster.InGame.Data
 
         };
         
+        public static readonly float[] COMMON_GACHA_GRADE_PROB = new float[]
+        {
+            0,
+            0.62f,   // Common 확률
+            0.18f,   // Uncommon 확률
+            0.15f,   // Rare 확률
+            0.05f,  // Epic 확률
+        };
 
+        public static readonly float[] ADVENCED_GACHA_GRADE_PROB = new float[]
+        {
+            0,
+            0.55f,   // Common 확률
+            0.20f,   // Uncommon 확률
+            0.15f,   // Rare 확률
+            0.10f,  // Epic 확률
+        };
+
+        public static readonly float[] PICKUP_GACHA_GRADE_PROB = new float[]
+        {
+            0,
+            0.55f,   // Common 확률
+            0.20f,   // Uncommon 확률
+            0.15f,   // Rare 확률
+            0.10f,  // Epic 확률
+        };
+        
         #endregion
 
         #region PoolId
@@ -107,6 +136,36 @@ namespace SlimeMaster.InGame.Data
             public static readonly Color Epic = Utils.HexToColor("B740EA");
             public static readonly Color Legendary = Utils.HexToColor("F19B02");
             public static readonly Color Myth = Utils.HexToColor("FC2302");
+            
+            public static Color GetEquipmentGradeColor(EquipmentGrade equipmentGrade)
+            {
+                switch (equipmentGrade)
+                {
+                    case EquipmentGrade.Common:
+                        return Common;
+                    case EquipmentGrade.Uncommon:
+                        return Uncommon;
+                    case EquipmentGrade.Rare:
+                        return Rare;
+                    case EquipmentGrade.Epic:
+                    case EquipmentGrade.Epic1:
+                    case EquipmentGrade.Epic2:
+                        return Epic;
+                    case EquipmentGrade.Legendary:
+                    case EquipmentGrade.Legendary1:
+                    case EquipmentGrade.Legendary2:
+                    case EquipmentGrade.Legendary3:
+                        return Legendary;
+                    case EquipmentGrade.Myth:
+                    case EquipmentGrade.Myth1:
+                    case EquipmentGrade.Myth2:
+                    case EquipmentGrade.Myth3:
+                        return Myth;
+                }
+
+                Debug.LogError($"Failed {nameof(GetEquipmentGradeColor)} / grade {equipmentGrade}");
+                return Color.white;
+            }
             #endregion
             #region 배경색상
             public static readonly Color EpicBg = Utils.HexToColor("D094FF");
@@ -114,5 +173,14 @@ namespace SlimeMaster.InGame.Data
             public static readonly Color MythBg = Utils.HexToColor("FF7F6E");
             #endregion
         }
+        
+        #region 유저 첫 기본 장비 아이디
+        public static readonly string DefaultWeaponId = "N00301";
+        public static readonly string DefaultGlovesId = "N10101";
+        public static readonly string DefaultRingId = "N20101";
+        public static readonly string DefaultBeltId = "N30101";
+        public static readonly string DefaultArmorId = "N40101";
+        public static readonly string DefaultBootsId = "N50101";
+        #endregion
     }
 }

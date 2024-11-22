@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Pool;
 using Object = UnityEngine.Object;
 
-namespace SlimeMaster.InGame.Manager
+namespace SlimeMaster.Manager
 {
     public class PoolManager
     {
@@ -16,8 +16,7 @@ namespace SlimeMaster.InGame.Manager
                 return objectPool.Get();
             }
             
-            const int poolCount = 5;
-            var pool = CreatePool(prefab, poolCount);
+            var pool = CreatePool(prefab);
             _poolDict.TryAdd(name, pool);
 
             return pool.Get();
@@ -30,7 +29,7 @@ namespace SlimeMaster.InGame.Manager
                 return;
             }
 
-            if (_poolDict.TryGetValue(name, out var objectPool))
+            if (_poolDict.TryGetValue(name, out IObjectPool<GameObject> objectPool))
             {
                 if (obj.activeSelf)
                 {
@@ -40,7 +39,7 @@ namespace SlimeMaster.InGame.Manager
             }
         }
         
-        private IObjectPool<GameObject> CreatePool(GameObject prefab, int poolCount)
+        private IObjectPool<GameObject> CreatePool(GameObject prefab)
         {
             return new ObjectPool<GameObject>(
                 createFunc: () =>
@@ -49,8 +48,7 @@ namespace SlimeMaster.InGame.Manager
                     obj.SetActive(false);
                     return obj;
                 },
-                actionOnDestroy: Object.Destroy,
-                maxSize: poolCount
+                actionOnDestroy: Object.Destroy
             );
         }
     }

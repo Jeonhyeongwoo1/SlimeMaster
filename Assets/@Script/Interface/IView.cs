@@ -1,4 +1,4 @@
-namespace SlimeMaster.InGame.Interface
+namespace SlimeMaster.Interface
 {
     public interface IView
     {

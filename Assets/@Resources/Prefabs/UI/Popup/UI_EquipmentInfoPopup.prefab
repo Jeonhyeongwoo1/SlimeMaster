@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 233804308176610087}
   - component: {fileID: 1005098529393899677}
   - component: {fileID: 9087369974972779943}
+  - component: {fileID: 4772995576298685302}
   m_Layer: 5
   m_Name: EquipmentResetButton
   m_TagString: Untagged
@@ -121,6 +122,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4772995576298685302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78263107585530087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _useAnimation: 1
 --- !u!1 &82622510732984950
 GameObject:
   m_ObjectHideFlags: 0
@@ -303,6 +317,7 @@ GameObject:
   - component: {fileID: 1903972037819561833}
   - component: {fileID: 1498200375192962934}
   - component: {fileID: 7377618698602096170}
+  - component: {fileID: 7056819940242869012}
   m_Layer: 5
   m_Name: LevelupButton
   m_TagString: Untagged
@@ -412,6 +427,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7056819940242869012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 128548274998696954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _useAnimation: 1
 --- !u!1 &188946815903829709
 GameObject:
   m_ObjectHideFlags: 0
@@ -1484,6 +1512,7 @@ GameObject:
   - component: {fileID: 455096423487430199}
   - component: {fileID: 5684083915160933696}
   - component: {fileID: 4543289523068680225}
+  - component: {fileID: 4889793086287598514}
   m_Layer: 5
   m_Name: EquipButton
   m_TagString: Untagged
@@ -1593,6 +1622,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4889793086287598514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2266781558389425198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _useAnimation: 1
 --- !u!1 &2593010660474023686
 GameObject:
   m_ObjectHideFlags: 0
@@ -3426,6 +3468,7 @@ GameObject:
   - component: {fileID: 7238558926691896358}
   - component: {fileID: 8850033075556475532}
   - component: {fileID: 2624980506239212901}
+  - component: {fileID: 7997444980992061571}
   m_Layer: 5
   m_Name: UI_EquipmentInfoPopup
   m_TagString: Untagged
@@ -3516,7 +3559,52 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 65527
+--- !u!114 &7997444980992061571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6476406404402997762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fbd6b2d353354712baac03582dca7f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bgCloseButton: {fileID: 3956337178799031353}
+  _gradeBackgroundImage: {fileID: 4274493342811819144}
+  _equipmentNameValueText: {fileID: 8411538419210605321}
+  _equipmentGradeValueText: {fileID: 601504446665075981}
+  _equipmentGradeBackgroundImage: {fileID: 5732302464329149292}
+  _equipmentImage: {fileID: 544349388928036497}
+  _equipmentEnforceBackgroundImage: {fileID: 6671284177420670817}
+  _enforceValueText: {fileID: 2931577287333223824}
+  _equipmentTypeBackgroundImage: {fileID: 1967275462491479152}
+  _equipmentTypeImage: {fileID: 5606938291744990840}
+  _equipmentLevelValueText: {fileID: 7539995536035104192}
+  _equipmentResetButton: {fileID: 9087369974972779943}
+  _equipmentOptionImage: {fileID: 6513334573952200237}
+  _equipmentOptionValueText: {fileID: 6027449363965128561}
+  _skillOptionElements:
+  - equipmentGradeType: 2
+    skillLockImage: {fileID: 1283539705900234770}
+    skillOptionDescriptionValueText: {fileID: 5315346783736987980}
+  - equipmentGradeType: 3
+    skillLockImage: {fileID: 5537900239918706644}
+    skillOptionDescriptionValueText: {fileID: 6976924321259942015}
+  - equipmentGradeType: 4
+    skillLockImage: {fileID: 9066925864332552975}
+    skillOptionDescriptionValueText: {fileID: 5695092708506292269}
+  - equipmentGradeType: 7
+    skillLockImage: {fileID: 8179918165945028823}
+    skillOptionDescriptionValueText: {fileID: 6456677095422455723}
+  _costGoldValueText: {fileID: 8161870084118709622}
+  _costMaterialValueText: {fileID: 7274250882275633199}
+  _equipButton: {fileID: 4543289523068680225}
+  _unquipButton: {fileID: 7274250883350333129}
+  _levelupButton: {fileID: 7377618698602096170}
+  _mergeButton: {fileID: 7274250882687716449}
 --- !u!1 &6719549889982313361
 GameObject:
   m_ObjectHideFlags: 0
@@ -4200,6 +4288,7 @@ GameObject:
   - component: {fileID: 7274250882687716451}
   - component: {fileID: 7274250882687716448}
   - component: {fileID: 7274250882687716449}
+  - component: {fileID: 8870505506184310051}
   m_Layer: 5
   m_Name: MergeButton
   m_TagString: Untagged
@@ -4309,6 +4398,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8870505506184310051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7274250882687716463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _useAnimation: 1
 --- !u!1 &7274250883005532388
 GameObject:
   m_ObjectHideFlags: 0
@@ -4732,6 +4834,7 @@ GameObject:
   - component: {fileID: 7274250883350333131}
   - component: {fileID: 7274250883350333128}
   - component: {fileID: 7274250883350333129}
+  - component: {fileID: 4031665866777456581}
   m_Layer: 5
   m_Name: UnquipButton
   m_TagString: Untagged
@@ -4841,6 +4944,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4031665866777456581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7274250883350333143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _useAnimation: 1
 --- !u!1 &7274250883430390361
 GameObject:
   m_ObjectHideFlags: 0
@@ -5367,6 +5483,7 @@ GameObject:
   - component: {fileID: 2411904458120961516}
   - component: {fileID: 1889644274502098143}
   - component: {fileID: 3956337178799031353}
+  - component: {fileID: 5050045764373464250}
   m_Layer: 5
   m_Name: BackgroundButton
   m_TagString: Untagged
@@ -5476,6 +5593,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5050045764373464250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7647508905705709678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2944034b3bb42dfbe34046d31c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _useAnimation: 1
 --- !u!1 &7665846911686913733
 GameObject:
   m_ObjectHideFlags: 0

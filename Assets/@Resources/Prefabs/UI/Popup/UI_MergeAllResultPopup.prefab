@@ -418,6 +418,7 @@ GameObject:
   - component: {fileID: 3669019258981181902}
   - component: {fileID: 3193014052156049252}
   - component: {fileID: 8283160614992443533}
+  - component: {fileID: 3187229505441625519}
   m_Layer: 5
   m_Name: UI_MergeAllResultPopup
   m_TagString: Untagged
@@ -508,7 +509,21 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 65527
+--- !u!114 &3187229505441625519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1116521218973274090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cc6b28b5d6a34748a859a899aaa8645, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bgCloseButton: {fileID: 779334694729000334}
+  _mergeAlIScrollContentObject: {fileID: 562491391592578685}
 --- !u!1 &4004255589106957093
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
-using SlimeMaster.InGame.Manager;
+using SlimeMaster.Manager;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill

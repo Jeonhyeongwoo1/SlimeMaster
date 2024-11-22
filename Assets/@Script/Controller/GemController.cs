@@ -1,5 +1,5 @@
-using SlimeMaster.InGame.Data;
-using SlimeMaster.InGame.Enum;
+using SlimeMaster.Data;
+using SlimeMaster.Enum;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Controller

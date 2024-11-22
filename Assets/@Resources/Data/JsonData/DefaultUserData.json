@@ -14,6 +14,46 @@
       "itemId": 50003,
       "itemName": "Stamina",
       "itemValue": 10
+    },
+    {
+      "itemId": 50101,
+      "itemName": "WeaponScroll",
+      "itemValue": 15
+    },
+    {
+      "itemId": 50102,
+      "itemName": "GlovesScroll",
+      "itemValue": 15
+    },
+    {
+      "itemId": 50103,
+      "itemName": "RingScroll",
+      "itemValue": 15
+    },
+    {
+      "itemId": 50104,
+      "itemName": "BeltScroll",
+      "itemValue": 15
+    },
+    {
+      "itemId": 50105,
+      "itemName": "ArmorScroll",
+      "itemValue": 15
+    },
+    {
+      "itemId": 50106,
+      "itemName": "BootsScroll",
+      "itemValue": 15
+    },
+    {
+      "itemId": 50201,
+      "itemName": "BronzeKey",
+      "itemValue": 10
+    },
+    {
+      "itemId": 50203,
+      "itemName": "GoldKey",
+      "itemValue": 30
     }
   ]
 }

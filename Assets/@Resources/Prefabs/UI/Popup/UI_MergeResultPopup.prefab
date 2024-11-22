@@ -910,6 +910,7 @@ GameObject:
   - component: {fileID: 4091307781437398040}
   - component: {fileID: 4091307781437398043}
   - component: {fileID: 4091307781437398042}
+  - component: {fileID: 4380967348803420026}
   m_Layer: 5
   m_Name: OptionResult
   m_TagString: Untagged
@@ -1005,6 +1006,36 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4380967348803420026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4091307781437398044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb713786880a54f81832159668610fc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _equipNameText: {fileID: 0}
+  _improvOptionValueText: {fileID: 4091307781978490902}
+  _optionElementList:
+  - equipAbilityStatType: 1
+    improveObject: {fileID: 4091307781605976186}
+    beforeValueText: {fileID: 4091307782933953197}
+    afterValueText: {fileID: 4091307781773376147}
+  - equipAbilityStatType: 2
+    improveObject: {fileID: 4091307781911449789}
+    beforeValueText: {fileID: 4091307782803312914}
+    afterValueText: {fileID: 4091307781247343578}
+  - equipAbilityStatType: 3
+    improveObject: {fileID: 4091307782713476263}
+    beforeValueText: {fileID: 4091307782263845490}
+    afterValueText: {fileID: 4091307782136407056}
+  _mergeImproveOptionObject: {fileID: 0}
+  _selectEquipmentCommentObject: {fileID: 0}
+  _selectMergeCommentObject: {fileID: 0}
 --- !u!1 &4091307781473906577
 GameObject:
   m_ObjectHideFlags: 0
@@ -1017,6 +1048,7 @@ GameObject:
   - component: {fileID: 4091307781473906573}
   - component: {fileID: 4091307781473906572}
   - component: {fileID: 4091307781473906575}
+  - component: {fileID: 3972803817680554476}
   m_Layer: 5
   m_Name: UI_MergeResultPopup
   m_TagString: Untagged
@@ -1108,7 +1140,24 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 65527
+--- !u!114 &3972803817680554476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4091307781473906577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fd8ea155e36d4a23879d0b0036f77c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bgCloseButton: {fileID: 4091307781304681496}
+  _equipmentNameValueText: {fileID: 4091307782936700264}
+  _equipmentGradeValueText: {fileID: 8863430176944839474}
+  _mergeResultEquipItem: {fileID: 1044423473252453595}
+  _mergeOptionResult: {fileID: 4380967348803420026}
 --- !u!1 &4091307781521987537
 GameObject:
   m_ObjectHideFlags: 0
@@ -1334,6 +1383,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4091307781655468139}
   - component: {fileID: 4091307781655468137}
+  - component: {fileID: 1044423473252453595}
   m_Layer: 5
   m_Name: ResultEquipment
   m_TagString: Untagged
@@ -1373,6 +1423,31 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4091307781655468138}
   m_CullTransparentMesh: 1
+--- !u!114 &1044423473252453595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4091307781655468138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b504c617aa4034bef8ff0b3f5c6d1866, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _getEffectObject: {fileID: 0}
+  _equipmentGradeBackgroundImage: {fileID: 4091307781666781815}
+  _equipImage: {fileID: 4091307781091997706}
+  _specialEquipImage: {fileID: 0}
+  _equipmentTypeBackgroundImage: {fileID: 8188297702590049909}
+  _equipmentTypeImage: {fileID: 8933792228923838055}
+  _equipmentLevelValueText: {fileID: 4091307781233902102}
+  _equipmentEnforceBackgroundImage: {fileID: 4091307782178549069}
+  _newTextObject: {fileID: 0}
+  _redDotObject: {fileID: 0}
+  _equippedObject: {fileID: 0}
+  _selectObject: {fileID: 0}
+  _lockObject: {fileID: 0}
 --- !u!1 &4091307781666781817
 GameObject:
   m_ObjectHideFlags: 0

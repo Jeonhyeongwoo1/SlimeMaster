@@ -1,4 +1,4 @@
-namespace SlimeMaster.InGame.Enum
+namespace SlimeMaster.Enum
 {
     public enum GameState
     {
@@ -20,6 +20,7 @@ namespace SlimeMaster.InGame.Enum
     public enum GameEventType
     {
         None = -1,
+        //InGame
         DeadPlayer,
         ResurrectionPlayer,
         GameOver,
@@ -32,7 +33,17 @@ namespace SlimeMaster.InGame.Enum
         SpawnedBoss,
         EndWave,
         LearnSkill,
-        PurchaseSupportSkill
+        PurchaseSupportSkill,
+        //OutGame
+        GetReward,
+        MoveToTap,
+        ShowEquipmentInfoPopup,
+        OnUpdatedEquipment,
+        ShowGachaListPopup,
+        ShowGachaResultPopup,
+        ShowMergePopup,
+        ShowMergeResultPopup,
+        ShowOutGameContentPopup
     }
 
     public enum DropableItemType
@@ -99,6 +110,7 @@ namespace SlimeMaster.InGame.Enum
 
     public enum SceneType
     {
+        TitleScene,
         LobbyScene,
         GameScene,
     }
@@ -220,11 +232,117 @@ namespace SlimeMaster.InGame.Enum
     public enum ServerErrorCode
     {
         Success,
-        FailedFirebaseError
+        FailedFirebaseError,
+        FailedGetUserData,
+        NotEnoughStamina,
+        FailedGetStage,
+        NotEnoughGold,
+        NotEnoughMaterialAmount,
+        FailedGetEquipment,
+        FailedGetItemData,
+        NotEnoughShopCostItemValue
     }
 
     public enum WaveType
     {
         
+    }
+    
+    public enum WaveClearType
+    {
+        FirstWaveClear,
+        SecondWaveClear,
+        ThirdWaveClear
+    }
+    
+    public enum GachaRarity
+    {
+        Normal,
+        Special,
+    }
+    
+    public enum MergeEquipmentType
+    {
+        None,
+        ItemCode,
+        Grade,
+    }
+    
+    public enum EquipmentType
+    {
+        Weapon,
+        Gloves,
+        Ring,
+        Belt,
+        Armor,
+        Boots,
+    }
+
+    public enum EquipmentGrade
+    {
+        None,
+        Common,
+        Uncommon,
+        Rare,
+        Epic,
+        Epic1,
+        Epic2,
+        Legendary,
+        Legendary1,
+        Legendary2,
+        Legendary3,
+        Myth,
+        Myth1,
+        Myth2,
+        Myth3
+    }
+
+    public enum EquipmentSortType
+    {
+        Level,
+        Grade,
+    }
+
+    public enum ShopType
+    {
+        CommonItem,
+        EquipmentItem,
+        Advance_EquipmentItem,
+        Normal_EquipmentItem,
+        Gold
+    }
+
+    public enum ShopItemType
+    {
+        Ad,
+        SilverKeyItem,
+        GoldKeyItem,
+        Normal,
+        EquipmentItem_one,
+        EquipmentItem_ten
+    }
+    
+    public enum GachaType
+    {
+        None,
+        CommonGacha,
+        AdvancedGacha,
+        PickupGacha,
+    }
+
+    public enum EquipAbilityStatType
+    {
+        Grade,
+        Level,
+        ATK,
+        HP
+    }
+
+    public enum OutGameContentButtonType
+    {
+        Setting,
+        Checkout,
+        Mission,
+        Achievement
     }
 }
