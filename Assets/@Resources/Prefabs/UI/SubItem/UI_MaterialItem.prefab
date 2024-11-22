@@ -272,6 +272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemImage: {fileID: 3278896348095766820}
+  _itemBackgroundImage: {fileID: 234352571755743613}
   _countText: {fileID: 8979760316873061077}
   _getEffectObject: {fileID: 9036548914787174171}
 --- !u!1 &7547912358725752175

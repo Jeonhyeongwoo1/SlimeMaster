@@ -532,7 +532,6 @@ namespace SlimeMaster.Data
     }
 
     #endregion
-
     
     #region CheckOutData
     public class CheckOutData

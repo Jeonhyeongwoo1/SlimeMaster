@@ -7,6 +7,7 @@ namespace SlimeMaster.Shared.Data
     public class UserResponse : Response
     {
         public DBUserData DBUserData;
+        public DBCheckoutData DBCheckoutData;
         public DateTime LastLoginTime;
     }
 

@@ -22,6 +22,7 @@ namespace SlimeMaster.Manager
         public Dictionary<int, EquipmentLevelData> EquipmentLevelDataDict { get; private set; } = new();
         public Dictionary<int, ShopData> ShopDataDict { get; private set; } = new();
         public Dictionary<GachaType, GachaTableData> GachaTableDataDict { get; private set; } = new();
+        public Dictionary<int, CheckOutData> CheckOutDataDict { get; private set; } = new();
         
         public void Initialize()
         {
@@ -39,6 +40,7 @@ namespace SlimeMaster.Manager
                 LoadJson<EquipmentLevelDataLoader, int, EquipmentLevelData>("EquipmentLevelData").MakeDict();
             ShopDataDict = LoadJson<ShopDataDataLoader, int, ShopData>("ShopData").MakeDict();
             GachaTableDataDict = LoadJson<GachaDataLoader, GachaType, GachaTableData>("GachaTableData").MakeDict();
+            CheckOutDataDict = LoadJson<CheckOutDataLoader, int, CheckOutData>("CheckOutData").MakeDict();
         }
 
         TLoader LoadJson<TLoader, TKey, TValue>(string path) where TLoader : ILoader<TKey, TValue>

@@ -155,10 +155,12 @@ namespace SlimeMaster.Presenter
                     Debug.LogError("Failed try get component " + nameof(UI_MaterialItem));
                     continue;
                 }
-                
+
+                MaterialData materialData = _dataManager.MaterialDataDict[itemData.ItemId.Value];
                 Sprite sprite =
-                    _resourcesManager.Load<Sprite>(_dataManager.MaterialDataDict[itemData.ItemId.Value].SpriteName);
-                materialItem.UpdateUI(sprite, itemData.ItemValue.Value.ToString(),
+                    _resourcesManager.Load<Sprite>(materialData.SpriteName);
+                Color color = Const.EquipmentUIColors.GetMaterialGradeColor(materialData.MaterialGrade);
+                materialItem.UpdateUI(sprite, color, itemData.ItemValue.Value.ToString(),
                     false, _equipmentPopup.ItemInventoryGroupObject);
             }
         }

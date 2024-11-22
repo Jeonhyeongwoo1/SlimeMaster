@@ -136,6 +136,31 @@ namespace SlimeMaster.Data
             public static readonly Color Epic = Utils.HexToColor("B740EA");
             public static readonly Color Legendary = Utils.HexToColor("F19B02");
             public static readonly Color Myth = Utils.HexToColor("FC2302");
+
+            public static Color GetMaterialGradeColor(MaterialGrade materialGrade)
+            {
+                switch (materialGrade)
+                {
+                    case MaterialGrade.Common:
+                        return Common;
+                    case MaterialGrade.Uncommon:
+                        return Uncommon;
+                    case MaterialGrade.Rare:
+                        return Rare;
+                    case MaterialGrade.Epic:
+                    case MaterialGrade.Epic1:
+                    case MaterialGrade.Epic2:
+                        return Epic;
+                    case MaterialGrade.Legendary:
+                    case MaterialGrade.Legendary1:
+                    case MaterialGrade.Legendary2:
+                    case MaterialGrade.Legendary3:
+                        return Legendary;
+                }
+
+                Debug.LogError($"Failed {nameof(GetEquipmentGradeColor)} / grade {materialGrade}");
+                return Color.white;
+            }
             
             public static Color GetEquipmentGradeColor(EquipmentGrade equipmentGrade)
             {

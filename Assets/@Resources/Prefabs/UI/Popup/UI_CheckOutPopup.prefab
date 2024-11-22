@@ -1705,6 +1705,7 @@ GameObject:
   - component: {fileID: 1074618010648510352}
   - component: {fileID: 5615466293053475309}
   - component: {fileID: 3275104211953645484}
+  - component: {fileID: 2974795917513846823}
   m_Layer: 5
   m_Name: ThirdCheckOutClearRewardButton
   m_TagString: Untagged
@@ -1789,6 +1790,23 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2974795917513846823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4187726341861796620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4500f963cccee4b3db7ca2de2bd4f572, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rewardItemBackgroundImage: {fileID: 2677781056592413221}
+  _rewardItemImage: {fileID: 5146716989262658213}
+  _dayValueText: {fileID: 2054940199767328414}
+  _rewardItemCountValueText: {fileID: 6361247041607070543}
+  _clearRewardCompleteObject: {fileID: 4088627724793157208}
 --- !u!1 &4219239813613210106
 GameObject:
   m_ObjectHideFlags: 0
@@ -2586,6 +2604,7 @@ GameObject:
   - component: {fileID: 5303072580844075389}
   - component: {fileID: 8065996224707663814}
   - component: {fileID: 4478660620332378226}
+  - component: {fileID: 7495908233068754950}
   m_Layer: 5
   m_Name: FirstCheckOutClearRewardButton
   m_TagString: Untagged
@@ -2670,6 +2689,23 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7495908233068754950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6160287432456860455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4500f963cccee4b3db7ca2de2bd4f572, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rewardItemBackgroundImage: {fileID: 7527434507642093369}
+  _rewardItemImage: {fileID: 6071059888515892193}
+  _dayValueText: {fileID: 6673960792054043340}
+  _rewardItemCountValueText: {fileID: 8693592801370732909}
+  _clearRewardCompleteObject: {fileID: 5135089452678729631}
 --- !u!1 &6178565739778751317
 GameObject:
   m_ObjectHideFlags: 0
@@ -2993,6 +3029,7 @@ GameObject:
   - component: {fileID: 4905636651554806578}
   - component: {fileID: 4676802807042162196}
   - component: {fileID: 2930345121580672368}
+  - component: {fileID: 4312081873844271479}
   m_Layer: 5
   m_Name: SecondCheckOutClearRewardButton
   m_TagString: Untagged
@@ -3077,6 +3114,23 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4312081873844271479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6620514337964809235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4500f963cccee4b3db7ca2de2bd4f572, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rewardItemBackgroundImage: {fileID: 5246908136925945337}
+  _rewardItemImage: {fileID: 7198888079451867858}
+  _dayValueText: {fileID: 5367217820977455681}
+  _rewardItemCountValueText: {fileID: 7281920980571544120}
+  _clearRewardCompleteObject: {fileID: 6859768860035346205}
 --- !u!1 &6859768860035346205
 GameObject:
   m_ObjectHideFlags: 0
@@ -4609,6 +4663,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bgCloseButton: {fileID: 9036960775189430616}
+  _checkOutBoardObject: {fileID: 9036960774095140048}
+  _checkoutClearElementList:
+  - checkOutItem: {fileID: 7495908233068754950}
+    checkoutClearDayText: {fileID: 4633998697886731616}
+  - checkOutItem: {fileID: 4312081873844271479}
+    checkoutClearDayText: {fileID: 8306244547693357808}
+  - checkOutItem: {fileID: 2974795917513846823}
+    checkoutClearDayText: {fileID: 6854593946090925315}
+  _progressSlider: {fileID: 2459656180706536994}
+  _totalAttendanceDaysText: {fileID: 8835239286803825194}
 --- !u!1 &9036960774917559326
 GameObject:
   m_ObjectHideFlags: 0
@@ -4839,6 +4903,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI_CheckOutItem
       objectReference: {fileID: 0}
+    - target: {fileID: 3712763397831257340, guid: 261cb1405f377124f973d2490a703c5e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7315676831529991718, guid: 261cb1405f377124f973d2490a703c5e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4853,7 +4921,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7315676831529991718, guid: 261cb1405f377124f973d2490a703c5e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7315676831529991718, guid: 261cb1405f377124f973d2490a703c5e, type: 3}
       propertyPath: m_AnchorMin.x
@@ -4861,15 +4929,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7315676831529991718, guid: 261cb1405f377124f973d2490a703c5e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7315676831529991718, guid: 261cb1405f377124f973d2490a703c5e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 160
       objectReference: {fileID: 0}
     - target: {fileID: 7315676831529991718, guid: 261cb1405f377124f973d2490a703c5e, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 7315676831529991718, guid: 261cb1405f377124f973d2490a703c5e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4901,11 +4969,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7315676831529991718, guid: 261cb1405f377124f973d2490a703c5e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 480
       objectReference: {fileID: 0}
     - target: {fileID: 7315676831529991718, guid: 261cb1405f377124f973d2490a703c5e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -155
       objectReference: {fileID: 0}
     - target: {fileID: 7315676831529991718, guid: 261cb1405f377124f973d2490a703c5e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

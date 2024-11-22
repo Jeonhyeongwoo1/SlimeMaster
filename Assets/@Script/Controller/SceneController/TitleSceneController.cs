@@ -88,6 +88,10 @@ namespace SlimeMaster.Controller
             }
 
             userModel.CreatureData = dataManager.CreatureDict[Const.PLAYER_DATA_ID];
+
+            var checkoutModel = ModelFactory.CreateOrGetModel<CheckoutModel>();
+            checkoutModel.Initialize(response.DBCheckoutData,
+                response.DBCheckoutData.TotalAttendanceDays);
             
             _button.interactable = true;
             SceneManager.LoadScene(SceneType.LobbyScene.ToString());

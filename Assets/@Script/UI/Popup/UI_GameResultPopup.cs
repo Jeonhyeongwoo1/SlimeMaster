@@ -1,4 +1,5 @@
 using SlimeMaster.Common;
+using SlimeMaster.Data;
 using SlimeMaster.Enum;
 using SlimeMaster.Manager;
 using SlimeMaster.Popup;
@@ -38,10 +39,10 @@ namespace SlimeMaster.InGame.Popup
             }
             
             var item = GameManager.I.UI.AddSubElementItem<UI_MaterialItem>(_resultRewardScrollContent);
-            Sprite sprite = GameManager.I.Resource.Load<Sprite>(GameManager.I.Data
-                .MaterialDataDict[(int)MaterialType.RandomScroll].SpriteName);
-            
-            item.UpdateUI(sprite, rewardGold.ToString(), true, _resultRewardScrollContent);
+            var materialData = GameManager.I.Data.MaterialDataDict[(int)MaterialType.RandomScroll];
+            Sprite sprite = GameManager.I.Resource.Load<Sprite>(materialData.SpriteName);
+            Color color = Const.EquipmentUIColors.GetMaterialGradeColor(materialData.MaterialGrade);
+            item.UpdateUI(sprite, color, rewardGold.ToString(), true, _resultRewardScrollContent);
         }
     }
 }

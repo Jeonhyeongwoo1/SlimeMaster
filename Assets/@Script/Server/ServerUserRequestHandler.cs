@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Firebase.Firestore;
 using SlimeMaster.Data;
@@ -27,13 +28,62 @@ namespace SlimeMaster.Server
             string userID = _firebaseController.UserId;
             FirebaseFirestore db = _firebaseController.DB;
             Dictionary<string, object> userDict = new Dictionary<string, object>();
-            DocumentReference docRef = db.Collection(DBKey.UserDB).Document(userID);
-            DocumentSnapshot snapshot = null;
+            Dictionary<string, object> checkoutDict = new Dictionary<string, object>();
+            DocumentReference userDocRef = db.Collection(DBKey.UserDB).Document(userID);
+            DocumentReference checkoutDocRef = db.Collection(DBKey.CheckoutDB).Document(userID);
             DateTime lastLoginTime = DateTime.MinValue;
-            
+
+            UserResponse userResponse = null;
             try
             {
-                snapshot = await docRef.GetSnapshotAsync();
+                userResponse = await db.RunTransactionAsync(async transaction =>
+                {
+                    Task<DocumentSnapshot> userTask = transaction.GetSnapshotAsync(userDocRef);
+                    Task<DocumentSnapshot> checkoutTask = transaction.GetSnapshotAsync(checkoutDocRef);
+                    await Task.WhenAll(userTask, checkoutTask);
+                    
+                    DocumentSnapshot userSnapshot = userTask.Result;
+                    DocumentSnapshot checkoutSnapshot = checkoutTask.Result;
+
+                    if (!userSnapshot.TryGetValue(nameof(DBUserData), out DBUserData userData))
+                    {
+                        userData = ServerUserHelper.MakeNewUser(_dataManager, userID);
+                    }
+
+                    lastLoginTime = userData.LastLoginTime;
+                    userDict.Add(nameof(DBUserData), userData);
+                    transaction.Set(userDocRef, userDict, SetOptions.MergeAll);
+                    DBCheckoutData dbCheckoutData = null;
+                    if (!checkoutSnapshot.Exists)
+                    {
+                        dbCheckoutData = ServerCheckoutHelper.MakeNewCheckOutData(_dataManager);
+                        checkoutDict.Add(nameof(DBCheckoutData), dbCheckoutData);
+                        transaction.Set(checkoutDocRef, checkoutDict, SetOptions.MergeAll);
+                    }
+                    else
+                    {
+                        if (!checkoutSnapshot.TryGetValue(nameof(DBCheckoutData), out dbCheckoutData))
+                        {
+                            dbCheckoutData = ServerCheckoutHelper.MakeNewCheckOutData(_dataManager);
+                            checkoutDict.Add(nameof(DBCheckoutData), dbCheckoutData);
+                            transaction.Set(checkoutDocRef, checkoutDict, SetOptions.MergeAll);
+                        }
+
+                        if ((DateTime.UtcNow - lastLoginTime).TotalHours > 24)
+                        {
+                            dbCheckoutData.TotalAttendanceDays++;
+                            transaction.Set(checkoutDocRef, checkoutDict, SetOptions.MergeAll);
+                        }
+                    }
+                    
+                    return new UserResponse()
+                    {
+                        DBUserData = userData,
+                        DBCheckoutData = dbCheckoutData,
+                        LastLoginTime = lastLoginTime,
+                        responseCode = ServerErrorCode.Success,
+                    };
+                });
             }
             catch (Exception e)
             {
@@ -45,107 +95,7 @@ namespace SlimeMaster.Server
                 };
             }
 
-            if (!snapshot.TryGetValue(nameof(DBUserData), out DBUserData userData))
-            {
-                userData = new DBUserData();
-                userData.UserId = userID;
-                userData.LastLoginTime = DateTime.UtcNow;
-
-                userData.ItemDataDict = new Dictionary<string, DBItemData>();
-                foreach (var (key, value) in _dataManager.DefaultUserDataDict)
-                {
-                    var itemData = new DBItemData
-                    {
-                        ItemId = value.itemId,
-                        ItemValue = value.itemValue
-                    };
-
-                    userData.ItemDataDict.Add(key.ToString(), itemData);
-                }
-
-                userData.StageDataDict = new Dictionary<string, DBStageData>();
-                foreach (var (key, value) in _dataManager.StageDict)
-                {
-                    var dbFirstWaveData = new DBWaveData();
-                    dbFirstWaveData.Initialize(value.FirstWaveCountValue);
-                    var dbSecondWaveData = new DBWaveData();
-                    dbSecondWaveData.Initialize(value.SecondWaveCountValue);
-                    var dbThirdWaveData = new DBWaveData();
-                    dbThirdWaveData.Initialize(value.ThirdWaveCountValue);
-                    var dbStageData = new DBStageData();
-                    dbStageData.Initialize(key, dbFirstWaveData, dbSecondWaveData, dbThirdWaveData);
-                    userData.StageDataDict.Add(key.ToString(), dbStageData);
-                }
-
-                userData.EquippedItemDataList = new List<DBEquipmentData>
-                {
-                    new DBEquipmentData()
-                    {
-                        DataId = Const.DefaultWeaponId,
-                        Level = 1,
-                        UID = Guid.NewGuid().ToString(),
-                        EquipmentType = (int)EquipmentType.Weapon
-                    },
-                    new DBEquipmentData()
-                    {
-                        DataId = Const.DefaultArmorId,
-                        Level = 1,
-                        UID = Guid.NewGuid().ToString(),
-                        EquipmentType = (int)EquipmentType.Armor
-                    },
-                    new DBEquipmentData()
-                    {
-                        DataId = Const.DefaultBeltId,
-                        Level = 1,
-                        UID = Guid.NewGuid().ToString(),
-                        EquipmentType = (int)EquipmentType.Belt
-                    },
-                    new DBEquipmentData()
-                    {
-                        DataId = Const.DefaultBootsId,
-                        Level = 1,
-                        UID = Guid.NewGuid().ToString(),
-                        EquipmentType = (int)EquipmentType.Boots
-                    },
-                    new DBEquipmentData()
-                    {
-                        DataId = Const.DefaultGlovesId,
-                        Level = 1,
-                        UID = Guid.NewGuid().ToString(),
-                        EquipmentType = (int)EquipmentType.Gloves
-                    },
-                    new DBEquipmentData()
-                    {
-                        DataId = Const.DefaultRingId,
-                        Level = 1,
-                        UID = Guid.NewGuid().ToString(),
-                        EquipmentType = (int)EquipmentType.Ring
-                    }
-                };
-            }
-
-            lastLoginTime = userData.LastLoginTime;
-            userDict.Add(nameof(DBUserData), userData);
-
-            try
-            {
-                await docRef.SetAsync(userDict, SetOptions.MergeAll);
-            }
-            catch (Exception e)
-            {
-                Debug.LogError("failed firebase set " + e.Message);
-                return new UserResponse()
-                {
-                    responseCode = ServerErrorCode.FailedFirebaseError
-                };
-            }
-
-            return new UserResponse()
-            {
-                DBUserData = userData,
-                LastLoginTime = lastLoginTime,
-                responseCode = ServerErrorCode.Success,
-            };
+            return userResponse;
         }
 
         public async UniTask<UserResponse> UseStaminaRequest(int staminaCount)

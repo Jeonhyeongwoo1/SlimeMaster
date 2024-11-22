@@ -633,6 +633,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4500f963cccee4b3db7ca2de2bd4f572, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rewardItemBackgroundImage: {fileID: 3526330228422009957}
+  _rewardItemImage: {fileID: 3538178698249312367}
+  _dayValueText: {fileID: 3644517839080341575}
+  _rewardItemCountValueText: {fileID: 622347204968464477}
+  _clearRewardCompleteObject: {fileID: 2562411485113312006}
 --- !u!1 &6267608362228927742
 GameObject:
   m_ObjectHideFlags: 0

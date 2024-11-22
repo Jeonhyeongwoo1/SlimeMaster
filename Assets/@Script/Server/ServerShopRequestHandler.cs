@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Firebase.Firestore;
 using SlimeMaster.Common;
@@ -40,11 +41,12 @@ namespace SlimeMaster.Server
             {
                 ShopPurchaseResponse shopPurchaseResponse = await db.RunTransactionAsync(async transaction =>
                 {
-                    UniTask<DocumentSnapshot> userTask = transaction.GetSnapshotAsync(userDocRef).AsUniTask();
-                    UniTask<DocumentSnapshot> shopTask = transaction.GetSnapshotAsync(shopDocRef).AsUniTask();
+                    Task<DocumentSnapshot> userTask = transaction.GetSnapshotAsync(userDocRef);
+                    Task<DocumentSnapshot> shopTask = transaction.GetSnapshotAsync(shopDocRef);
+                    
                     try
                     {
-                        await UniTask.WhenAll(userTask, shopTask);
+                        await Task.WhenAll(userTask, shopTask);
                     }
                     catch (Exception e)
                     {
@@ -56,8 +58,8 @@ namespace SlimeMaster.Server
                         };
                     }
 
-                    DocumentSnapshot userSnapshot = userTask.GetAwaiter().GetResult();
-                    DocumentSnapshot shopSnapshot = shopTask.GetAwaiter().GetResult();
+                    DocumentSnapshot userSnapshot = userTask.Result;
+                    DocumentSnapshot shopSnapshot = shopTask.Result;
 
                     if (!userSnapshot.TryGetValue(nameof(DBUserData), out DBUserData userData))
                     {

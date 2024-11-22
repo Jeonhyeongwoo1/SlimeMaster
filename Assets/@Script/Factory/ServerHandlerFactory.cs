@@ -53,6 +53,7 @@ namespace SlimeMaster.Factory
             Create<ServerUserRequestHandler>(firebaseController, dataManager);
             Create<ServerEquipmentRequestHandler>(firebaseController, dataManager);
             Create<ServerShopRequestHandler>(firebaseController, dataManager);
+            Create<ServerCheckoutRequestHandler>(firebaseController, dataManager);
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using SlimeMaster.Data;
 using SlimeMaster.Enum;
 using SlimeMaster.Equipmenets;
 using SlimeMaster.Firebase.Data;
@@ -50,7 +51,9 @@ namespace SlimeMaster.Presenter
                 
                     var materialItem = uiManager.AddSubElementItem<UI_MaterialItem>(popup.ResultsContentScrollObject);
                     var sprite = resourcesManager.Load<Sprite>(equipment.EquipmentData.SpriteName);
-                    materialItem.UpdateUI(sprite, 1.ToString(), true);
+                    Color color =
+                        Const.EquipmentUIColors.GetEquipmentGradeColor(equipment.EquipmentData.EquipmentGrade);
+                    materialItem.UpdateUI(sprite, color, 1.ToString(), true);
                 }
             };
         }

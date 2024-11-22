@@ -53,7 +53,8 @@ namespace SlimeMaster.Presenter
                 }
 
                 Sprite sprite = resourcesManager.Load<Sprite>(materialData.SpriteName);
-                materialItem.UpdateUI(sprite, itemData.rewardValue.ToString(),
+                Color color = Const.EquipmentUIColors.GetMaterialGradeColor(materialData.MaterialGrade);
+                materialItem.UpdateUI(sprite, color, itemData.rewardValue.ToString(),
                     true, _rewardPopup.RewardItemScrollContentObject);
             }
         }

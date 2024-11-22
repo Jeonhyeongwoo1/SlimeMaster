@@ -193,7 +193,6 @@ namespace SlimeMaster.Enum
         GoldKey,
         RandomScroll = 50301,
         AllRandomEquipmentBox,
-        RandomEquipmentBox,
         CommonEquipmentBox,
         UncommonEquipmentBox,
         RareEquipmentBox,
@@ -240,7 +239,9 @@ namespace SlimeMaster.Enum
         NotEnoughMaterialAmount,
         FailedGetEquipment,
         FailedGetItemData,
-        NotEnoughShopCostItemValue
+        NotEnoughShopCostItemValue,
+        NotEnoughTime,
+        AlreadyClaimed,
     }
 
     public enum WaveType

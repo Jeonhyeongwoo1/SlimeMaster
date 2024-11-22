@@ -16,6 +16,7 @@ namespace SlimeMaster.Controller
 
             var lobbyPresenter = PresenterFactory.CreateOrGet<LobbyPresenter>();
             var userModel = ModelFactory.CreateOrGetModel<UserModel>();
+            var checkoutModel = ModelFactory.CreateOrGetModel<CheckoutModel>();
             lobbyPresenter.Initialize(userModel, lobbyUI);
 
             var battlePresenter = PresenterFactory.CreateOrGet<BattlePopupPresenter>();
@@ -50,7 +51,7 @@ namespace SlimeMaster.Controller
             mergeAllResultPopupPresenter.Initialize(userModel);
 
             var checkoutPopupPresenter = PresenterFactory.CreateOrGet<CheckOutPopupPresenter>();
-            checkoutPopupPresenter.Initialize(userModel);
+            checkoutPopupPresenter.Initialize(userModel, checkoutModel);
         }
     }
 }
