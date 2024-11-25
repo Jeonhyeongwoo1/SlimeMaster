@@ -340,6 +340,7 @@ GameObject:
   - component: {fileID: 2472249797652697110}
   - component: {fileID: 7224152730076615560}
   - component: {fileID: 568743857149772164}
+  - component: {fileID: 79893650941324726}
   m_Layer: 5
   m_Name: UI_MonsterInfoItem
   m_TagString: Untagged
@@ -407,3 +408,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 2
+--- !u!114 &79893650941324726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8314676296855440525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f34fea47da311441898a4d0dc69fe40e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _monsterImage: {fileID: 1280374243888666355}
+  _monsterLevelValueText: {fileID: 5122340872534232263}
+  _monsterInfoButton: {fileID: 1357913880833614381}

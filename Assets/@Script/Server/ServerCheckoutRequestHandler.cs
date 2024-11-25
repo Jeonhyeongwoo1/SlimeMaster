@@ -34,8 +34,9 @@ namespace SlimeMaster.Server
             DocumentReference checkoutDocRef = db.Collection(DBKey.CheckoutDB).Document(userID);
 
             GetCheckoutRewardResponse getCheckoutRewardResponse = null;
-            
-             getCheckoutRewardResponse = await db.RunTransactionAsync(async transaction =>
+            try
+            {
+               getCheckoutRewardResponse = await db.RunTransactionAsync(async transaction =>
                 {
                     Task<DocumentSnapshot> userTask = transaction.GetSnapshotAsync(userDocRef);
                     Task<DocumentSnapshot> checkoutTask = transaction.GetSnapshotAsync(checkoutDocRef);
@@ -58,7 +59,7 @@ namespace SlimeMaster.Server
                     {
                         return new GetCheckoutRewardResponse()
                         {
-                            responseCode = ServerErrorCode.AlreadyClaimed
+                            responseCode = ServerErrorCode.NotEnoughTime
                         };
                     }
 
@@ -155,9 +156,6 @@ namespace SlimeMaster.Server
                         DBEquipmentData = dbEquipmentData
                     };
                 });
-            try
-            {
-               
             }
             catch (Exception e)
             {

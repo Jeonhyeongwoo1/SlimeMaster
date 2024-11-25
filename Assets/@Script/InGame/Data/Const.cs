@@ -109,6 +109,10 @@ namespace SlimeMaster.Data
         #endregion
         public static int MAX_STAMINA = 50;
         public static int GAME_PER_STAMINA = 3;
+        public static string HourPerName = "시간당";
+        public static int MIN_OFFLINE_REWARD_MINUTE = 10;
+        public static int FAST_REWARD_USE_STAMINA_COUNT = 15;
+        public static int FAST_REWARD_GOLD_MULITPILIER = 5;
         
         //데이터 아이디에 따른 포션 회복량
         public static readonly Dictionary<int, float> DicPotionAmount = new Dictionary<int, float>

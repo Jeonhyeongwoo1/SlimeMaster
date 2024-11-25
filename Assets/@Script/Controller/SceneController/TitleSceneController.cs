@@ -75,7 +75,7 @@ namespace SlimeMaster.Controller
                     index++;
                 }
                 
-                StageInfo stageInfo = new StageInfo(stageData.StageIndex, waveInfoList);
+                StageInfo stageInfo = new StageInfo(stageData.StageIndex, stageData.IsOpened, waveInfoList);
                 userModel.AddStage(stageInfo);
             }
 
@@ -92,6 +92,16 @@ namespace SlimeMaster.Controller
             var checkoutModel = ModelFactory.CreateOrGetModel<CheckoutModel>();
             checkoutModel.Initialize(response.DBCheckoutData,
                 response.DBCheckoutData.TotalAttendanceDays);
+
+            var missionModel = ModelFactory.CreateOrGetModel<MissionModel>();
+            missionModel.SetMissionData(response.DBMissionContainerData);
+
+            var achievementModel = ModelFactory.CreateOrGetModel<AchievementModel>();
+            achievementModel.Initialize(response.DBAchievementContainerData);
+
+            userModel.LastOfflineGetRewardTime = response.LastOfflineGetRewardTime;
+            TimeDataModel timeDataModel = ModelFactory.CreateOrGetModel<TimeDataModel>();
+            timeDataModel.Initialize(response.LastLoginTime);
             
             _button.interactable = true;
             SceneManager.LoadScene(SceneType.LobbyScene.ToString());

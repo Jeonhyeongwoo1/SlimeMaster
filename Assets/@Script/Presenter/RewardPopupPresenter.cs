@@ -6,13 +6,15 @@ using SlimeMaster.Manager;
 using SlimeMaster.Model;
 using SlimeMaster.UISubItemElement;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace SlimeMaster.Presenter
 {
     [Serializable]
     public struct RewardItemData
     {
-        public int itemId;
+        public int materialItemId;
+        public string equipmentId;
         public int rewardValue;
     }
     
@@ -38,7 +40,7 @@ namespace SlimeMaster.Presenter
             
             foreach (RewardItemData itemData in list)
             {
-                int id = itemData.itemId;
+                int id = itemData.materialItemId;
                 GameObject prefab = resourcesManager.Instantiate(nameof(UI_MaterialItem));
                 if (!prefab.TryGetComponent(out UI_MaterialItem materialItem))
                 {
@@ -46,16 +48,22 @@ namespace SlimeMaster.Presenter
                     continue;
                 }
 
-                if (!dataManager.MaterialDataDict.TryGetValue(id, out MaterialData materialData))
+                if (dataManager.MaterialDataDict.TryGetValue(id, out MaterialData materialData))
                 {
-                    Debug.LogError($"Failed get material data item id : {id}");
-                    continue;
+                    Sprite sprite = resourcesManager.Load<Sprite>(materialData.SpriteName);
+                    Color color = Const.EquipmentUIColors.GetMaterialGradeColor(materialData.MaterialGrade);
+                    materialItem.UpdateUI(sprite, color, itemData.rewardValue.ToString(),
+                        true, _rewardPopup.RewardItemScrollContentObject);
                 }
-
-                Sprite sprite = resourcesManager.Load<Sprite>(materialData.SpriteName);
-                Color color = Const.EquipmentUIColors.GetMaterialGradeColor(materialData.MaterialGrade);
-                materialItem.UpdateUI(sprite, color, itemData.rewardValue.ToString(),
-                    true, _rewardPopup.RewardItemScrollContentObject);
+                else if (!string.IsNullOrEmpty(itemData.equipmentId) &&
+                         dataManager.EquipmentDataDict.TryGetValue(itemData.equipmentId,
+                             out EquipmentData equipmentData))
+                {
+                    Sprite sprite = resourcesManager.Load<Sprite>(equipmentData.SpriteName);
+                    Color color = Const.EquipmentUIColors.GetEquipmentGradeColor(equipmentData.EquipmentGrade);
+                    materialItem.UpdateUI(sprite, color, itemData.rewardValue.ToString(),
+                        true, _rewardPopup.RewardItemScrollContentObject);
+                }
             }
         }
     }

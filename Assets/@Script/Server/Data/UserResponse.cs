@@ -8,13 +8,10 @@ namespace SlimeMaster.Shared.Data
     {
         public DBUserData DBUserData;
         public DBCheckoutData DBCheckoutData;
+        public DBMissionContainerData DBMissionContainerData;
+        public DBAchievementContainerData DBAchievementContainerData;
         public DateTime LastLoginTime;
-    }
-
-    public class StageClearResponse : Response
-    {
-        public DBItemData ItemData;
-        public DBStageData StageData;
+        public DateTime LastOfflineGetRewardTime;
     }
 
     public class RewardResponse : Response

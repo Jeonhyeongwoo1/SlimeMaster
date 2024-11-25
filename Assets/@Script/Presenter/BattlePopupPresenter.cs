@@ -33,6 +33,12 @@ namespace SlimeMaster.Presenter
             _dataManager = GameManager.I.Data;
             _userModel = userModel;
             GameManager.I.Event.AddEvent(GameEventType.MoveToTap, OnMoveToTap);
+            GameManager.I.Event.AddEvent(GameEventType.ChangeStage, OnChangeStage);
+        }
+
+        private void OnChangeStage(object value)
+        {
+            RefreshUI();
         }
 
         private void OnMoveToTap(object value)
@@ -84,7 +90,7 @@ namespace SlimeMaster.Presenter
             var rewardItemDataList = new List<RewardItemData>(1);
             RewardItemData rewardItemData = new RewardItemData
             {
-                itemId = item.ItemId,
+                materialItemId = item.ItemId,
                 rewardValue = (int) getRewardValue
             };
             
@@ -95,13 +101,32 @@ namespace SlimeMaster.Presenter
         public void OpenBattlePopup()
         {
             _battlePopup = GameManager.I.UI.OpenPopup<UI_BattlePopup>();
-            
             _battlePopup.onGameStartAction = OnGameStart;
             _battlePopup.onGetRewardAction = OnGetReward;
+            _battlePopup.onStageSelectAction = OnStageSelect;
             _battlePopup.onClickContentButtonType = OnClickContentButtonType;
+            _battlePopup.AddEvents();
+
+            var checkoutModel = ModelFactory.CreateOrGetModel<CheckoutModel>();
+            checkoutModel.IsPossibleGetReward.Subscribe(x =>
+                _battlePopup.ShowOutGameContentButtonRedDot(OutGameContentButtonType.Checkout, x)).AddTo(_battlePopup);
+
+            var missionModel = ModelFactory.CreateOrGetModel<MissionModel>();
+            missionModel.IsPossibleGetReward
+                .Subscribe(x => _battlePopup.ShowOutGameContentButtonRedDot(OutGameContentButtonType.Mission, x)).AddTo(_battlePopup);
+
+            var achievementModel = ModelFactory.CreateOrGetModel<AchievementModel>();
+            achievementModel.IsPossibleGetReward
+                .Subscribe(x => _battlePopup.ShowOutGameContentButtonRedDot(OutGameContentButtonType.Achievement, x)).AddTo(_battlePopup);
             
-            StageInfo lastStage = _userModel.GetLastStage();
-            lastStage.WaveInfoList.Value.ForEach(v =>
+            RefreshUI();
+        }
+
+        private void RefreshUI()
+        {
+            int currentStageIndex = GameManager.I.CurrentStageIndex;
+            StageInfo stageInfo = _userModel.GetStageInfo(currentStageIndex);
+            stageInfo.WaveInfoList.Value.ForEach(v =>
             {
                 v.IsGet.Subscribe(x =>
                 {
@@ -110,36 +135,44 @@ namespace SlimeMaster.Presenter
             });
             
             List<WaveClearData> waveClearDataList = new(Const.WAVE_COUNT);
-            if(!_dataManager.StageDict.TryGetValue(_userModel.GetLastClearStageIndex(), out var stageData))
+            if(!_dataManager.StageDict.TryGetValue(currentStageIndex, out var stageData))
             {
                 stageData = _dataManager.StageDict[1];
-                Debug.LogWarning($"Failed get last clear stage {_userModel.GetLastClearStageIndex()}");
+                Debug.LogWarning($"Failed get last clear stage {currentStageIndex}");
             }
             
             WaveClearData waveClearData = new WaveClearData();
             waveClearData.waveIndex = stageData.FirstWaveCountValue;
-            WaveInfo waveInfoData = lastStage.GetWaveInfo(stageData.FirstWaveCountValue);
+            WaveInfo waveInfoData = stageInfo.GetWaveInfo(stageData.FirstWaveCountValue);
             waveClearData.isClear = waveInfoData != null && waveInfoData.IsClear.Value;
             waveClearData.isGetReward = waveInfoData != null && waveInfoData.IsGet.Value;
             waveClearDataList.Add(waveClearData);
             
             waveClearData = new WaveClearData();
             waveClearData.waveIndex = stageData.SecondWaveCountValue;
-            waveInfoData = lastStage.GetWaveInfo(stageData.SecondWaveCountValue);
+            waveInfoData = stageInfo.GetWaveInfo(stageData.SecondWaveCountValue);
             waveClearData.isClear = waveInfoData != null && waveInfoData.IsClear.Value;
             waveClearData.isGetReward = waveInfoData != null && waveInfoData.IsGet.Value;
             waveClearDataList.Add(waveClearData);
             
             waveClearData = new WaveClearData();
             waveClearData.waveIndex = stageData.ThirdWaveCountValue;
-            waveInfoData = lastStage.GetWaveInfo(stageData.ThirdWaveCountValue);
+            waveInfoData = stageInfo.GetWaveInfo(stageData.ThirdWaveCountValue);
             waveClearData.isClear = waveInfoData != null && waveInfoData.IsClear.Value;
             waveClearData.isGetReward = waveInfoData != null && waveInfoData.IsGet.Value;
             waveClearDataList.Add(waveClearData);
 
-            int lastStageIndex = _userModel.GetLastClearStageIndex();
-            int clearWaveIndex = lastStage.GetLastClearWaveIndex();
-            _battlePopup.SetInfo(waveClearDataList, lastStageIndex, clearWaveIndex.ToString());
+            int clearWaveIndex = stageInfo.GetLastClearWaveIndex();
+            _battlePopup.UpdateUI(waveClearDataList, currentStageIndex, clearWaveIndex.ToString());
+            
+            var timeDataModel = ModelFactory.CreateOrGetModel<TimeDataModel>();
+            bool isPossibleGetReward = timeDataModel.IsPossibleGetReward(_userModel.LastOfflineGetRewardTime);
+            _battlePopup.ShowOutGameContentButtonRedDot(OutGameContentButtonType.OfflineReward, isPossibleGetReward);
+        }
+
+        private void OnStageSelect()
+        {
+            GameManager.I.Event.Raise(GameEventType.ShowStageSelectPopup);
         }
         
         private async void OnGameStart()

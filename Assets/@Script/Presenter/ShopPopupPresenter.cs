@@ -170,7 +170,7 @@ namespace SlimeMaster.Presenter
                     {
                         var rewardItemData = new RewardItemData
                         {
-                            itemId = dbItemData.ItemId,
+                            materialItemId = dbItemData.ItemId,
                             rewardValue = dbItemData.ItemValue
                         };
                             

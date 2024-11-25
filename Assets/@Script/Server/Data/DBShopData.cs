@@ -7,7 +7,6 @@ namespace SlimeMaster.Firebase.Data
     [FirestoreData]
     public class DBShopData
     {
-        
         [FirestoreProperty] public List<DBShopHistoryData> ShopHistoryDataList { get; set; }
     }
     

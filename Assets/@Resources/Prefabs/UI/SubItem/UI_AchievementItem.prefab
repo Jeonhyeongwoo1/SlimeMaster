@@ -1232,6 +1232,7 @@ GameObject:
   - component: {fileID: 3611175625970779712}
   - component: {fileID: 3611175625970779715}
   - component: {fileID: 3611175625970779714}
+  - component: {fileID: 8965366931911150714}
   m_Layer: 5
   m_Name: UI_AchievementItem
   m_TagString: Untagged
@@ -1328,6 +1329,26 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &8965366931911150714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3611175625970779716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baf6662787b744e9a8ae9ba1be7015f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rewardItmeIconImage: {fileID: 3611175625173587122}
+  _rewardItemValueText: {fileID: 3611175625924440727}
+  _missionNameValueText: {fileID: 3611175625939018461}
+  _missionProgressValueText: {fileID: 3611175626251251633}
+  _progressText: {fileID: 290190740861731866}
+  _getButton: {fileID: 6637758470623999976}
+  _completeText: {fileID: 3611175625146924466}
+  _progressSliderObject: {fileID: 3611175624823050506}
 --- !u!1 &3611175626251251635
 GameObject:
   m_ObjectHideFlags: 0

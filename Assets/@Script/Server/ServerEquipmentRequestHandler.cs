@@ -98,6 +98,9 @@ namespace SlimeMaster.Server
                 };
             }
 
+            userData.MissionContainerData = ServerMissionHelper.UpdateMissionAccumulatedValue(
+                MissionTarget.EquipmentLevelUp, userData.MissionContainerData, 1, _dataManager);
+            
             dbEquipmentData.Level++;
             dbGoldItemData.ItemValue -= equipmentLevelData.UpgradeCost;
             dbMaterialItemData.ItemValue -= equipmentLevelData.UpgradeRequiredItems;
@@ -376,6 +379,9 @@ namespace SlimeMaster.Server
                 dbUserData.UnEquippedItemDataList.Add(newData);
                 uidList.Add(selectedEquipItemUid);
             }
+
+            dbUserData.MissionContainerData = ServerMissionHelper.UpdateMissionAccumulatedValue(MissionTarget.EquipmentMerge,
+                dbUserData.MissionContainerData, 1, _dataManager);
             
             userDict.Add(nameof(DBUserData), dbUserData);
              

@@ -17,6 +17,9 @@ namespace SlimeMaster.Controller
             var lobbyPresenter = PresenterFactory.CreateOrGet<LobbyPresenter>();
             var userModel = ModelFactory.CreateOrGetModel<UserModel>();
             var checkoutModel = ModelFactory.CreateOrGetModel<CheckoutModel>();
+            var missionModel = ModelFactory.CreateOrGetModel<MissionModel>();
+            var achievementModel = ModelFactory.CreateOrGetModel<AchievementModel>();
+            var timeDataModel = ModelFactory.CreateOrGetModel<TimeDataModel>();
             lobbyPresenter.Initialize(userModel, lobbyUI);
 
             var battlePresenter = PresenterFactory.CreateOrGet<BattlePopupPresenter>();
@@ -52,6 +55,24 @@ namespace SlimeMaster.Controller
 
             var checkoutPopupPresenter = PresenterFactory.CreateOrGet<CheckOutPopupPresenter>();
             checkoutPopupPresenter.Initialize(userModel, checkoutModel);
+
+            var missionPopupPresenter = PresenterFactory.CreateOrGet<MissionPopupPresenter>();
+            missionPopupPresenter.Initialize(userModel, missionModel);
+
+            var achievementPopupPresenter = PresenterFactory.CreateOrGet<AchievementPopupPresenter>();
+            achievementPopupPresenter.Initialize(userModel, achievementModel);
+
+            var offlinePopupPresenter = PresenterFactory.CreateOrGet<OfflineRewardPopupPresenter>();
+            offlinePopupPresenter.Initialize(userModel);
+
+            var fastRewardPopupPresenter = PresenterFactory.CreateOrGet<FastRewardPopupPresenter>();
+            fastRewardPopupPresenter.Initialize(timeDataModel);
+
+            var settingPopupPresenter = PresenterFactory.CreateOrGet<SettingPopupPresenter>();
+            settingPopupPresenter.Initialize();
+
+            var stageSelectPopupPresenter = PresenterFactory.CreateOrGet<StageSelectPopupPresenter>();
+            stageSelectPopupPresenter.Initialize(userModel);
         }
     }
 }

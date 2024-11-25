@@ -1,5 +1,6 @@
 using SlimeMaster.Common;
 using SlimeMaster.Manager;
+using SlimeMaster.UISubItemElement;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -21,7 +22,7 @@ namespace SlimeMaster.Popup
          
             if (_bgCloseButton != null)
             {
-                _bgCloseButton.SafeAddButtonListener(ClosePopup);
+                _bgCloseButton.SafeAddButtonListener(()=> GameManager.I.UI.ClosePopup());
             }
             IsInitialize = true;
         }
@@ -35,6 +36,20 @@ namespace SlimeMaster.Popup
         {
             button.onClick.RemoveAllListeners();
             button.onClick.AddListener(callback);
+        }
+
+        public void ReleaseSubItem<T>(Transform parent) where T : UI_SubItemElement
+        {
+            var childs = Utils.GetChildComponent<T>(parent);
+            if (childs == null)
+            {
+                return;
+            }
+            
+            foreach (T subItem in childs)
+            {
+                subItem.Release();
+            }
         }
 
         public virtual void OpenPopup()

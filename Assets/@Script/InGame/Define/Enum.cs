@@ -43,7 +43,10 @@ namespace SlimeMaster.Enum
         ShowGachaResultPopup,
         ShowMergePopup,
         ShowMergeResultPopup,
-        ShowOutGameContentPopup
+        ShowOutGameContentPopup,
+        ShowFastRewardPopup,
+        ShowStageSelectPopup,
+        ChangeStage
     }
 
     public enum DropableItemType
@@ -242,6 +245,9 @@ namespace SlimeMaster.Enum
         NotEnoughShopCostItemValue,
         NotEnoughTime,
         AlreadyClaimed,
+        FailedGetMissionData,
+        NotEnoughAccumulatedValue,
+        NotEnoughRewardTime,
     }
 
     public enum WaveType
@@ -344,6 +350,52 @@ namespace SlimeMaster.Enum
         Setting,
         Checkout,
         Mission,
-        Achievement
+        Achievement,
+        OfflineReward
+    }
+    
+    public enum MissionType
+    {
+        Complete, // 완료시
+        Daily,
+        Weekly,
+    }
+
+    public enum MissionTarget // 미션 조건
+    {
+        DailyComplete, // 데일리 완료
+        WeeklyComplete, // 위클리 완료
+        StageEnter, // 스테이지 입장
+        StageClear, // 스테이지 클리어
+        EquipmentLevelUp, // 장비 레벨업
+        CommonGachaOpen, // 일반 가챠 오픈 (광고 유도목적)
+        AdvancedGachaOpen, // 고급 가챠 오픈 (광고 유도목적)
+        OfflineRewardGet, // 오프라인 보상 
+        FastOfflineRewardGet, // 빠른 오프라인 보상
+        ShopProductBuy, // 상점 상품 구매
+        Login, // 로그인
+        EquipmentMerge, // 장비 합성
+        MonsterAttack, // 몬스터 어택
+        MonsterKill, // 몬스터 킬
+        EliteMonsterAttack, // 엘리트 어택
+        EliteMonsterKill, // 엘리트 킬
+        BossKill, // 보스 킬
+        DailyShopBuy, // 데일리 상점 상품 구매
+        GachaOpen, // 가챠 오픈 (일반, 고급가챠 포함)
+        ADWatchIng, // 광고 시청
+    }
+
+    public enum SettingType
+    {
+        BGM,
+        SFX,
+        Joystick
+    }
+
+    public enum StageWaveClearDepth
+    {
+        First,
+        Second,
+        Third
     }
 }

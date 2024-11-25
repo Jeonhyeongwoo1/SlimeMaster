@@ -57,7 +57,7 @@ namespace SlimeMaster.Presenter
                 Color gradeColor = Const.EquipmentUIColors.GetMaterialGradeColor(materialData.MaterialGrade);
                 CheckoutDayData checkoutData = _checkoutModel.GetCheckOutData(checkOutData.Day);
                 int day = checkoutData.Day;
-                bool isGet = checkoutData.IsGet.Value;
+                bool isGet = checkoutData.IsGet;
                 if (index >= count - _popup.GroupCount)
                 {
                     int i = index - (count - _popup.GroupCount);
@@ -100,10 +100,10 @@ namespace SlimeMaster.Presenter
             {
                 int itemID = response.DBItemData.ItemId;
                 int itemValue = response.DBItemData.ItemValue;
-                var item = _userModel.GetItemData(itemID);
+                var item = _userModel.GetItemData(itemID) ?? _userModel.SetItemValue(itemID, itemValue);
                 itemData.rewardValue = (int)(itemValue - item.ItemValue.Value);
                 _userModel.SetItemValue(itemID, itemValue);
-                itemData.itemId = itemID;
+                itemData.materialItemId = itemID;
                 GameManager.I.Event.Raise(GameEventType.GetReward, new List<RewardItemData>(1) { itemData });
             }
             else if (response.DBEquipmentData != null)

@@ -554,4 +554,85 @@ namespace SlimeMaster.Data
         }
     }
     #endregion
+    
+    
+    #region MissionData
+    public class MissionData
+    {
+        public int MissionId;
+        public MissionType MissionType;
+        public string DescriptionTextID;
+        public MissionTarget MissionTarget;
+        public int MissionTargetValue;
+        public int ClearRewardItmeId;
+        public int RewardValue;
+    }
+
+    [Serializable]
+    public class MissionDataLoader : ILoader<int, MissionData>
+    {
+        public List<MissionData> missions = new List<MissionData>();
+        public Dictionary<int, MissionData> MakeDict()
+        {
+            Dictionary<int, MissionData> dict = new Dictionary<int, MissionData>();
+            foreach (MissionData mis in missions)
+                dict.Add(mis.MissionId, mis);
+            return dict;
+        }
+    }
+    #endregion
+    
+    #region AchievementData
+    [Serializable]
+    public class AchievementData
+    {
+        public int AchievementID;
+        public string DescriptionTextID;
+        public MissionTarget MissionTarget;
+        public int MissionTargetValue;
+        public int ClearRewardItmeId;
+        public int RewardValue;
+        public bool IsCompleted;
+        public bool IsRewarded;
+        public int ProgressValue;
+    }
+
+    [Serializable]
+    public class AchievementDataLoader : ILoader<int, AchievementData>
+    {
+        public List<AchievementData> Achievements = new List<AchievementData>();
+        public Dictionary<int, AchievementData> MakeDict()
+        {
+            Dictionary<int, AchievementData> dict = new Dictionary<int, AchievementData>();
+            foreach (AchievementData ach in Achievements)
+                dict.Add(ach.AchievementID, ach);
+            return dict;
+        }
+    }
+    #endregion
+    
+    #region OfflineRewardData
+    public class OfflineRewardData
+    {
+        public int StageIndex;
+        public int Reward_Gold;
+        public int Reward_Exp;
+        public int FastReward_Scroll;
+        public int FastReward_Box;
+    }
+
+    [Serializable]
+    public class OfflineRewardDataLoader : ILoader<int, OfflineRewardData>
+    {
+        public List<OfflineRewardData> offlines = new List<OfflineRewardData>();
+        public Dictionary<int, OfflineRewardData> MakeDict()
+        {
+            Dictionary<int, OfflineRewardData> dict = new Dictionary<int, OfflineRewardData>();
+            foreach (OfflineRewardData ofr in offlines)
+                dict.Add(ofr.StageIndex, ofr);
+            return dict;
+        }
+    }
+    #endregion
+
 }

@@ -1494,6 +1494,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5679907160552220205}
+  - component: {fileID: 6396624198908339175}
   m_Layer: 5
   m_Name: UI_StageInfoItem
   m_TagString: Untagged
@@ -1525,6 +1526,29 @@ RectTransform:
   m_AnchoredPosition: {x: 500, y: -475}
   m_SizeDelta: {x: 600, y: 950}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6396624198908339175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7018517814048418546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57c470e32234a4801abfdc2c689f32ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stageValueText: {fileID: 7645174480324190911}
+  _stageImage: {fileID: 1565393725229355796}
+  _stageLockImageObject: {fileID: 3886627646396830810}
+  _maxWaveValueText: {fileID: 5428345636577566340}
+  _stageRewardElementList:
+  - rewardCompleteObject: {fileID: 7622994899067291037}
+    rewardLockObject: {fileID: 1621467347517558763}
+  - rewardCompleteObject: {fileID: 5646988642503469592}
+    rewardLockObject: {fileID: 6399601301039823641}
+  - rewardCompleteObject: {fileID: 8346921287682106989}
+    rewardLockObject: {fileID: 6878542054368433014}
 --- !u!1 &7112826778541788619
 GameObject:
   m_ObjectHideFlags: 0

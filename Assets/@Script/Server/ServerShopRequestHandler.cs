@@ -140,6 +140,10 @@ namespace SlimeMaster.Server
                                 userData.UnEquippedItemDataList.Add(dbEquipmentData);
                                 _rewardEquipmentItemList.Add(dbEquipmentData);
                             }
+
+                            userData.MissionContainerData = ServerMissionHelper.UpdateMissionAccumulatedValue(
+                                MissionTarget.GachaOpen,
+                                userData.MissionContainerData, 1, _dataManager);
                             
                             userDict.Add(nameof(DBUserData), userData);
                             break;

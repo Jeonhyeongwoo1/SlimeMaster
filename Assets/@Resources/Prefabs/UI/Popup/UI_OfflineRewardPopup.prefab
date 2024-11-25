@@ -7268,6 +7268,7 @@ GameObject:
   - component: {fileID: 6804451245782425014}
   - component: {fileID: 4668931627813384988}
   - component: {fileID: 2195240358346083573}
+  - component: {fileID: 4746331092843417395}
   m_Layer: 5
   m_Name: UI_OfflineRewardPopup
   m_TagString: Untagged
@@ -7358,7 +7359,26 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 65527
+--- !u!114 &4746331092843417395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7204092453717425042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d0704b914834478da028d1f6578a947, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bgCloseButton: {fileID: 1016406}
+  _totalTimeValueText: {fileID: 1302686632540996545}
+  _resultGoldValueText: {fileID: 6263056086994251705}
+  _rewardItemScrollContentObject: {fileID: 1613049633050308290}
+  _fastRewardButton: {fileID: 6663167713349892026}
+  _claimButton: {fileID: 366976414129613233}
+  _goldParticle: {fileID: 2735769058654241291}
 --- !u!1 &7360401948311242104
 GameObject:
   m_ObjectHideFlags: 0

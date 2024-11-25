@@ -54,6 +54,9 @@ namespace SlimeMaster.Factory
             Create<ServerEquipmentRequestHandler>(firebaseController, dataManager);
             Create<ServerShopRequestHandler>(firebaseController, dataManager);
             Create<ServerCheckoutRequestHandler>(firebaseController, dataManager);
+            Create<ServerMissionRequestHandler>(firebaseController, dataManager);
+            Create<ServerAchievementRequestHandler>(firebaseController, dataManager);
+            Create<ServerOfflineRewardRequestHandler>(firebaseController, dataManager);
         }
     }
 }

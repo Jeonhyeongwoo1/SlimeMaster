@@ -8,7 +8,6 @@ using SlimeMaster.Popup;
 using SlimeMaster.Presenter;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace SlimeMaster.OutGame.Popup
@@ -20,6 +19,7 @@ namespace SlimeMaster.OutGame.Popup
         {
             public OutGameContentButtonType contentButtonType;
             public Button button;
+            public GameObject redDotObject;
         }
         
         [SerializeField] private TextMeshProUGUI _currentStageNameText;
@@ -30,7 +30,9 @@ namespace SlimeMaster.OutGame.Popup
         [SerializeField] private Slider _waveSlider;
         [SerializeField] private List<WaveClearButton> _waveClearButtonList;
         [SerializeField] private List<ButtonElement> _buttonElementList;
-
+        [SerializeField] private Button _stageSelectButton;
+        
+        public Action onStageSelectAction;
         public Action onGameStartAction;
         public Action<WaveClearType> onGetRewardAction;
         public Action<OutGameContentButtonType> onClickContentButtonType;
@@ -43,12 +45,19 @@ namespace SlimeMaster.OutGame.Popup
             }
             
             base.Initialize();
-            _gameStartButton.onClick.AddListener(() => onGameStartAction.Invoke());
+        }
+
+        public override void AddEvents()
+        {
+            base.AddEvents();
+            
+            _stageSelectButton.SafeAddButtonListener(onStageSelectAction.Invoke);
+            _gameStartButton.SafeAddButtonListener(onGameStartAction.Invoke);
             _waveClearButtonList.ForEach(v=> v.AddListener(onGetRewardAction));
             _buttonElementList.ForEach(v =>
                 v.button.SafeAddButtonListener(() => onClickContentButtonType.Invoke(v.contentButtonType)));
         }
-        
+
         public void UpdateWaveClearButton(WaveClearType waveClearType, bool isClear, bool isGetReward)
         {
             foreach (WaveClearButton waveClearButton in _waveClearButtonList)
@@ -60,7 +69,13 @@ namespace SlimeMaster.OutGame.Popup
             }
         }
 
-        public void SetInfo(List<WaveClearData> currentWaveClearDataList, int stageIndex,
+        public void ShowOutGameContentButtonRedDot(OutGameContentButtonType buttonType, bool isActive)
+        {
+            ButtonElement element = _buttonElementList.Find(v=> v.contentButtonType == buttonType);
+            element.redDotObject.SetActive(isActive);
+        }
+
+        public void UpdateUI(List<WaveClearData> currentWaveClearDataList, int stageIndex,
             string clearWaveIndex)
         {
             _currentStageNameText.text = $"{stageIndex} Stage";

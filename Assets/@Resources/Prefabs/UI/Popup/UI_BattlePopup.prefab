@@ -8062,7 +8062,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 116.79, y: 0}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8592733700267450340
@@ -8360,7 +8360,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 257.51, y: 0}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8592733700544694823
@@ -9369,12 +9369,20 @@ MonoBehaviour:
   _buttonElementList:
   - contentButtonType: 0
     button: {fileID: 8592733700185937650}
+    redDotObject: {fileID: 8592733701590576128}
   - contentButtonType: 1
     button: {fileID: 8592733700178482373}
+    redDotObject: {fileID: 4497985573721950297}
   - contentButtonType: 2
     button: {fileID: 8592733699620505412}
+    redDotObject: {fileID: 8124310818521499257}
   - contentButtonType: 3
     button: {fileID: 1189047211824199750}
+    redDotObject: {fileID: 1225087684493124729}
+  - contentButtonType: 4
+    button: {fileID: 8592733700908280901}
+    redDotObject: {fileID: 3099870233346934414}
+  _stageSelectButton: {fileID: 8592733700004173334}
 --- !u!1 &8592733701531849200
 GameObject:
   m_ObjectHideFlags: 0
@@ -9542,7 +9550,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8592733701590576129
 RectTransform:
   m_ObjectHideFlags: 0

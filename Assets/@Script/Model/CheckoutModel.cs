@@ -3,14 +3,16 @@ using SlimeMaster.Firebase.Data;
 using SlimeMaster.Interface;
 using UniRx;
 using System;
+using System.Linq;
 
 namespace SlimeMaster.Model
 {
     public class CheckoutModel : IModel
     {
+        public ReactiveProperty<bool> IsPossibleGetReward = new();
         public List<CheckoutDayData> checkoutDayDataList;
         public int totalAttendanceDays;
-
+        
         public void Initialize(DBCheckoutData dbCheckoutData, int totalAttendanceDays)
         {
             this.totalAttendanceDays = totalAttendanceDays;
@@ -19,6 +21,7 @@ namespace SlimeMaster.Model
         
         public void SetCheckOutDataList(DBCheckoutData dbCheckoutData)
         {
+            totalAttendanceDays = dbCheckoutData.TotalAttendanceDays;
             checkoutDayDataList ??= new(dbCheckoutData.DBCheckoutDayDataList.Count);
             if (checkoutDayDataList.Count > 0)
             {
@@ -30,14 +33,22 @@ namespace SlimeMaster.Model
                 var dayData = new CheckoutDayData
                 {
                     Day = dbCheckoutDayData.Day,
-                    IsGet =
-                    {
-                        Value = dbCheckoutDayData.IsGet
-                    }
+                    IsGet = dbCheckoutDayData.IsGet
                 };
-                
+
                 checkoutDayDataList.Add(dayData);
             }
+            
+            foreach (var dbCheckoutDayData in dbCheckoutData.DBCheckoutDayDataList)
+            {
+                IsPossibleGetReward.Value = false;
+                if (dbCheckoutDayData.Day <= totalAttendanceDays && !dbCheckoutDayData.IsGet)
+                {
+                    IsPossibleGetReward.Value = true;
+                    break;
+                }
+            }
+            
         }
 
         public CheckoutDayData GetCheckOutData(int day)
@@ -50,6 +61,6 @@ namespace SlimeMaster.Model
     public class CheckoutDayData
     {
         public int Day;
-        public ReactiveProperty<bool> IsGet = new();
+        public bool IsGet = new();
     }
 }

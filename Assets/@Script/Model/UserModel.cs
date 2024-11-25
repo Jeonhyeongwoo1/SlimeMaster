@@ -9,22 +9,24 @@ using SlimeMaster.Interface;
 using SlimeMaster.Manager;
 using UniRx;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace SlimeMaster.Model
 {
     public class UserModel : IModel
     {        
-        public int MaxHp => (int)(CreatureData.MaxHp + (CreatureData.MaxHpBonus * _level) * CreatureData.HpRate);
-        public int MaxAttackDamage => (int)(CreatureData.Atk + (CreatureData.AtkBonus * _level) * CreatureData.AtkRate);
+        public int MaxHp => (int)(CreatureData.MaxHp + (CreatureData.MaxHpBonus * _userLevel) * CreatureData.HpRate);
+        public int MaxAttackDamage => (int)(CreatureData.Atk + (CreatureData.AtkBonus * _userLevel) * CreatureData.AtkRate);
 
         public ReactiveProperty<Dictionary<int, ItemData>> ItemDataDict = new();
         public ReactiveProperty<List<StageInfo>> StageInfoList = new();
         public ReactiveProperty<List<Equipment>> EquippedItemDataList = new();
         public ReactiveProperty<List<Equipment>> UnEquippedItemDataList = new();
         public DateTime LastLoginTime;
+        public DateTime LastOfflineGetRewardTime = DateTime.UtcNow;
         public CreatureData CreatureData;
         
-        private readonly int _level = 1;
+        private readonly int _userLevel = 1;
 
         public void CreateItem(int itemId, long itemValue)
         {
@@ -52,17 +54,18 @@ namespace SlimeMaster.Model
             itemData.ItemValue.Value += itemValue;
         }
 
-        public void SetItemValue(int itemId, long itemValue)
+        public ItemData SetItemValue(int itemId, long itemValue)
         {
             ItemDataDict.Value ??= new Dictionary<int, ItemData>();
             if (!ItemDataDict.Value.TryGetValue(itemId, out ItemData itemData))
             {
                 itemData = new ItemData(itemId, itemValue);
                 ItemDataDict.Value.Add(itemId, itemData);
-                return;
+                return itemData;
             }
 
             itemData.ItemValue.Value = itemValue;
+            return itemData;
         }
 
         public ItemData GetItemData(int itemId)
@@ -81,6 +84,13 @@ namespace SlimeMaster.Model
         {
             StageInfo stageInfo = StageInfoList.Value.Find(v => v.StageIndex.Value == stageIndex);
             return stageInfo;
+        }
+
+        public bool IsClearStage(int stageIndex)
+        {
+            StageInfo stageInfo = StageInfoList.Value.Find(v => v.StageIndex.Value == stageIndex);
+            WaveInfo waveInfo = stageInfo.WaveInfoList.Value.FirstOrDefault(v => !v.IsClear.Value);
+            return waveInfo == null;
         }
 
         public int GetLastClearStageIndex()
@@ -289,10 +299,13 @@ namespace SlimeMaster.Model
     {
         public readonly ReactiveProperty<int> StageIndex = new();
         public readonly ReactiveProperty<List<WaveInfo>> WaveInfoList = new();
+        public int lastClearWaveIndex = 0;
+        public readonly ReactiveProperty<bool> IsOpenedStage = new();
 
-        public StageInfo(int stageIndex, List<WaveInfo> waveInfoList)
+        public StageInfo(int stageIndex, bool isOpenedStage, List<WaveInfo> waveInfoList)
         {
             StageIndex.Value = stageIndex;
+            IsOpenedStage.Value = isOpenedStage;
             WaveInfoList.Value = new List<WaveInfo>();
             WaveInfoList.Value.AddRange(waveInfoList);
         }

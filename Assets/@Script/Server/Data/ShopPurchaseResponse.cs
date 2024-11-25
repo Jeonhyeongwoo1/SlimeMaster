@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using SlimeMaster.Firebase.Data;
-using SlimeMaster.Shared;
 
 namespace SlimeMaster.Shared.Data
 {

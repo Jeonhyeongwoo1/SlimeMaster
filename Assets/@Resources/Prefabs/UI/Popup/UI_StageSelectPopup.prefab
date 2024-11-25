@@ -31,7 +31,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2797996158160956995}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -108,7 +107,6 @@ RectTransform:
   m_Children:
   - {fileID: 1827699187631079380}
   m_Father: {fileID: 1827699186656025865}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -184,7 +182,6 @@ RectTransform:
   m_Children:
   - {fileID: 1827699186640875280}
   m_Father: {fileID: 1827699187974845203}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -247,7 +244,7 @@ GameObject:
   - component: {fileID: 1827699186733946884}
   - component: {fileID: 1827699186733946885}
   - component: {fileID: 1827699186733946886}
-  - component: {fileID: 8624255682726104908}
+  - component: {fileID: 5439218864867150055}
   m_Layer: 5
   m_Name: UI_StageSelectPopup
   m_TagString: Untagged
@@ -272,7 +269,6 @@ RectTransform:
   - {fileID: 1827699186750893732}
   - {fileID: 1827699187974845203}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -296,7 +292,9 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
+  m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 101
   m_TargetDisplay: 0
@@ -339,8 +337,8 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
---- !u!114 &8624255682726104908
+    m_Bits: 65527
+--- !u!114 &5439218864867150055
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -349,9 +347,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1827699186733946880}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 958cce1cec8da7442a6fabcb05b8a5c9, type: 3}
+  m_Script: {fileID: 11500000, guid: e72a250e16e424e9899a262f6fa54561, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _bgCloseButton: {fileID: 0}
+  _appearingMonsterContentObject: {fileID: 724896107657283124}
+  _stageSelectScrollView: {fileID: 5600777470319702479}
+  _stageScrollContentObject: {fileID: 4393761747560949100}
+  _selectStageButton: {fileID: 6479009660924020667}
+  _backButton: {fileID: 1827699186656025864}
 --- !u!1 &1827699186750893733
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,7 +388,6 @@ RectTransform:
   - {fileID: 7109684876568526758}
   - {fileID: 2797996158160956995}
   m_Father: {fileID: 1827699186733946891}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -424,7 +427,6 @@ RectTransform:
   - {fileID: 8021442832436786072}
   - {fileID: 859972571311773349}
   m_Father: {fileID: 1827699186733946891}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -500,7 +502,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1827699186640875280}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -579,7 +580,6 @@ RectTransform:
   - {fileID: 457029867043833009}
   - {fileID: 1827699186656025865}
   m_Father: {fileID: 1827699186733946891}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -676,7 +676,6 @@ RectTransform:
   m_Children:
   - {fileID: 3939017331638379576}
   m_Father: {fileID: 7109684876568526758}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -702,7 +701,7 @@ MonoBehaviour:
     m_Bottom: 0
   m_ChildAlignment: 4
   m_Spacing: 0
-  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
@@ -754,7 +753,6 @@ RectTransform:
   - {fileID: 6313151003137765841}
   - {fileID: 7833703487120793650}
   m_Father: {fileID: 1827699186750893732}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -791,7 +789,6 @@ RectTransform:
   m_Children:
   - {fileID: 1174286428839296952}
   m_Father: {fileID: 1827699187137859644}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -829,7 +826,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1827699187137859644}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -907,7 +903,6 @@ RectTransform:
   m_Children:
   - {fileID: 1012021439421916069}
   m_Father: {fileID: 1827699187974845203}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -1031,7 +1026,6 @@ RectTransform:
   m_Children:
   - {fileID: 4393761747560949100}
   m_Father: {fileID: 1827699186750893732}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -1134,7 +1128,7 @@ MonoBehaviour:
   MaskArea: {fileID: 0}
   MaskBuffer: 1
   JumpOnEnable: 0
-  RestartOnEnable: 0
+  RestartOnEnable: 1
   UseParentTransform: 1
   ChildObjects: []
   m_OnSelectionChangeStartEvent:
@@ -1142,7 +1136,20 @@ MonoBehaviour:
       m_Calls: []
   m_OnSelectionPageChangedEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5439218864867150055}
+        m_TargetAssemblyTypeName: SlimeMaster.OutGame.Popup.UI_StageSelectPopup,
+          Assembly-CSharp
+        m_MethodName: OnChangedSelectStage
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnSelectionChangeEndEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -1190,7 +1197,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 457029867043833009}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1326,7 +1332,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7109684876568526758}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -1481,7 +1486,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6049236523191219633}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1616,7 +1620,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6049236523191219633}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1694,7 +1697,6 @@ RectTransform:
   - {fileID: 6049236522857400408}
   - {fileID: 6049236522459209278}
   m_Father: {fileID: 1827699186733946891}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -1770,7 +1772,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2797996158160956995}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -1847,7 +1848,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7458341519109785297}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1940,7 +1940,6 @@ RectTransform:
   - {fileID: 3261997525335945526}
   - {fileID: 724896107657283124}
   m_Father: {fileID: 1827699186750893732}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -2036,7 +2035,7 @@ GameObject:
   - component: {fileID: 1174286428839296952}
   - component: {fileID: 6529504331310012958}
   - component: {fileID: 2882619985418723026}
-  - component: {fileID: 216439595052787970}
+  - component: {fileID: 6306999222048091467}
   m_Layer: 5
   m_Name: PatternRawImage
   m_TagString: Untagged
@@ -2057,7 +2056,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 859972571311773349}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2099,7 +2097,7 @@ MonoBehaviour:
     y: 0
     width: 3.15
     height: 6
---- !u!114 &216439595052787970
+--- !u!114 &6306999222048091467
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2108,16 +2106,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 8364980216412994586}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6295f9d9fbf17b64eae22a9f32bbadb9, type: 3}
+  m_Script: {fileID: 11500000, guid: 5017770c3146b4a43a304bd6f2940ad5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rawImage: {fileID: 2882619985418723026}
-  speed: 0.1
+  _image: {fileID: 2882619985418723026}
 --- !u!1001 &1505611244285424686
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 724896107657283124}
     m_Modifications:
     - target: {fileID: 2472249797652697110, guid: ba0f56b5f0aaa714f9966604682aff6f, type: 3}
@@ -2209,6 +2207,9 @@ PrefabInstance:
       value: UI_MonsterInfoItem
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ba0f56b5f0aaa714f9966604682aff6f, type: 3}
 --- !u!224 &3939017331638379576 stripped
 RectTransform:

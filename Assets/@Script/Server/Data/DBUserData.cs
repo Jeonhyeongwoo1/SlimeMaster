@@ -9,16 +9,19 @@ namespace SlimeMaster.Firebase.Data
     {
         [FirestoreProperty] public string UserId { get; set; }
         [FirestoreProperty] public DateTime LastLoginTime { get; set; }
+        [FirestoreProperty] public DateTime LastGetOfflineRewardTime { get; set; }
         [FirestoreProperty] public Dictionary<string, DBItemData> ItemDataDict { get; set; }
         [FirestoreProperty] public Dictionary<string, DBStageData> StageDataDict { get; set; }
         [FirestoreProperty] public List<DBEquipmentData> EquippedItemDataList { get; set; }
         [FirestoreProperty] public List<DBEquipmentData> UnEquippedItemDataList { get; set; }
+        [FirestoreProperty] public DBMissionContainerData MissionContainerData { get; set; }
+        [FirestoreProperty] public DBAchievementContainerData AchievementContainerData { get; set; }
         
         public DBUserData()
         {
             ItemDataDict = new();
             StageDataDict = new Dictionary<string, DBStageData>();
-            LastLoginTime = DateTime.UtcNow;
+            MissionContainerData = new DBMissionContainerData();
         }
     }
 
@@ -26,12 +29,14 @@ namespace SlimeMaster.Firebase.Data
     public class DBStageData
     {
         [FirestoreProperty] public int StageIndex { get; set; }
+        [FirestoreProperty] public bool IsOpened { get; set; }
         [FirestoreProperty] public List<DBWaveData> WaveDataList { get; set; }
 
         public void Initialize(int stageIndex, params DBWaveData[] dbWaveDataArray)
         {
             StageIndex = stageIndex;
             WaveDataList = new();
+            IsOpened = stageIndex == 1;
             foreach (DBWaveData dbWaveData in dbWaveDataArray)
             {
                 WaveDataList.Add(dbWaveData);

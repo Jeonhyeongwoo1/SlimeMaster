@@ -698,9 +698,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2242871499326430282}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 180, y: -55}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 180, y: 0}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2242871498946542098
@@ -2008,6 +2008,7 @@ GameObject:
   - component: {fileID: 2242871500090446605}
   - component: {fileID: 2242871500090446604}
   - component: {fileID: 2242871500090446607}
+  - component: {fileID: 4849435763097900533}
   m_Layer: 5
   m_Name: UI_FastRewardPopup
   m_TagString: Untagged
@@ -2099,6 +2100,24 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 65527
+--- !u!114 &4849435763097900533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2242871500090446601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79334d8e4ef1741969ac21e3c3465a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bgCloseButton: {fileID: 7035060898014004284}
+  _itemContainer: {fileID: 2242871499948257450}
+  _adButton: {fileID: 2242871499628064374}
+  _claimButton: {fileID: 2242871499326430283}
+  _claimCostValueText: {fileID: 2242871498946542093}
+  _remainingCountValueText: {fileID: 2242871498606244372}
 --- !u!1 &2905005415309799589
 GameObject:
   m_ObjectHideFlags: 0

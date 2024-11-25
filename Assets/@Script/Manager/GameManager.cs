@@ -6,6 +6,7 @@ using SlimeMaster.InGame.Data;
 using SlimeMaster.InGame.Manager;
 using SlimeMaster.InGame.View;
 using SlimeMaster.Model;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace SlimeMaster.Manager
@@ -34,6 +35,7 @@ namespace SlimeMaster.Manager
         public StageManager Stage => I._stage ??= new StageManager();
         public ObjectManager Object => I._object ??= new ObjectManager();
         public UIManager UI => I._ui ??= new UIManager();
+        public MissionManager Mission => I._mission ??= new MissionManager();
 
         private EventManager _event;
         private PoolManager _pool;
@@ -42,9 +44,42 @@ namespace SlimeMaster.Manager
         private StageManager _stage;
         private ObjectManager _object;
         private UIManager _ui;
+        private MissionManager _mission;
 
         public GameContinueData GameContinueData => _gameContinueData ??= new GameContinueData();
         private GameContinueData _gameContinueData;
+
+        public bool IsOnBGM
+        {
+            get => PlayerPrefs.GetInt(nameof(IsOnBGM), 0) == 0;
+            set => PlayerPrefs.SetInt(nameof(IsOnBGM), value ? 0 : 1);
+        }
+        
+        public bool IsOnSfx
+        {
+            get => PlayerPrefs.GetInt(nameof(IsOnSfx), 0) == 0;
+            set => PlayerPrefs.SetInt(nameof(IsOnSfx), value ? 0 : 1);
+        }
+
+        public bool IsFixJoystick
+        {
+            get => PlayerPrefs.GetInt(nameof(IsFixJoystick), 0) == 0;
+            set => PlayerPrefs.SetInt(nameof(IsFixJoystick), value ? 0 : 1);
+        }
+
+        public int CurrentStageIndex
+        {
+            get
+            {
+                int savedStageIndex = PlayerPrefs.GetInt(nameof(CurrentStageIndex), 0);
+                int stageIndex = savedStageIndex == 0
+                    ? ModelFactory.CreateOrGetModel<UserModel>().GetLastClearStageIndex()
+                    : savedStageIndex;
+
+                return stageIndex;
+            }
+            set => PlayerPrefs.SetInt(nameof(CurrentStageIndex), value);
+        }
 
         public void ManagerInitialize()
         {

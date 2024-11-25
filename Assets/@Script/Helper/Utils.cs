@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using SlimeMaster.Data;
@@ -192,6 +193,18 @@ namespace SlimeMaster.Common
             mergeOptionResultDataList.Add(gradeData);
 
             return mergeOptionResultDataList;
+        }
+
+        public static TimeSpan GetOfflineRewardTime(DateTime lastOfflineGetRewardTime)
+        {
+            DateTime dateTime = lastOfflineGetRewardTime;
+            TimeSpan timeSpan = DateTime.UtcNow - dateTime;
+            if (timeSpan > TimeSpan.FromHours(24))
+            {
+                return TimeSpan.FromHours(23.9);
+            }
+
+            return timeSpan;
         }
     }
 }

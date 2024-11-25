@@ -51,12 +51,24 @@ namespace SlimeMaster.Server
                     }
 
                     lastLoginTime = userData.LastLoginTime;
+                    userData.LastLoginTime = DateTime.UtcNow;
+                    
+                    //미션 데이터가 없거나 같은 날이 아닌경우에는 초기화작업
+                    if (userData.MissionContainerData.DBDailyMissionDataList == null || (DateTime.Now.Day != lastLoginTime.Day))
+                    {
+                        userData.MissionContainerData = ServerMissionHelper.InitializeMissionData(_dataManager);
+                    }
+
+                    userData.AchievementContainerData = ServerAchievementHelper.UpdateDBAchievementContainerData(MissionTarget.Login,
+                        userData.AchievementContainerData, 1, _dataManager);
+                    
                     userDict.Add(nameof(DBUserData), userData);
                     transaction.Set(userDocRef, userDict, SetOptions.MergeAll);
                     DBCheckoutData dbCheckoutData = null;
                     if (!checkoutSnapshot.Exists)
                     {
                         dbCheckoutData = ServerCheckoutHelper.MakeNewCheckOutData(_dataManager);
+                        dbCheckoutData.TotalAttendanceDays++;
                         checkoutDict.Add(nameof(DBCheckoutData), dbCheckoutData);
                         transaction.Set(checkoutDocRef, checkoutDict, SetOptions.MergeAll);
                     }
@@ -69,19 +81,24 @@ namespace SlimeMaster.Server
                             transaction.Set(checkoutDocRef, checkoutDict, SetOptions.MergeAll);
                         }
 
+                        Debug.Log($"{(DateTime.UtcNow - lastLoginTime).TotalHours} / {lastLoginTime}");
                         if ((DateTime.UtcNow - lastLoginTime).TotalHours > 24)
                         {
                             dbCheckoutData.TotalAttendanceDays++;
+                            checkoutDict.Add(nameof(DBCheckoutData), dbCheckoutData);
                             transaction.Set(checkoutDocRef, checkoutDict, SetOptions.MergeAll);
                         }
                     }
                     
                     return new UserResponse()
                     {
+                        responseCode = ServerErrorCode.Success,
                         DBUserData = userData,
                         DBCheckoutData = dbCheckoutData,
+                        DBMissionContainerData = userData.MissionContainerData,
+                        DBAchievementContainerData = userData.AchievementContainerData,
                         LastLoginTime = lastLoginTime,
-                        responseCode = ServerErrorCode.Success,
+                        LastOfflineGetRewardTime = userData.LastGetOfflineRewardTime
                     };
                 });
             }
@@ -143,6 +160,9 @@ namespace SlimeMaster.Server
                     responseCode = ServerErrorCode.NotEnoughStamina
                 };
             }
+
+            userData.MissionContainerData = ServerMissionHelper.UpdateMissionAccumulatedValue(MissionTarget.StageEnter,
+                userData.MissionContainerData, 1, _dataManager);
             
             itemData.ItemValue -= staminaCount;
             userDict.Add(nameof(DBUserData), userData);
@@ -206,13 +226,24 @@ namespace SlimeMaster.Server
                 }
             }
 
+            int nextStage = stageIndex + 1;
+            if (userData.StageDataDict.TryGetValue(nextStage.ToString(), out DBStageData dbNextStageData))
+            {
+                dbNextStageData.IsOpened = true;
+            }
+
             if (userData.ItemDataDict.TryGetValue(Const.ID_GOLD.ToString(), out DBItemData itemData))
             {
                 var stageData = _dataManager.StageDict[stageIndex];
                 var rewardGold = stageData.ClearReward_Gold;
                 itemData.ItemValue += rewardGold;
             }
-            
+
+            userData.MissionContainerData = ServerMissionHelper.UpdateMissionAccumulatedValue(MissionTarget.StageClear,
+                userData.MissionContainerData, 1, _dataManager);
+            userData.AchievementContainerData =
+                ServerAchievementHelper.UpdateDBAchievementContainerData(MissionTarget.StageClear,
+                    userData.AchievementContainerData, 1, _dataManager);
             userDict.Add(nameof(DBUserData), userData);
             
             try
