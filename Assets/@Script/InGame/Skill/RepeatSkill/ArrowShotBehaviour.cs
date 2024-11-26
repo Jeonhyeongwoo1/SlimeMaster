@@ -1,5 +1,7 @@
 using DG.Tweening;
 using SlimeMaster.Data;
+using SlimeMaster.Enum;
+using SlimeMaster.Manager;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -15,6 +17,7 @@ namespace SlimeMaster.InGame.Skill
             gameObject.SetActive(true);
             _rigidbody.velocity = direction * skillData.ProjSpeed;
             transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
+            GameManager.I.Audio.Play(Sound.Effect, "ArrowShot_Start");
             Invoke(nameof(Release), 4);
         }
 

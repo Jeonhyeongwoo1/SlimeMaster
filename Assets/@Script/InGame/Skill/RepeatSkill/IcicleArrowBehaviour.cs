@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using SlimeMaster.Data;
+using SlimeMaster.Enum;
+using SlimeMaster.Manager;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -33,6 +35,7 @@ namespace SlimeMaster.InGame.Skill
             _penerationCount = skillData.NumPenerations;
             UpdateVelocity(direction, skillData.ProjSpeed);
             Invoke(nameof(Release), 3);
+            GameManager.I.Audio.Play(Sound.Effect, "IcicleArrow_Start");
         }
 
         private void UpdateVelocity(Vector3 direction, float speed)

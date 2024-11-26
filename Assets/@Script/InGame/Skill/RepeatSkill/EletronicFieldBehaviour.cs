@@ -3,9 +3,11 @@ using System.Threading;
 using DG.Tweening;
 using SlimeMaster.Common;
 using SlimeMaster.Data;
+using SlimeMaster.Enum;
 using SlimeMaster.InGame.Data;
 using SlimeMaster.InGame.Enum;
 using SlimeMaster.InGame.Skill;
+using SlimeMaster.Manager;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Entity
@@ -44,6 +46,8 @@ namespace SlimeMaster.InGame.Entity
                     ApplyDamagedAsync(_applyDamagedCts, () => _monsterColliderList.ForEach(v => OnHit?.Invoke(v, this)))
                         .Forget();
                 });
+            
+            GameManager.I.Audio.Play(Sound.Effect, "EletronicField_Start");
         }
 
         private void Update()

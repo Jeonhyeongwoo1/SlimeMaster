@@ -22,8 +22,8 @@ namespace SlimeMaster.Model
         public ReactiveProperty<List<StageInfo>> StageInfoList = new();
         public ReactiveProperty<List<Equipment>> EquippedItemDataList = new();
         public ReactiveProperty<List<Equipment>> UnEquippedItemDataList = new();
+        public ReactiveProperty<DateTime> LastOfflineGetRewardTime = new();
         public DateTime LastLoginTime;
-        public DateTime LastOfflineGetRewardTime = DateTime.UtcNow;
         public CreatureData CreatureData;
         
         private readonly int _userLevel = 1;

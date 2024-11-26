@@ -1,5 +1,7 @@
 using SlimeMaster.Data;
+using SlimeMaster.Enum;
 using SlimeMaster.InGame.Enum;
+using SlimeMaster.Manager;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -40,7 +42,8 @@ namespace SlimeMaster.InGame.Skill
                 RaycastHit2D hit = _hitArray[j];
                 OnHit.Invoke(hit.collider, this);
             }
-                
+            
+            GameManager.I.Audio.Play(Sound.Effect, "ChainLightning_Start");
             gameObject.SetActive(true);
         }
     }

@@ -10,6 +10,8 @@ namespace SlimeMaster.InGame.Skill
 {
     public class WindCutter : RepeatSkill
     {
+        protected override string HitSoundName => "Windcutter_Hit";
+        
         private List<IGeneratable> _list = new List<IGeneratable>();
         public override void StopSkillLogic()
         {

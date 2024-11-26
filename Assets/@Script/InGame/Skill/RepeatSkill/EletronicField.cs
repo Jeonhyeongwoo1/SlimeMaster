@@ -7,6 +7,7 @@ namespace SlimeMaster.InGame.Skill
 {
     public class EletronicField : RepeatSkill
     {
+        protected override string HitSoundName => "EletronicField_Hit";
         private IGeneratable _generatable;
         
         public override void StopSkillLogic()

@@ -398,4 +398,11 @@ namespace SlimeMaster.Enum
         Second,
         Third
     }
+    
+    public enum Sound
+    {
+        Bgm,
+        Effect,
+        Max,
+    }
 }

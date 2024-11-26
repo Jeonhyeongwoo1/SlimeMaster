@@ -1,5 +1,6 @@
 using System.Linq;
 using SlimeMaster.Data;
+using SlimeMaster.Enum;
 using SlimeMaster.InGame.Controller;
 using SlimeMaster.Manager;
 using UnityEngine;
@@ -31,6 +32,7 @@ namespace SlimeMaster.InGame.Skill
             _range = 15;
             CancelInvoke();
             Invoke(nameof(Release), 4);
+            GameManager.I.Audio.Play(Sound.Effect, "PhotonStrike_Start");
         }
 
         private void SetTargetMonster(float speed)

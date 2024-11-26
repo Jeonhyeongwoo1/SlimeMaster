@@ -1,5 +1,7 @@
 using SlimeMaster.Data;
+using SlimeMaster.Enum;
 using SlimeMaster.InGame.Enum;
+using SlimeMaster.Manager;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -14,6 +16,7 @@ namespace SlimeMaster.InGame.Skill
             wantToSleepInTriggerEnter = true;
             _rigidbody.velocity = direction * skillData.ProjSpeed;
             
+            GameManager.I.Audio.Play(Sound.Effect, "MonsterProjectile_Start");
             CancelInvoke();
             Invoke(nameof(Release), 10);
         }

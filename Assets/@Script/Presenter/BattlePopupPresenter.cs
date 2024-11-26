@@ -109,15 +109,18 @@ namespace SlimeMaster.Presenter
 
             var checkoutModel = ModelFactory.CreateOrGetModel<CheckoutModel>();
             checkoutModel.IsPossibleGetReward.Subscribe(x =>
-                _battlePopup.ShowOutGameContentButtonRedDot(OutGameContentButtonType.Checkout, x)).AddTo(_battlePopup);
+                _battlePopup.ShowOutGameContentButtonRedDot(OutGameContentButtonType.Checkout, x))
+                .AddTo(_battlePopup);
 
             var missionModel = ModelFactory.CreateOrGetModel<MissionModel>();
             missionModel.IsPossibleGetReward
-                .Subscribe(x => _battlePopup.ShowOutGameContentButtonRedDot(OutGameContentButtonType.Mission, x)).AddTo(_battlePopup);
+                .Subscribe(x => _battlePopup.ShowOutGameContentButtonRedDot(OutGameContentButtonType.Mission, x))
+                .AddTo(_battlePopup);
 
             var achievementModel = ModelFactory.CreateOrGetModel<AchievementModel>();
             achievementModel.IsPossibleGetReward
-                .Subscribe(x => _battlePopup.ShowOutGameContentButtonRedDot(OutGameContentButtonType.Achievement, x)).AddTo(_battlePopup);
+                .Subscribe(x => _battlePopup.ShowOutGameContentButtonRedDot(OutGameContentButtonType.Achievement, x))
+                .AddTo(_battlePopup);
             
             RefreshUI();
         }
@@ -166,7 +169,7 @@ namespace SlimeMaster.Presenter
             _battlePopup.UpdateUI(waveClearDataList, currentStageIndex, clearWaveIndex.ToString());
             
             var timeDataModel = ModelFactory.CreateOrGetModel<TimeDataModel>();
-            bool isPossibleGetReward = timeDataModel.IsPossibleGetReward(_userModel.LastOfflineGetRewardTime);
+            bool isPossibleGetReward = timeDataModel.IsPossibleGetReward(_userModel.LastOfflineGetRewardTime.Value);
             _battlePopup.ShowOutGameContentButtonRedDot(OutGameContentButtonType.OfflineReward, isPossibleGetReward);
         }
 

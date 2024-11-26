@@ -12,6 +12,7 @@ namespace SlimeMaster.InGame.Skill
     public class ChainLightning : RepeatSkill
     {
         private List<IGeneratable> _list = new();
+        protected override string HitSoundName => "ChainLightning_Hit";
         
         public override void StopSkillLogic()
         {

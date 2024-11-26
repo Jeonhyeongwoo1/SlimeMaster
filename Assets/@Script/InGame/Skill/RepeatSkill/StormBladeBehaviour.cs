@@ -1,4 +1,6 @@
 using SlimeMaster.Data;
+using SlimeMaster.Enum;
+using SlimeMaster.Manager;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -13,6 +15,7 @@ namespace SlimeMaster.InGame.Skill
             gameObject.SetActive(true);
             _rigidbody.velocity = direction * skillData.ProjSpeed;
             Invoke(nameof(Release), skillData.Duration);
+            GameManager.I.Audio.Play(Sound.Effect, "StormBlade_Start");
         }
 
         public override void OnChangedSkillData(SkillData skillData)

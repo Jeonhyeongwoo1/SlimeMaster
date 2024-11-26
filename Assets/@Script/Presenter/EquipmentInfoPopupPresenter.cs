@@ -102,6 +102,7 @@ namespace SlimeMaster.Presenter
             _model.SetItemValue(materialItemData.ItemId, materialItemData.ItemValue);
             equipment.LevelUp();
             
+            GameManager.I.Audio.Play(Sound.Effect, "Levelup_Equipment");
             Refresh(equipment);
             GameManager.I.Event.Raise(GameEventType.OnUpdatedEquipment);
         }

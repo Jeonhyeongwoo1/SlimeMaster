@@ -10,7 +10,8 @@ namespace SlimeMaster.InGame.Skill
     public class ArrowShot : RepeatSkill
     {
         private List<IGeneratable> _generatableList;
-        
+        protected override string HitSoundName => "ArrowShot_Hit";
+
         public override void StopSkillLogic()
         {
             Utils.SafeCancelCancellationTokenSource(ref _skillLogicCts);

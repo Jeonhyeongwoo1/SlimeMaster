@@ -7,6 +7,8 @@ namespace SlimeMaster.InGame.Skill
 {
     public class IcicleArrow : RepeatSkill
     {
+        protected override string HitSoundName => "IcicleArrow_Hit";
+
         public override void StopSkillLogic()
         {
             Utils.SafeCancelCancellationTokenSource(ref _skillLogicCts);

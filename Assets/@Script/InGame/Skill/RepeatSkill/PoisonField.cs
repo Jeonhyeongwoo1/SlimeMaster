@@ -8,6 +8,8 @@ namespace SlimeMaster.InGame.Skill
 {
     public class PoisonField : RepeatSkill
     {
+        protected override string HitSoundName => "PoisonField_Hit";
+
         public override void StopSkillLogic()
         {
             Utils.SafeCancelCancellationTokenSource(ref _skillLogicCts);        

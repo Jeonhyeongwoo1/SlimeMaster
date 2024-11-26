@@ -9,6 +9,8 @@ namespace SlimeMaster.InGame.Skill
 {
     public class EgoSword : RepeatSkill
     {
+        protected override string HitSoundName => "EgoSword_Hit";
+
         public override void StopSkillLogic()
         {
             Utils.SafeCancelCancellationTokenSource(ref _skillLogicCts);

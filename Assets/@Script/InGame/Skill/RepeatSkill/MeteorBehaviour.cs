@@ -1,4 +1,5 @@
 using SlimeMaster.Data;
+using SlimeMaster.Enum;
 using SlimeMaster.InGame.Enum;
 using SlimeMaster.InGame.Skill;
 using SlimeMaster.Manager;
@@ -44,6 +45,7 @@ namespace SlimeMaster.InGame.Entity
             shadowPrefab.transform.position = destinationPosition;
             shadowPrefab.SetActive(true);
             _shadowObject = shadowPrefab;
+            GameManager.I.Audio.Play(Sound.Effect, "Meteor_Start");
         }
 
         private void Update()

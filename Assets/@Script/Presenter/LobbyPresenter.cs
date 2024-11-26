@@ -1,6 +1,9 @@
+using System;
 using Script.InGame.UI;
+using SlimeMaster.Common;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
+using SlimeMaster.Factory;
 using SlimeMaster.Manager;
 using SlimeMaster.Model;
 using SlimeMaster.View;
@@ -12,7 +15,6 @@ namespace SlimeMaster.Presenter
     {
         private UI_LobbyScene _lobbySceneView;
         private UserModel _model;
-        private CompositeDisposable _compositeDisposable;
         
         public void Initialize(UserModel model, UI_LobbyScene view)
         {
@@ -22,24 +24,43 @@ namespace SlimeMaster.Presenter
             _lobbySceneView.onGoodsClickAction = OnClickGoods;
             _lobbySceneView.onClickToggleAction = OnClickToggles;
             _lobbySceneView.Initialize();
+            
+            GameManager.I.Audio.Play(Sound.Bgm, "Bgm_Lobby");
 
-            if (_compositeDisposable != null)
-            {
-                _compositeDisposable.Clear();
-            }
-
-            _compositeDisposable = new();
             var goldItemData = _model.GetItemData(Const.ID_GOLD);
             goldItemData.ItemValue.Subscribe((v) => _lobbySceneView.UpdateUserGoodsInfo(GoodsType.Gold, v.ToString()))
-                .AddTo(_compositeDisposable);
+                .AddTo(_lobbySceneView);
 
             var diamondItemData = _model.GetItemData(Const.ID_DIA);
             diamondItemData.ItemValue.Subscribe((v) => _lobbySceneView.UpdateUserGoodsInfo(GoodsType.Dia, v.ToString()))
-                .AddTo(_compositeDisposable);
+                .AddTo(_lobbySceneView);
 
             var staminaData = _model.GetItemData(Const.ID_STAMINA);
             staminaData.ItemValue.Subscribe((v) => _lobbySceneView.UpdateUserGoodsInfo(GoodsType.Stamina, v.ToString()))
-                .AddTo(_compositeDisposable);
+                .AddTo(_lobbySceneView);
+            
+            var checkoutModel = ModelFactory.CreateOrGetModel<CheckoutModel>();
+            var missionModel = ModelFactory.CreateOrGetModel<MissionModel>();
+            var achievementModel = ModelFactory.CreateOrGetModel<AchievementModel>();
+
+            checkoutModel.IsPossibleGetReward.Subscribe(x => BattleRedDotProcess()).AddTo(_lobbySceneView);
+            missionModel.IsPossibleGetReward.Subscribe(x => BattleRedDotProcess()).AddTo(_lobbySceneView);
+            achievementModel.IsPossibleGetReward.Subscribe(x => BattleRedDotProcess()).AddTo(_lobbySceneView);
+            _model.LastOfflineGetRewardTime.Subscribe(x => BattleRedDotProcess()).AddTo(_lobbySceneView);
+        }
+
+        private void BattleRedDotProcess()
+        {
+            var checkoutModel = ModelFactory.CreateOrGetModel<CheckoutModel>();
+            var missionModel = ModelFactory.CreateOrGetModel<MissionModel>();
+            var achievementModel = ModelFactory.CreateOrGetModel<AchievementModel>();
+            
+            TimeSpan timeSpan = Utils.GetOfflineRewardTime(_model.LastOfflineGetRewardTime.Value);
+            bool isPossibleReward = timeSpan.TotalMinutes > Const.MIN_OFFLINE_REWARD_MINUTE;
+            bool isShowRedDot = checkoutModel.IsPossibleGetReward.Value || missionModel.IsPossibleGetReward.Value ||
+                                achievementModel.IsPossibleGetReward.Value || isPossibleReward;
+            
+            _lobbySceneView.ShowRedDot(ToggleType.BattleToggle, isShowRedDot);
         }
 
         private void OnClickToggles(ToggleType selectedToggleType, ToggleType activatedToggleType)

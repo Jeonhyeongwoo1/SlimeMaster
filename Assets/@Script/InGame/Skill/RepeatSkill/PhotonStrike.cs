@@ -8,6 +8,8 @@ namespace SlimeMaster.InGame.Skill
 {
     public class PhotonStrike : RepeatSkill
     {
+        protected override string HitSoundName => "PhotonStrike_Hit";
+
         public override void StopSkillLogic()
         {
             Utils.SafeCancelCancellationTokenSource(ref _skillLogicCts);

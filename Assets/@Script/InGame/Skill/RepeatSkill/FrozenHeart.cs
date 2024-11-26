@@ -8,6 +8,8 @@ namespace SlimeMaster.InGame.Skill
 {
     public class FrozenHeart : RepeatSkill
     {
+        protected override string HitSoundName => "FrozenHeart_Hit";
+        
         private List<IGeneratable> _list = new();
         
         public override void StopSkillLogic()

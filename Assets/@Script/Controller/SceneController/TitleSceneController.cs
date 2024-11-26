@@ -46,7 +46,7 @@ namespace SlimeMaster.Controller
             }
 
             await GameManager.I.Resource.LoadResourceAsync<Object>("PreLoad", (v) => _slider.value = v);
-            GameManager.I.ManagerInitialize();
+            GameManager.I.InitializeManager();
             ServerHandlerFactory.InitializeServerHandlerRequest(firebaseController, GameManager.I.Data);
             var response = await ServerHandlerFactory.Get<IUserClientSender>()
                 .LoadUserDataRequest(new UserRequest());
@@ -99,7 +99,7 @@ namespace SlimeMaster.Controller
             var achievementModel = ModelFactory.CreateOrGetModel<AchievementModel>();
             achievementModel.Initialize(response.DBAchievementContainerData);
 
-            userModel.LastOfflineGetRewardTime = response.LastOfflineGetRewardTime;
+            userModel.LastOfflineGetRewardTime.Value = response.LastOfflineGetRewardTime;
             TimeDataModel timeDataModel = ModelFactory.CreateOrGetModel<TimeDataModel>();
             timeDataModel.Initialize(response.LastLoginTime);
             

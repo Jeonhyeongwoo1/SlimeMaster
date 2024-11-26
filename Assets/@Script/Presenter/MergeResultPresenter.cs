@@ -63,6 +63,7 @@ namespace SlimeMaster.Presenter
             
             popup.UpdateUI(equipName, equipGrade, equipSprite, equipTypeSprite, level, gradeColor,
                 mergeOptionResultDataList, improveOptionValue);
+            GameManager.I.Audio.Play(Sound.Effect, "Result_CommonMerge");
         }
     }
 }

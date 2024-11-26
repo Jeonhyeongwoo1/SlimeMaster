@@ -35,7 +35,7 @@ namespace SlimeMaster.Manager
         public StageManager Stage => I._stage ??= new StageManager();
         public ObjectManager Object => I._object ??= new ObjectManager();
         public UIManager UI => I._ui ??= new UIManager();
-        public MissionManager Mission => I._mission ??= new MissionManager();
+        public AudioManager Audio => I._audio ??= new AudioManager();
 
         private EventManager _event;
         private PoolManager _pool;
@@ -44,7 +44,7 @@ namespace SlimeMaster.Manager
         private StageManager _stage;
         private ObjectManager _object;
         private UIManager _ui;
-        private MissionManager _mission;
+        private AudioManager _audio;
 
         public GameContinueData GameContinueData => _gameContinueData ??= new GameContinueData();
         private GameContinueData _gameContinueData;
@@ -52,13 +52,32 @@ namespace SlimeMaster.Manager
         public bool IsOnBGM
         {
             get => PlayerPrefs.GetInt(nameof(IsOnBGM), 0) == 0;
-            set => PlayerPrefs.SetInt(nameof(IsOnBGM), value ? 0 : 1);
+            set
+            {
+                PlayerPrefs.SetInt(nameof(IsOnBGM), value ? 0 : 1);
+                if (value)
+                {
+                    Scene scene = SceneManager.GetActiveScene();
+                    Audio.Play(Sound.Bgm, scene.name == SceneType.LobbyScene.ToString() ? "Bgm_Lobby" : "Bgm_Game");
+                }
+                else
+                {
+                    Audio.Stop(Sound.Bgm);
+                }
+            }
         }
-        
+
         public bool IsOnSfx
         {
             get => PlayerPrefs.GetInt(nameof(IsOnSfx), 0) == 0;
-            set => PlayerPrefs.SetInt(nameof(IsOnSfx), value ? 0 : 1);
+            set
+            {
+                PlayerPrefs.SetInt(nameof(IsOnSfx), value ? 0 : 1);
+                if (!value)
+                {
+                    Audio.Stop(Sound.Effect);
+                }
+            }
         }
 
         public bool IsFixJoystick
@@ -81,11 +100,12 @@ namespace SlimeMaster.Manager
             set => PlayerPrefs.SetInt(nameof(CurrentStageIndex), value);
         }
 
-        public void ManagerInitialize()
+        public void InitializeManager()
         {
             Data.Initialize();
             Stage.Initialize();
             Object.Initialize();
+            Audio.Initialize();
         }
 
         public async void StartGame()

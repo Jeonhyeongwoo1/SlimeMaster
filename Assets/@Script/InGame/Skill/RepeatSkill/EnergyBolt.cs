@@ -10,6 +10,8 @@ namespace SlimeMaster.InGame.Skill
 {
     public class EnergyBolt : RepeatSkill
     {
+        protected override string HitSoundName => "EnergyBolt_Hit";
+
         protected override async UniTask UseSkill()
         {
             int projectileCount = _skillData.NumProjectiles;

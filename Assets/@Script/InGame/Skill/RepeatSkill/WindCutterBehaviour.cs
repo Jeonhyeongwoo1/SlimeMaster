@@ -3,8 +3,10 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using SlimeMaster.Data;
+using SlimeMaster.Enum;
 using SlimeMaster.InGame.Enum;
 using SlimeMaster.InGame.Skill;
+using SlimeMaster.Manager;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Entity
@@ -30,6 +32,7 @@ namespace SlimeMaster.InGame.Entity
             _rigidbody.velocity = direction * (skillData.ProjSpeed * 2);
             ApplyDamagedAsync(_applyDamagedCts, () => _monsterColliderList.ForEach(v => OnHit?.Invoke(v, this)))
                 .Forget();
+            GameManager.I.Audio.Play(Sound.Effect,"Windcutter_Start");
         }
 
         public async UniTaskVoid OnReturnToOwner(CreatureController owner, float duration)

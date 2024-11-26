@@ -32,9 +32,9 @@ namespace SlimeMaster.InGame.Manager
         private Map _currentMap;
         private StageModel _stageModel;
 
-        private EventManager _event;
-        private ObjectManager _object;
-        private ResourcesManager _resource;
+        private EventManager _event = GameManager.I.Event;
+        private ObjectManager _object = GameManager.I.Object;
+        private ResourcesManager _resource = GameManager.I.Resource;
         private CancellationTokenSource _waveTimerCts;
         private GameState _gameState;
         
@@ -42,13 +42,8 @@ namespace SlimeMaster.InGame.Manager
         
         public void Initialize()
         {
-            GameManager manager = GameManager.I;
-            _event = manager.Event;
-            _object = manager.Object;
-            _resource = manager.Resource;
-            
-            _monsterSpawnPool = new MonsterSpawnPool();
             _stageModel = ModelFactory.CreateOrGetModel<StageModel>();
+            _monsterSpawnPool = new MonsterSpawnPool();
             AddEvent();
         }
 

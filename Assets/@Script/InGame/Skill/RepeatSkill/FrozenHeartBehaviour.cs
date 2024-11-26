@@ -1,7 +1,9 @@
 using DG.Tweening;
 using SlimeMaster.Data;
+using SlimeMaster.Enum;
 using SlimeMaster.InGame.Data;
 using SlimeMaster.InGame.Skill;
+using SlimeMaster.Manager;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Entity
@@ -23,6 +25,7 @@ namespace SlimeMaster.InGame.Entity
             
             float speed = skillData.RoatateSpeed * skillData.Duration;
             DoRotate(speed, skillData.Duration);
+            GameManager.I.Audio.Play(Sound.Effect, "FrozenHeart_Start");
         }
 
         private void DoRotate(float speed, float duration)

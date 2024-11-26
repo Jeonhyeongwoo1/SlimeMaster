@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using SlimeMaster.Enum;
 using SlimeMaster.Interface;
 using SlimeMaster.View;
@@ -9,9 +10,17 @@ namespace Script.InGame.UI
 {
     public class UI_LobbyScene : BaseUI, IView
     {
+        [Serializable]
+        public struct ToggleTypeElement
+        {
+            public ToggleType toggleType;
+            public GameObject redDot;
+        }
+        
         [SerializeField] private UI_UserInfoItem _userInfoItem;
         [SerializeField] private ToggleGroup _toggleGroup;
         [SerializeField] private ToggleType _activateToggleType;
+        [SerializeField] private List<ToggleTypeElement> _toggleTypeElementList;
         
         public Action<GoodsType> onGoodsClickAction;
         public Action<ToggleType, ToggleType> onClickToggleAction;
@@ -55,6 +64,10 @@ namespace Script.InGame.UI
         {
             _userInfoItem.UpdateUserGoodsInfo(goodsType, value);
         }
-        
+
+        public void ShowRedDot(ToggleType toggleType, bool isShow)
+        {
+            _toggleTypeElementList.Find(v=> v.toggleType == toggleType).redDot.SetActive(isShow);
+        }
     }
 }

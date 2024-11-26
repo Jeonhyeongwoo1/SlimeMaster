@@ -41,6 +41,8 @@ namespace SlimeMaster.Presenter
 
                 equipItem.UpdateUI(sprite, equipTypeSprite, false, false, false, false, false, level, gradeColor);
             }
+            
+            GameManager.I.Audio.Play(Sound.Effect, "Result_CommonMerge");
         }
         
         

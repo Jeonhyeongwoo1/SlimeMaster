@@ -9,6 +9,8 @@ namespace SlimeMaster.InGame.Skill
 {
     public class StormBlade : RepeatSkill
     {
+        protected override string HitSoundName => "StormBlade_Hit";
+
         private List<IGeneratable> _generatableList = new ();
         
         public override void StopSkillLogic()

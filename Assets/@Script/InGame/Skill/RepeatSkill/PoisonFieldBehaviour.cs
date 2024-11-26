@@ -4,6 +4,8 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using SlimeMaster.Data;
+using SlimeMaster.Enum;
+using SlimeMaster.Manager;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -20,6 +22,7 @@ namespace SlimeMaster.InGame.Skill
             transform.position = spawnPosition;
             gameObject.SetActive(true);
             ShowEffect(skillData.ScaleMultiplier, skillData.Duration);
+            GameManager.I.Audio.Play(Sound.Effect, "PoisonField_Start");
         }
 
         private void ShowEffect(float scaleMultiplier, float duration)

@@ -309,6 +309,7 @@ namespace SlimeMaster.Presenter
             AddEquipmentList();
             Reset();
             SortEquipItem(_equipmentSortType);
+            GameManager.I.Audio.Play(Sound.Effect, "Merge_Equipment");
             GameManager.I.Event.Raise(GameEventType.ShowMergeResultPopup, response.NewItemUIDList);
         }
 

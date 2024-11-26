@@ -1,6 +1,8 @@
 using System;
 using SlimeMaster.Data;
+using SlimeMaster.Enum;
 using SlimeMaster.InGame.Skill;
+using SlimeMaster.Manager;
 using UnityEngine;
 
 public interface IGeneratable
@@ -25,6 +27,7 @@ namespace SlimeMaster.InGame.Entity
             transform.position = spawnPosition;
             gameObject.SetActive(true);
             UpdateVelocity(direction, skillData.ProjSpeed);
+            GameManager.I.Audio.Play(Sound.Effect, "EnergyBolt_Start");
             Invoke(nameof(Release), 3);
         }
 

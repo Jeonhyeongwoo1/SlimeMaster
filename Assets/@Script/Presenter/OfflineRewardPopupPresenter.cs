@@ -53,7 +53,7 @@ namespace SlimeMaster.Presenter
             int gold = rewardData.Reward_Gold;
 
             _popup.ReleaseSubItem<UI_MaterialItem>(_popup.RewardItemScrollContentObject);
-            TimeSpan timeSpan = Utils.GetOfflineRewardTime(_userModel.LastOfflineGetRewardTime);
+            TimeSpan timeSpan = Utils.GetOfflineRewardTime(_userModel.LastOfflineGetRewardTime.Value);
             bool isPossibleReward = timeSpan.TotalMinutes > Const.MIN_OFFLINE_REWARD_MINUTE;
             if (isPossibleReward)
             {
@@ -94,14 +94,14 @@ namespace SlimeMaster.Presenter
                 }
             });
 
-            _userModel.LastOfflineGetRewardTime = response.LastGetOfflineRewardTime;
+            _userModel.LastOfflineGetRewardTime.Value = response.LastGetOfflineRewardTime;
             _userModel.SetItemValue(itemId, itemValue);
             RefreshPopupUI();
         }
 
         private int CalculateRewardGold(int gold)
         {
-             double minute = (DateTime.UtcNow - _userModel.LastOfflineGetRewardTime).TotalMinutes;
+             double minute = (DateTime.UtcNow - _userModel.LastOfflineGetRewardTime.Value).TotalMinutes;
              return (int)(gold / 60f * minute);
         }
     }

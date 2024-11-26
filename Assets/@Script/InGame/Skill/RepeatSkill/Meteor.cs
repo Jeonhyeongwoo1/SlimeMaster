@@ -8,6 +8,8 @@ namespace SlimeMaster.InGame.Skill
 {
     public class Meteor : RepeatSkill
     {
+        protected override string HitSoundName => "Meteor_Hit";
+
         public override void StopSkillLogic()
         {
             Utils.SafeCancelCancellationTokenSource(ref _skillLogicCts);

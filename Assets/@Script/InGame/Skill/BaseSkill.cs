@@ -16,7 +16,7 @@ namespace SlimeMaster.InGame.Skill
         public bool IsLearn => _currentLevel > 0;
         public SkillType SkillType => _skillType;
         public float AccumulatedDamage { get; private set; }
-        
+        protected virtual string HitSoundName { get; set; } 
         protected SkillData _skillData;
         protected SkillType _skillType;
         protected CreatureController _owner;
@@ -63,6 +63,8 @@ namespace SlimeMaster.InGame.Skill
                 float damage = _owner.AttackDamage * _skillData.DamageMultiplier;
                 creature.TakeDamage(damage, _owner);
                 AccumulatedDamage += damage;
+                
+                GameManager.I.Audio.Play(Sound.Effect, HitSoundName);
             }
         }
     }

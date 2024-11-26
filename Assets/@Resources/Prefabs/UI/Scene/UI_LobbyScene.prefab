@@ -1036,6 +1036,13 @@ MonoBehaviour:
   _userInfoItem: {fileID: 269146792297081624}
   _toggleGroup: {fileID: 5531585444061864112}
   _activateToggleType: 0
+  _toggleTypeElementList:
+  - toggleType: 2
+    redDot: {fileID: 8740628623385510051}
+  - toggleType: 1
+    redDot: {fileID: 1839902656827404909}
+  - toggleType: 3
+    redDot: {fileID: 8221910144655641111}
 --- !u!114 &6109598621078166549
 MonoBehaviour:
   m_ObjectHideFlags: 0

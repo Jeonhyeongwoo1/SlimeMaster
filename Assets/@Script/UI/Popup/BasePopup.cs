@@ -1,4 +1,5 @@
 using SlimeMaster.Common;
+using SlimeMaster.Enum;
 using SlimeMaster.Manager;
 using SlimeMaster.UISubItemElement;
 using UnityEngine;
@@ -60,7 +61,13 @@ namespace SlimeMaster.Popup
         public virtual void ClosePopup()
         {
             Debug.Log("ClosePopup");
+            PlayPopupCommonCloseSound();
             GameManager.I.Pool.ReleaseObject(gameObject.name, gameObject);
+        }
+
+        private void PlayPopupCommonCloseSound()
+        {
+            GameManager.I.Audio.Play(Sound.Effect, "PopupClose_Common");
         }
     }
 }

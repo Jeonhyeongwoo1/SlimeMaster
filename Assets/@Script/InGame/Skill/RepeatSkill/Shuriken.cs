@@ -9,6 +9,8 @@ namespace SlimeMaster.InGame.Skill
 {
     public class Shuriken : RepeatSkill
     {
+        protected override string HitSoundName => "Shuriken_Hit";
+
         public override void StopSkillLogic()
         {
             Utils.SafeCancelCancellationTokenSource(ref _skillLogicCts);

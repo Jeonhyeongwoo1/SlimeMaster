@@ -7,6 +7,8 @@ namespace SlimeMaster.InGame.Skill
 {
     public class SavageSmash : RepeatSkill
     {
+        protected override string HitSoundName => "SavageSmash_Hit";
+
         private IGeneratable _generatable;
         
         public override void StopSkillLogic()
