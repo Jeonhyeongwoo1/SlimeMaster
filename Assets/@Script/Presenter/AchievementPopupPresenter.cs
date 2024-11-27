@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using SlimeMaster.Enum;
 using SlimeMaster.Factory;
 using SlimeMaster.Interface;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.OutGame.Popup;
 using SlimeMaster.Server;
@@ -17,15 +17,15 @@ namespace SlimeMaster.Presenter
         private UserModel _userModel;
         private AchievementModel _achievementModel;
         private UI_AchievementPopup _popup;
-        private UIManager _uiManager = GameManager.I.UI;
-        private DataManager _dataManager = GameManager.I.Data;
-        private ResourcesManager _resourcesManager = GameManager.I.Resource;
+        private UIManager _uiManager = Manager.I.UI;
+        private DataManager _dataManager = Manager.I.Data;
+        private ResourcesManager _resourcesManager = Manager.I.Resource;
         
         public void Initialize(UserModel userModel, AchievementModel achievementModel)
         {
             _userModel = userModel;
             _achievementModel = achievementModel;
-            GameManager.I.Event.AddEvent(GameEventType.ShowOutGameContentPopup, OnOpenPopup);
+            Manager.I.Event.AddEvent(GameEventType.ShowOutGameContentPopup, OnOpenPopup);
         }
 
         private void OnOpenPopup(object value)
@@ -83,7 +83,7 @@ namespace SlimeMaster.Presenter
             ItemData itemData = _userModel.GetItemData(response.RewardItemData.ItemId);
             long rewardValue = response.RewardItemData.ItemValue - itemData.ItemValue.Value;
             _userModel.SetItemValue(response.RewardItemData.ItemId, response.RewardItemData.ItemValue);
-            GameManager.I.Event.Raise(GameEventType.GetReward, new List<RewardItemData>()
+            Manager.I.Event.Raise(GameEventType.GetReward, new List<RewardItemData>()
             {
                 new RewardItemData() { materialItemId = response.RewardItemData.ItemId, rewardValue = (int)rewardValue }
             });

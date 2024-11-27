@@ -4,7 +4,7 @@ using SlimeMaster.Data;
 using SlimeMaster.Enum;
 using UnityEngine;
 
-namespace SlimeMaster.Manager
+namespace SlimeMaster.Managers
 {
     public class DataManager
     {
@@ -50,7 +50,7 @@ namespace SlimeMaster.Manager
 
         TLoader LoadJson<TLoader, TKey, TValue>(string path) where TLoader : ILoader<TKey, TValue>
         {
-            TextAsset textAsset = GameManager.I.Resource.Load<TextAsset>($"{path}");
+            TextAsset textAsset = Manager.I.Resource.Load<TextAsset>($"{path}");
             return JsonConvert.DeserializeObject<TLoader>(textAsset.text);
         }
     }

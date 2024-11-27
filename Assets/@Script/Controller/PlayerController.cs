@@ -8,17 +8,16 @@ using Script.InGame.UI.Popup;
 using SlimeMaster.Common;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
+using SlimeMaster.Equipmenets;
 using SlimeMaster.Factory;
 using SlimeMaster.InGame.Data;
-using SlimeMaster.InGame.Enum;
+using SlimeMaster.InGame.Entity;
 using SlimeMaster.InGame.Input;
-using SlimeMaster.InGame.Manager;
 using SlimeMaster.InGame.Popup;
 using SlimeMaster.InGame.Skill;
 using SlimeMaster.InGame.View;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Model;
-using Unity.Mathematics;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Controller
@@ -122,6 +121,12 @@ namespace SlimeMaster.InGame.Controller
             set => _playerStat.HP = _playerStatForView.HP = value;
         }
 
+        public int Level
+        {
+            get => _playerStat.level;
+            set => _playerStat.level = _playerStatForView.level = value;
+        }
+
         private PlayerStat _playerStat;
 
         [SerializeField] private PlayerStat _playerStatForView;
@@ -132,65 +137,162 @@ namespace SlimeMaster.InGame.Controller
 
         public float CurrentExp
         {
-            get => _currentExp;
+            get => _playerModel.CurrentExp.Value;
             set
             {
-                _currentExp += Mathf.RoundToInt(value * EXPBonusRate);
-                var levelData = GameManager.I.Data.LevelDataDict[_playerModel.CurrentLevel.Value];
-                _playerModel.CurrentExpRatio.Value = _currentExp / levelData.TotalExp;
-                if (_currentExp >= levelData.TotalExp)
+                _playerModel.CurrentExp.Value += Mathf.RoundToInt(value * EXPBonusRate);
+                var levelData = Managers.Manager.I.Data.LevelDataDict[_playerModel.CurrentLevel.Value];
+                _playerModel.CurrentExpRatio.Value = (float)_playerModel.CurrentExp.Value / levelData.TotalExp;
+                if (_playerModel.CurrentExp.Value >= levelData.TotalExp)
                 {
                     OnLevelUp();
-                    _currentExp -= levelData.TotalExp;
+                    _playerModel.CurrentExp.Value -= levelData.TotalExp;
                 }
+
+                Managers.Manager.I.GameContinueData.playerExp = _playerModel.CurrentExp.Value;
             }
         }
 
         public int SoulAmount
         {
-            get => _soulAmount;
+            get => _playerModel.SoulAmount.Value;
             set
             {
-                _soulAmount = value;
-                _playerModel.SoulAmount.Value = _soulAmount;
+                _playerModel.SoulAmount.Value = value;
+                Managers.Manager.I.GameContinueData.soulAmount = value;
             }
         }
 
-        public override float AttackDamage => _creatureData.Atk * _creatureData.AtkRate * AttackBonusRate;
-        
+        public override float AttackDamage => (_creatureData.Atk + _attackDamage) * _creatureData.AtkRate * AttackBonusRate;
+
+        protected override float MoveSpeed
+        {
+            get => _moveSpeed;
+            set
+            {
+                _moveSpeed = value;
+                _playerMove.SetMoveSpeed(_moveSpeed);
+            }
+        }
+
         [SerializeField] private Transform _indicatorTransform;
         [SerializeField] private Transform _indicatorSpriteTransform;
-        
+        [SerializeField] private PlayerMove _playerMove;
+
         private int _layer;
         private Vector2 _inputVector;
         private bool _isInit;
-        private float _currentExp;
-        private int _soulAmount;
+        private float _moveSpeed;
         private PlayerModel _playerModel;
 
         private CancellationTokenSource _recoveryHPCts;
 
         public override void Initialize(CreatureData creatureData, Sprite sprite, List<SkillData> skillDataList)
         {
-            _playerStat = GameManager.I.GameContinueData.playerStat;
+            GameContinueData gameContinueData = Managers.Manager.I.GameContinueData;
+            _playerModel = ModelFactory.CreateOrGetModel<PlayerModel>();
+            _playerStat = gameContinueData.playerStat; 
             base.Initialize(creatureData, sprite, skillDataList);
             _isInit = true;
-            _playerModel = ModelFactory.CreateOrGetModel<PlayerModel>();
-            _playerModel.CurrentLevel.Value = 1;
             _creatureType = CreatureType.Player;
-            _moveSpeed = creatureData.MoveSpeed * creatureData.MoveSpeedRate;
-
-            InitCreatureStat();
-            gameObject.SetActive(true);
             
-            //Default -> 추후에 장비에 맞춰서 변경되어야함.
-            SkillData skillData = skillDataList.Find(v => v.DataId == (int)SkillType.StormBlade);
-            _skillBook.UpgradeOrAddSkill(skillData);
+            _playerMove.Initialize(_rigidbody, _indicatorTransform, _spriteRenderer);
+            InitCreatureStat();
+            InitializeEquipment();
+
+            if (gameContinueData.IsContinue)
+            {
+                foreach (SkillData baseSkill in gameContinueData.skillList)
+                {
+                    _skillBook.UpgradeOrAddSkill(baseSkill);
+                }
+
+                foreach (SupportSkillData supportSkillData in gameContinueData.supportSkillDataList)
+                {
+                    _skillBook.AddSupportSkill(supportSkillData);
+                }
+            }
+            
             _skillBook.CurrentSupportSkillDataList = _skillBook.GetRecommendSupportSkillDataList();
+            MoveSpeed = creatureData.MoveSpeed * creatureData.MoveSpeedRate;
             List<BaseSkill> skillList = _skillBook.ActivateSkillList;
-            UIManager uiManager = GameManager.I.UI;
+            UIManager uiManager = Managers.Manager.I.UI;
             var gamesceneUI = uiManager.SceneUI as UI_GameScene;
             gamesceneUI.UpdateSkillSlotItem(skillList);
+            gameObject.SetActive(true);
+        }
+
+        private void InitializeEquipment()
+        {
+            var userModel = ModelFactory.CreateOrGetModel<UserModel>();
+            Equipment equipment =
+                userModel.EquippedItemDataList.Value.Find(v => v.GetEquipmentType() == EquipmentType.Weapon);
+            if (equipment != null)
+            {
+                SkillData basicSkillData = Managers.Manager.I.Data.SkillDict[equipment.EquipmentData.BasicSkill];
+                if (_skillBook.IsLearnSkill(basicSkillData))
+                {
+                    return;
+                }
+                
+                _skillBook.UpgradeOrAddSkill(basicSkillData);
+
+                SupportSkillData uncommonSkill;
+                SupportSkillData rareSkill;
+                SupportSkillData epicSkill;
+                SupportSkillData legendSkill;
+                //등급별 서포트 스킬
+                foreach (Equipment equip in userModel.EquippedItemDataList.Value)
+                {
+                    switch (equip.EquipmentData.EquipmentGrade)
+                    {
+                        case EquipmentGrade.Uncommon:
+                            //UncommonGradeSkill 추가
+                            if (Managers.Manager.I.Data.SupportSkillDataDict.TryGetValue(
+                                    equip.EquipmentData.UncommonGradeSkill, out uncommonSkill))
+                                _skillBook.AddSupportSkill(uncommonSkill);
+                            break;
+                        case EquipmentGrade.Rare:
+                            if (Managers.Manager.I.Data.SupportSkillDataDict.TryGetValue(
+                                    equip.EquipmentData.UncommonGradeSkill, out uncommonSkill))
+                                _skillBook.AddSupportSkill(uncommonSkill);
+                            if (Managers.Manager.I.Data.SupportSkillDataDict.TryGetValue(equip.EquipmentData.RareGradeSkill,
+                                    out rareSkill))
+                                _skillBook.AddSupportSkill(rareSkill);
+                            break;
+                        case EquipmentGrade.Epic:
+                        case EquipmentGrade.Epic1:
+                        case EquipmentGrade.Epic2:
+                            if (Managers.Manager.I.Data.SupportSkillDataDict.TryGetValue(
+                                    equip.EquipmentData.UncommonGradeSkill, out uncommonSkill))
+                                _skillBook.AddSupportSkill(uncommonSkill);
+                            if (Managers.Manager.I.Data.SupportSkillDataDict.TryGetValue(equip.EquipmentData.RareGradeSkill,
+                                    out rareSkill))
+                                _skillBook.AddSupportSkill(rareSkill);
+                            if (Managers.Manager.I.Data.SupportSkillDataDict.TryGetValue(equip.EquipmentData.EpicGradeSkill,
+                                    out epicSkill))
+                                _skillBook.AddSupportSkill(epicSkill);
+                            break;
+                        case EquipmentGrade.Legendary:
+                        case EquipmentGrade.Legendary1:
+                        case EquipmentGrade.Legendary2:
+                        case EquipmentGrade.Legendary3:
+                            if (Managers.Manager.I.Data.SupportSkillDataDict.TryGetValue(
+                                    equip.EquipmentData.UncommonGradeSkill, out uncommonSkill))
+                                _skillBook.AddSupportSkill(uncommonSkill);
+                            if (Managers.Manager.I.Data.SupportSkillDataDict.TryGetValue(equip.EquipmentData.RareGradeSkill,
+                                    out rareSkill))
+                                _skillBook.AddSupportSkill(rareSkill);
+                            if (Managers.Manager.I.Data.SupportSkillDataDict.TryGetValue(equip.EquipmentData.EpicGradeSkill,
+                                    out epicSkill))
+                                _skillBook.AddSupportSkill(epicSkill);
+                            if (Managers.Manager.I.Data.SupportSkillDataDict.TryGetValue(
+                                    equip.EquipmentData.LegendaryGradeSkill, out legendSkill))
+                                _skillBook.AddSupportSkill(legendSkill);
+                            break;
+                    }
+                }
+            }
         }
 
         protected override void InitCreatureStat(bool isFullHP = true)
@@ -200,6 +302,15 @@ namespace SlimeMaster.InGame.Controller
             {
                 HP = MaxHP;
             }
+
+            var userModel = ModelFactory.CreateOrGetModel<UserModel>();
+            var (equip_hp, equip_attack) = userModel.GetEquipmentBonus();
+            MaxHP += equip_hp;
+            MaxHP *= MaxHPBonus;
+            
+            _attackDamage += equip_attack;
+            _playerModel = ModelFactory.CreateOrGetModel<PlayerModel>();
+            _playerModel.CurrentLevel.Value = Level;
 
             // HP = MaxHP = 10000;
             // SoulAmount = 1000;
@@ -234,7 +345,7 @@ namespace SlimeMaster.InGame.Controller
                 return;
             }
             
-            var popup = GameManager.I.UI.OpenPopup<UI_SkillSelectPopup>();
+            var popup = Managers.Manager.I.UI.OpenPopup<UI_SkillSelectPopup>();
             popup.UpdateUI(skillList, _skillBook.ActivateSkillList);
             
             Time.timeScale = 0;
@@ -277,26 +388,28 @@ namespace SlimeMaster.InGame.Controller
                     _indicatorTransform.gameObject.SetActive(true);
                 }
             }
+            
+            _playerMove.SetDirection(_inputVector);
         }
         
         private void OnEnable()
         {
             InputHandler.onPointerDownAction += OnChangedInputVector;
             InputHandler.onPointerUpAction += () => OnChangedInputVector(Vector2.zero);
-            GameManager.I.Event.AddEvent(GameEventType.ActivateDropItem, OnActivateDropItem);
-            GameManager.I.Event.AddEvent(GameEventType.UpgradeOrAddNewSkill, OnUpgradeOrAddNewSkill);
+            Managers.Manager.I.Event.AddEvent(GameEventType.ActivateDropItem, OnActivateDropItem);
+            Managers.Manager.I.Event.AddEvent(GameEventType.UpgradeOrAddNewSkill, OnUpgradeOrAddNewSkill);
         }
         
         private void OnUpgradeOrAddNewSkill(object value)
         {
             int skillId = (int)value;
-            SkillData skill = GameManager.I.Data.SkillDict[skillId];
+            SkillData skill = Managers.Manager.I.Data.SkillDict[skillId];
             UpgradeOrAddSKill(skill);
             LevelUp();
             
-            GameManager.I.UI.ClosePopup();
+            Managers.Manager.I.UI.ClosePopup();
             List<BaseSkill> skillList = _skillBook.ActivateSkillList;
-            var gamesceneUI = GameManager.I.UI.SceneUI as UI_GameScene;
+            var gamesceneUI = Managers.Manager.I.UI.SceneUI as UI_GameScene;
             gamesceneUI.UpdateSkillSlotItem(skillList);
 
             Time.timeScale = 1;
@@ -304,7 +417,7 @@ namespace SlimeMaster.InGame.Controller
         
         public bool TryPurchaseSupportSkill(int supportSkillId)
         {
-            SupportSkillData skillData = GameManager.I.Data.SupportSkillDataDict[supportSkillId];
+            SupportSkillData skillData = Managers.Manager.I.Data.SupportSkillDataDict[supportSkillId];
             if (SoulAmount < skillData.Price)
             {
                 Debug.Log(
@@ -315,7 +428,7 @@ namespace SlimeMaster.InGame.Controller
             SoulAmount -= (int) skillData.Price;
             Debug.Log($"{SoulAmount}/ {skillData.Price}");
             _skillBook.AddSupportSkill(skillData);
-            var lockSupportSkillList = _skillBook.lockSupportSkillDataList;
+            var lockSupportSkillList = _skillBook._lockSupportSkillDataList;
             if (lockSupportSkillList.Contains(skillData))
             {
                 lockSupportSkillList.Remove(skillData);
@@ -324,7 +437,7 @@ namespace SlimeMaster.InGame.Controller
             if (skillData.SupportSkillName == SupportSkillName.Healing)
             {
                 Heal(skillData.HealRate);
-                GameManager.I.Event.Raise(GameEventType.PurchaseSupportSkill, _skillBook.ActivateSupportSkillDataList);
+                Managers.Manager.I.Event.Raise(GameEventType.PurchaseSupportSkill, _skillBook.ActivateSupportSkillDataList);
                 return true;
             }
 
@@ -349,7 +462,7 @@ namespace SlimeMaster.InGame.Controller
                 _skillBook.UpdateSkill(skillData);
             }
 
-            GameManager.I.Event.Raise(GameEventType.PurchaseSupportSkill, _skillBook.ActivateSupportSkillDataList);
+            Managers.Manager.I.Event.Raise(GameEventType.PurchaseSupportSkill, _skillBook.ActivateSupportSkillDataList);
             
             //Add effect
 
@@ -362,7 +475,7 @@ namespace SlimeMaster.InGame.Controller
 
             MaxHP *= MaxHPBonus;
             HP *= MaxHPBonus;
-            _moveSpeed *= MoveSpeedRate;
+            MoveSpeed *= MoveSpeedRate;
             
             Debug.Log($"HP {HP} / MAXHP {MaxHP} / {MaxHPBonus}");
         }
@@ -372,18 +485,7 @@ namespace SlimeMaster.InGame.Controller
             InputHandler.onPointerDownAction -= OnChangedInputVector;
             InputHandler.onPointerUpAction -= () => OnChangedInputVector(Vector2.zero);
 
-            GameManager.I.Event.RemoveEvent(GameEventType.ActivateDropItem, OnActivateDropItem);
-        }
-        
-        private void FixedUpdate()
-        {
-            if (!_isInit || IsDeadState)
-            {
-                return;
-            }
-            
-            Move();
-            Rotate();
+            Managers.Manager.I.Event.RemoveEvent(GameEventType.ActivateDropItem, OnActivateDropItem);
         }
 
         private void Update()
@@ -395,12 +497,23 @@ namespace SlimeMaster.InGame.Controller
 
             GetDropItem();
 
+            // if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha1))
+            // {
+            //     SkillData skillData = _skillBook.ActivateSkillList
+            //         .Find(v => v.SkillType == SkillType.StormBlade).SkillData;
+            //     _skillBook.UpgradeOrAddSkill(skillData);
+            // }
+
             if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha1))
             {
-                SkillData skillData = _skillBook.ActivateSkillList
-                    .Find(v => v.SkillType == SkillType.StormBlade).SkillData;
-                _skillBook.UpgradeOrAddSkill(skillData);
+                OnActivateAI();
             }
+        }
+
+        private void OnActivateAI()
+        {
+            var ai = gameObject.GetComponent<PlayerAI>();
+            ai.Activate();
         }
 
         private void OnActivateDropItem(object value)
@@ -416,7 +529,7 @@ namespace SlimeMaster.InGame.Controller
                     }
                     break;
                 case DropableItemType.DropBox:
-                    var learnSkillPopup = GameManager.I.UI.OpenPopup<UI_LearnSkillPopup>();
+                    var learnSkillPopup = Managers.Manager.I.UI.OpenPopup<UI_LearnSkillPopup>();
                     List<BaseSkill> skillList = _skillBook.GetRecommendSkillList(1);
                     if (skillList == null)
                     {
@@ -433,7 +546,7 @@ namespace SlimeMaster.InGame.Controller
         
         private void GetDropItem()
         {
-            GridController grid = GameManager.I.Stage.CurrentMap.Grid;
+            GridController grid = Managers.Manager.I.Game.CurrentMap.Grid;
             List<DropItemController> itemControllerList =
                 grid.GetDropItem(transform.position, MagneticRange * Const.DEFAULT_MagneticRange);
             
@@ -465,13 +578,13 @@ namespace SlimeMaster.InGame.Controller
                             SoulAmount += Mathf.RoundToInt(soul.GetSoulAmount() * SoulBonusRate);
                         };
 
-                        var gameSceneUI = GameManager.I.UI.SceneUI as UI_GameScene;
+                        var gameSceneUI = Managers.Manager.I.UI.SceneUI as UI_GameScene;
                         Transform tr = gameSceneUI.GetSoulIconTransform();
                         item.GetItem(tr, callback);
                         break;
                 }
                 
-                GameManager.I.Object.DroppedItemControllerList.Remove(item);
+                Managers.Manager.I.Object.DroppedItemControllerList.Remove(item);
             }
         }
 
@@ -493,8 +606,9 @@ namespace SlimeMaster.InGame.Controller
             HP = 0;
             transform.DOKill();
             transform.DOScale(Vector3.zero, 0.3f);
-            GameManager.I.Event.Raise(GameEventType.DeadPlayer);
+            Managers.Manager.I.Event.Raise(GameEventType.DeadPlayer);
             _skillBook?.StopAllSkillLogic();
+            _playerMove.SetStop(true);
 
             SupportSkill supportSkill = null;
             bool isPossibleResurrection = _skillBook.TryResurrection(ref supportSkill);
@@ -514,20 +628,22 @@ namespace SlimeMaster.InGame.Controller
             _skillBook.UsedResurrectionSupportSkill(supportSkill);
 
             await UniTask.WaitForSeconds(1f, cancelImmediately: true);
-            var prefab = GameManager.I.Resource.Instantiate(Const.Revival, transform);
+            var prefab = Managers.Manager.I.Resource.Instantiate(Const.Revival, transform);
             prefab.SetActive(true);
             prefab.transform.position = transform.position;
-            DOVirtual.DelayedCall(1, () => GameManager.I.Pool.ReleaseObject(Const.Revival, prefab));
+            DOVirtual.DelayedCall(1, () => Managers.Manager.I.Pool.ReleaseObject(Const.Revival, prefab));
             gameObject.SetActive(true);
             transform.localScale = Vector3.one;
             UpdateCreatureState(CreatureStateType.Idle);
             _skillBook.UseAllSkillList(true, false, null);
-            GameManager.I.Event.Raise(GameEventType.ResurrectionPlayer);
+            Managers.Manager.I.Event.Raise(GameEventType.ResurrectionPlayer);
         }
 
         public void UpgradeOrAddSKill(SkillData skillData)
         {
             _skillBook.UpgradeOrAddSkill(skillData);
+
+            Managers.Manager.I.GameContinueData.skillList = _skillBook.ActivateSkillList.Select(x => x.SkillData).ToList();
         }
 
         public int GetActivateSkillLevel(int skillId)
@@ -538,7 +654,8 @@ namespace SlimeMaster.InGame.Controller
         public void LevelUp()
         {
             _playerModel.CurrentLevel.Value++;
-            CurrentExp = _currentExp;
+            Managers.Manager.I.GameContinueData.playerLevel++;
+            CurrentExp = _playerModel.CurrentExp.Value;
 
             List<SupportSkillData> supportSkillList = _skillBook.GetLevelSupportSkillDataList();
             if (supportSkillList.Count == 0)
@@ -623,28 +740,7 @@ namespace SlimeMaster.InGame.Controller
             HP += hp;
         }
 
-        private void Move()
-        {
-            Vector3 position = transform.position;
-            Vector3 prevPosition = position;
-            Vector3 nextPosition = position + (Vector3)_inputVector;
-            Vector3 lerp = Vector3.Lerp(prevPosition, nextPosition,
-                Time.fixedDeltaTime * _moveSpeed);
-            _rigidbody.MovePosition(lerp);
-        }
-
-        private void Rotate()
-        {
-            if (_inputVector == Vector2.zero)
-            {
-                return;
-            }
-            
-            float angle = Mathf.Atan2(_inputVector.y, _inputVector.x) * Mathf.Rad2Deg - 90;
-            _indicatorTransform.rotation = Quaternion.Euler(0, 0, angle);
-            _spriteRenderer.flipX = math.sign(_inputVector.x) == 1;
-        }
-
+      
         public override Vector3 GetDirection()
         {
             return (_indicatorSpriteTransform.position - transform.position).normalized;
@@ -658,7 +754,7 @@ namespace SlimeMaster.InGame.Controller
             {
                 var infoData = new TotalDamageInfoData
                 {
-                    skillSprite = GameManager.I.Resource.Load<Sprite>(skill.SkillData.IconLabel),
+                    skillSprite = Managers.Manager.I.Resource.Load<Sprite>(skill.SkillData.IconLabel),
                     skillName = skill.SkillData.Name,
                     skillDamageRatioByTotalDamage = skill.AccumulatedDamage / totalDamage,
                     skillAccumlatedDamage = skill.AccumulatedDamage

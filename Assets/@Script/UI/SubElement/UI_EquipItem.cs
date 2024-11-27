@@ -1,5 +1,5 @@
 using System;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -102,7 +102,7 @@ namespace SlimeMaster.UISubItemElement
         private void OnDisable()
         {
             _onClickEquipItemAction = null;
-            GameManager.I.Pool.ReleaseObject(gameObject.name, gameObject);
+            Manager.I.Pool.ReleaseObject(gameObject.name, gameObject);
         }
 
         public void OnPointerClick(PointerEventData eventData)

@@ -1,5 +1,5 @@
 using SlimeMaster.Common;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
@@ -52,7 +52,7 @@ namespace SlimeMaster.InGame.Entity
                 .Join(transform.GetComponent<TMP_Text>().DOFade(0, 0.3f).SetEase(Ease.InQuint))
                 .OnComplete(() =>
                 {
-                    GameManager.I.Pool.ReleaseObject(nameof(DamageFont), gameObject);
+                    Managers.Manager.I.Pool.ReleaseObject(nameof(DamageFont), gameObject);
                 });
 
         }

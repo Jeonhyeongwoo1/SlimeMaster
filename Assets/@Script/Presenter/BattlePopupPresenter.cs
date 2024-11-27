@@ -5,7 +5,7 @@ using SlimeMaster.Enum;
 using SlimeMaster.Factory;
 using SlimeMaster.Firebase.Data;
 using SlimeMaster.Interface;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.OutGame.Popup;
 using UnityEngine;
@@ -30,10 +30,10 @@ namespace SlimeMaster.Presenter
         
         public void Initialize(UserModel userModel)
         {
-            _dataManager = GameManager.I.Data;
+            _dataManager = Manager.I.Data;
             _userModel = userModel;
-            GameManager.I.Event.AddEvent(GameEventType.MoveToTap, OnMoveToTap);
-            GameManager.I.Event.AddEvent(GameEventType.ChangeStage, OnChangeStage);
+            Manager.I.Event.AddEvent(GameEventType.MoveToTap, OnMoveToTap);
+            Manager.I.Event.AddEvent(GameEventType.ChangeStage, OnChangeStage);
         }
 
         private void OnChangeStage(object value)
@@ -95,12 +95,12 @@ namespace SlimeMaster.Presenter
             };
             
             rewardItemDataList.Add(rewardItemData);
-            GameManager.I.Event.Raise(GameEventType.GetReward, rewardItemDataList);
+            Manager.I.Event.Raise(GameEventType.GetReward, rewardItemDataList);
         }
 
         public void OpenBattlePopup()
         {
-            _battlePopup = GameManager.I.UI.OpenPopup<UI_BattlePopup>();
+            _battlePopup = Manager.I.UI.OpenPopup<UI_BattlePopup>();
             _battlePopup.onGameStartAction = OnGameStart;
             _battlePopup.onGetRewardAction = OnGetReward;
             _battlePopup.onStageSelectAction = OnStageSelect;
@@ -127,7 +127,7 @@ namespace SlimeMaster.Presenter
 
         private void RefreshUI()
         {
-            int currentStageIndex = GameManager.I.CurrentStageIndex;
+            int currentStageIndex = Manager.I.CurrentStageIndex;
             StageInfo stageInfo = _userModel.GetStageInfo(currentStageIndex);
             stageInfo.WaveInfoList.Value.ForEach(v =>
             {
@@ -175,7 +175,7 @@ namespace SlimeMaster.Presenter
 
         private void OnStageSelect()
         {
-            GameManager.I.Event.Raise(GameEventType.ShowStageSelectPopup);
+            Manager.I.Event.Raise(GameEventType.ShowStageSelectPopup);
         }
         
         private async void OnGameStart()
@@ -205,12 +205,12 @@ namespace SlimeMaster.Presenter
 
             DBItemData staminaItemData = response.DBUserData.ItemDataDict[Const.ID_STAMINA.ToString()];
             _userModel.AddItemValue(staminaItemData.ItemId, staminaItemData.ItemValue);
-            GameManager.I.StartGame();
+            Manager.I.StartGame();
         }
 
         private void OnClickContentButtonType(OutGameContentButtonType buttonType)
         {
-            GameManager.I.Event.Raise(GameEventType.ShowOutGameContentPopup, buttonType);
+            Manager.I.Event.Raise(GameEventType.ShowOutGameContentPopup, buttonType);
         }
     }
 }

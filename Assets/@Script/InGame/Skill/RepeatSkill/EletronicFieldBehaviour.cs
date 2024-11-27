@@ -7,7 +7,7 @@ using SlimeMaster.Enum;
 using SlimeMaster.InGame.Data;
 using SlimeMaster.InGame.Enum;
 using SlimeMaster.InGame.Skill;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Entity
@@ -47,7 +47,7 @@ namespace SlimeMaster.InGame.Entity
                         .Forget();
                 });
             
-            GameManager.I.Audio.Play(Sound.Effect, "EletronicField_Start");
+            Managers.Manager.I.Audio.Play(Sound.Effect, "EletronicField_Start");
         }
 
         private void Update()

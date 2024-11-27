@@ -1,4 +1,4 @@
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Entity
@@ -17,7 +17,7 @@ namespace SlimeMaster.InGame.Entity
         {
             if (_isPooling)
             {
-                GameManager.I.Pool.ReleaseObject(transform.name, gameObject);
+                Managers.Manager.I.Pool.ReleaseObject(transform.name, gameObject);
             }
             else
             {

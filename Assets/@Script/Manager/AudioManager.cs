@@ -7,7 +7,7 @@ using SlimeMaster.Enum;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace SlimeMaster.Manager
+namespace SlimeMaster.Managers
 {
     public class AudioManager
     {
@@ -46,7 +46,7 @@ namespace SlimeMaster.Manager
             switch (sound)
             {
                 case Sound.Bgm:
-                    if (!GameManager.I.IsOnBGM)
+                    if (!Manager.I.IsOnBGM)
                     {
                         return;
                     }
@@ -56,7 +56,7 @@ namespace SlimeMaster.Manager
                     await ChangeBGMSound(audioSource, audioClip, 0.5f);
                     break;
                 case Sound.Effect:
-                    if (!GameManager.I.IsOnSfx)
+                    if (!Manager.I.IsOnSfx)
                     {
                         return;
                     }
@@ -110,7 +110,7 @@ namespace SlimeMaster.Manager
                 return audioClip;
             }
 
-            audioClip = GameManager.I.Resource.Load<AudioClip>(key);
+            audioClip = Manager.I.Resource.Load<AudioClip>(key);
 
             if (!_audioClips.ContainsKey(key))
                 _audioClips.Add(key, audioClip);

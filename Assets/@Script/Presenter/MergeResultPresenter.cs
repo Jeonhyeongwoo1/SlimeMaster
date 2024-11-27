@@ -4,7 +4,7 @@ using SlimeMaster.Common;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
 using SlimeMaster.Equipmenets;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.OutGame.Popup;
 using UnityEngine;
@@ -18,7 +18,7 @@ namespace SlimeMaster.Presenter
         public void Initialize(UserModel model)
         {
             _userModel = model;
-            GameManager.I.Event.AddEvent(GameEventType.ShowMergeResultPopup, OnShowMergeResultPopup);
+            Manager.I.Event.AddEvent(GameEventType.ShowMergeResultPopup, OnShowMergeResultPopup);
         }
 
         private void OnShowMergeResultPopup(object value)
@@ -29,13 +29,13 @@ namespace SlimeMaster.Presenter
                 return;
             }
 
-            var popup = GameManager.I.UI.OpenPopup<UI_MergeResultPopup>();
+            var popup = Manager.I.UI.OpenPopup<UI_MergeResultPopup>();
             string uid = newItemUIDList[0];
             
             Equipment equipment = _userModel.FindEquippedItemOrUnEquippedItem(uid);
             EquipmentData equipmentData = equipment.EquipmentData;
-            DataManager dataManager = GameManager.I.Data;
-            ResourcesManager resourcesManager = GameManager.I.Resource;
+            DataManager dataManager = Manager.I.Data;
+            ResourcesManager resourcesManager = Manager.I.Resource;
 
             string equipName = equipmentData.NameTextID;
             string equipGrade = equipmentData.EquipmentGrade.ToString();
@@ -63,7 +63,7 @@ namespace SlimeMaster.Presenter
             
             popup.UpdateUI(equipName, equipGrade, equipSprite, equipTypeSprite, level, gradeColor,
                 mergeOptionResultDataList, improveOptionValue);
-            GameManager.I.Audio.Play(Sound.Effect, "Result_CommonMerge");
+            Manager.I.Audio.Play(Sound.Effect, "Result_CommonMerge");
         }
     }
 }

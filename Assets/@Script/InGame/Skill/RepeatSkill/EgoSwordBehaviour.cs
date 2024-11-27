@@ -1,6 +1,6 @@
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -13,7 +13,7 @@ namespace SlimeMaster.InGame.Skill
             transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
             gameObject.SetActive(true);
             _rigidbody.velocity = direction * skillData.ProjSpeed;
-            GameManager.I.Audio.Play(Sound.Effect, "EgoSword_Start");
+            Managers.Manager.I.Audio.Play(Sound.Effect, "EgoSword_Start");
             Invoke(nameof(Release), 3);
         }
     }

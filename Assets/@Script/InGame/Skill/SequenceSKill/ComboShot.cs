@@ -2,7 +2,7 @@ using System;
 using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
 using SlimeMaster.Enum;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -39,7 +39,7 @@ namespace SlimeMaster.InGame.Skill
                     var rot = Quaternion.Euler(0, 0, angle * i);
                     direction = rot * Vector3.up;
                     
-                    GameObject prefab = GameManager.I.Resource.Instantiate(_skillData.PrefabLabel);
+                    GameObject prefab = Managers.Manager.I.Resource.Instantiate(_skillData.PrefabLabel);
                     var shootable = prefab.GetComponent<IGeneratable>();
                     shootable.OnHit = OnHit;
                     shootable.Generate(_owner.Position, direction, _skillData, _owner);

@@ -4,7 +4,7 @@ using SlimeMaster.Data;
 using SlimeMaster.Enum;
 using SlimeMaster.Firebase.Data;
 using SlimeMaster.Interface;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UniRx;
 using UnityEngine.Serialization;
 
@@ -61,7 +61,7 @@ namespace SlimeMaster.Model
             
             foreach (DBAchievementData dbAchievementData in dbAchievementContainerData.DBAchievementDataList)
             {
-                AchievementData achievementData = GameManager.I.Data.AchievementDataDict[dbAchievementData.AchievementId];
+                AchievementData achievementData = Manager.I.Data.AchievementDataDict[dbAchievementData.AchievementId];
 
                 bool isPossibleGetReward = achievementData.MissionTargetValue <= dbAchievementData.AccumulatedValue;
                 IsPossibleGetReward.Value = isPossibleGetReward;

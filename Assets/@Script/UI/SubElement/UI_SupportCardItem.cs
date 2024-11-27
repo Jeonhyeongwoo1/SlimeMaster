@@ -1,5 +1,5 @@
 using SlimeMaster.Data;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -25,19 +25,19 @@ namespace SlimeMaster.UISubItemElement
 
         private void OnChangedLockToggle(bool isOn)
         {
-            GameManager gameManager = GameManager.I;
-            SupportSkillData skillData = gameManager.Data.SupportSkillDataDict[_supportSkillId];
+            Manager manager = Manager.I;
+            SupportSkillData skillData = manager.Data.SupportSkillDataDict[_supportSkillId];
             if (isOn)
             {
-                gameManager.Object.Player.SkillBook.lockSupportSkillDataList.Add(skillData);
+                manager.Object.Player.SkillBook._lockSupportSkillDataList.Add(skillData);
             }
             else
             {
-                gameManager.Object.Player.SkillBook.lockSupportSkillDataList.Remove(skillData);
+                manager.Object.Player.SkillBook._lockSupportSkillDataList.Remove(skillData);
             }
 
             SupportSkillData supportSkillData =
-                gameManager.Object.Player.SkillBook.CurrentSupportSkillDataList.Find(v => v == skillData);
+                manager.Object.Player.SkillBook.CurrentSupportSkillDataList.Find(v => v == skillData);
             if (supportSkillData != null)
             {
                 supportSkillData.IsLocked = isOn;
@@ -46,7 +46,7 @@ namespace SlimeMaster.UISubItemElement
 
         public void SetInfo(SupportSkillData supportSkillData)
         {
-            _skillImage.sprite = GameManager.I.Resource.Load<Sprite>(supportSkillData.IconLabel);
+            _skillImage.sprite = Manager.I.Resource.Load<Sprite>(supportSkillData.IconLabel);
             _skillNameText.text = supportSkillData.Name;
             _skillDescriptionText.text = supportSkillData.Description;
             _priceText.text = supportSkillData.Price.ToString();
@@ -58,7 +58,7 @@ namespace SlimeMaster.UISubItemElement
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            bool isSuccess = GameManager.I.Object.Player.TryPurchaseSupportSkill(_supportSkillId);
+            bool isSuccess = Manager.I.Object.Player.TryPurchaseSupportSkill(_supportSkillId);
             if (isSuccess)
             {
                 _soldOutObject.SetActive(true);

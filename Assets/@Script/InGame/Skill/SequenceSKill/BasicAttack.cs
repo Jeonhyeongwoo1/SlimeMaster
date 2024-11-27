@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
 using SlimeMaster.InGame.Entity;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -18,7 +18,7 @@ namespace SlimeMaster.InGame.Skill
             }
 
             Vector3 _offset = new Vector3(0, 0.25f, 0);
-            GameObject obj = GameManager.I.Resource.Instantiate(nameof(SkillRange));
+            GameObject obj = Managers.Manager.I.Resource.Instantiate(nameof(SkillRange));
             obj.transform.SetParent(_owner.transform);
             obj.transform.localPosition = _offset;
             obj.SetActive(true);
@@ -38,7 +38,7 @@ namespace SlimeMaster.InGame.Skill
             await UniTask.WaitForSeconds(0.5f, cancellationToken: _skillLogicCts.Token);
 
             // Hit Effect
-            GameObject HitEffectObj = GameManager.I.Resource.Instantiate(Const.BossSmashHitEffect);
+            GameObject HitEffectObj = Managers.Manager.I.Resource.Instantiate(Const.BossSmashHitEffect);
             HitEffectObj.transform.SetParent(_owner.transform);
             HitEffectObj.transform.localPosition = Vector3.zero;
             HitEffectObj.transform.localScale = Vector3.one * (radius * 0.3f);
@@ -48,7 +48,7 @@ namespace SlimeMaster.InGame.Skill
             {
                 await UniTask.WaitForSeconds(0.7f, cancellationToken: _skillLogicCts.Token);
             
-                GameManager.I.Pool.ReleaseObject(Const.BossSmashHitEffect, HitEffectObj);
+                Managers.Manager.I.Pool.ReleaseObject(Const.BossSmashHitEffect, HitEffectObj);
             
                 await UniTask.WaitForSeconds(_skillData.AttackInterval, cancellationToken: _skillLogicCts.Token);
             }

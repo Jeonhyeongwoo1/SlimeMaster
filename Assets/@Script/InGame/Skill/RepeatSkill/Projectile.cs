@@ -3,7 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using SlimeMaster.Data;
 using SlimeMaster.InGame.Enum;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -54,7 +54,7 @@ namespace SlimeMaster.InGame.Skill
 
             IsRelease = true;
             var go = gameObject;
-            GameManager.I.Pool.ReleaseObject(go.name, go);
+            Managers.Manager.I.Pool.ReleaseObject(go.name, go);
         }
 
         public virtual void OnChangedSkillData(SkillData skillData)

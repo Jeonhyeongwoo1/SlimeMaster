@@ -8,6 +8,7 @@ namespace SlimeMaster.Data
 {
     public class Const
     {
+        public static readonly string PATH = Application.persistentDataPath + "/SaveData.json";
         public const int PLAYER_DATA_ID = 201000;
         public const int GAME_START_STAMINA_COUNT = 3;
         public const int WAVE_COUNT = 3;
@@ -79,7 +80,7 @@ namespace SlimeMaster.Data
         #endregion
         
         public static int STAGE_SOULCOUNT = 10;
-        public static float STAGE_SOULDROP_RATE = 1f;//0.05f;
+        public static float STAGE_SOULDROP_RATE = 0.5f;//0.05f;
         public static int SUPPORT_ITEM_USEABLECOUNT = 4;
         public static int CHANGE_SUPPORT_SKILL_AMOUNT = 80;
         public static int DEFAULT_MagneticRange = 3;

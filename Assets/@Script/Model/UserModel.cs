@@ -6,7 +6,7 @@ using SlimeMaster.Enum;
 using SlimeMaster.Equipmenets;
 using SlimeMaster.Firebase.Data;
 using SlimeMaster.Interface;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -149,7 +149,7 @@ namespace SlimeMaster.Model
                 return;
             }
             
-            StageData stageData = GameManager.I.Data.StageDict[stageIndex];
+            StageData stageData = Manager.I.Data.StageDict[stageIndex];
             if (stageData.ThirdWaveCountValue <= finalWaveIndex)
             {
                 stageInfo.UpdateWaveClear(stageData.FirstWaveCountValue);
@@ -246,7 +246,7 @@ namespace SlimeMaster.Model
             UnEquippedItemDataList.Value ??= new List<Equipment>();
             foreach (DBEquipmentData equipmentData in equipmentDataList)
             {
-                var data = GameManager.I.Data.EquipmentDataDict[equipmentData.DataId];
+                var data = Manager.I.Data.EquipmentDataDict[equipmentData.DataId];
                 Equipment equipment =
                     new Equipment(data, false, equipmentData.Level, equipmentData.UID);
                 UnEquippedItemDataList.Value.Add(equipment);
@@ -263,7 +263,7 @@ namespace SlimeMaster.Model
 
             foreach (DBEquipmentData equipmentData in equipmentDataList)
             {
-                var data = GameManager.I.Data.EquipmentDataDict[equipmentData.DataId];
+                var data = Manager.I.Data.EquipmentDataDict[equipmentData.DataId];
                 Equipment equipment =
                     new Equipment(data, false, equipmentData.Level, equipmentData.UID);
                 UnEquippedItemDataList.Value.Add(equipment);
@@ -280,7 +280,7 @@ namespace SlimeMaster.Model
             
             foreach (DBEquipmentData equipmentData in equipmentDataList)
             {
-                var data = GameManager.I.Data.EquipmentDataDict[equipmentData.DataId];
+                var data = Manager.I.Data.EquipmentDataDict[equipmentData.DataId];
                 Equipment equipment =
                     new Equipment(data, true, equipmentData.Level, equipmentData.UID);
                 EquippedItemDataList.Value.Add(equipment);

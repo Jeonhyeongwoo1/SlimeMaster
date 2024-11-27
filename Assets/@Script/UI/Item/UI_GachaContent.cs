@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using SlimeMaster.Common;
 using SlimeMaster.Enum;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Presenter;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,7 +30,7 @@ namespace SlimeMaster.OutGame.UI
         
         private void OnClickProbabilityTableButton()
         {
-            GameManager.I.Event.Raise(GameEventType.ShowGachaListPopup, _gachaType);
+            Manager.I.Event.Raise(GameEventType.ShowGachaListPopup, _gachaType);
         }
 
         public void UpdateUI(List<ShopGachaItemData> advancedGachaItemDataList)

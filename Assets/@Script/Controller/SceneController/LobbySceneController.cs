@@ -1,6 +1,6 @@
 using Script.InGame.UI;
 using SlimeMaster.Factory;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.Presenter;
 using UnityEngine;
@@ -11,8 +11,8 @@ namespace SlimeMaster.Controller
     {
         private void Start()
         {
-            GameManager gameManager = GameManager.I;
-            var lobbyUI = gameManager.UI.ShowUI<UI_LobbyScene>();
+            Manager manager = Manager.I;
+            var lobbyUI = manager.UI.ShowUI<UI_LobbyScene>();
 
             var lobbyPresenter = PresenterFactory.CreateOrGet<LobbyPresenter>();
             var userModel = ModelFactory.CreateOrGetModel<UserModel>();

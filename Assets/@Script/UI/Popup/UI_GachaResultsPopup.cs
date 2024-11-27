@@ -1,6 +1,6 @@
 using System;
 using SlimeMaster.Common;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Popup;
 using SlimeMaster.UISubItemElement;
 using UnityEngine;
@@ -28,7 +28,7 @@ namespace SlimeMaster.OutGame.Popup
             {
                 ReleaseItem();
                 _openContentObject.SetActive(true);
-                GameManager.I.UI.ClosePopup();
+                Manager.I.UI.ClosePopup();
             });
         }
         

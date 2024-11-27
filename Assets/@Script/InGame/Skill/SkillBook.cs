@@ -6,7 +6,7 @@ using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -14,21 +14,9 @@ namespace SlimeMaster.InGame.Skill
 {
     public class SkillBook
     {
-        public List<BaseSkill> ActivateSkillList => _skillList.FindAll(v => v.IsLearn);
+        public List<BaseSkill> ActivateSkillList => _activateSkillList.FindAll(v => v.IsLearn);
         public int SupportSkillCount => _activateSupportSkillDataList.Count;
         public List<SupportSkill> ActivateSupportSkillDataList => _activateSupportSkillDataList;
-        
-        private List<BaseSkill> _skillList = new();
-        private List<SupportSkill> _activateSupportSkillDataList = new();
-        
-        private CancellationTokenSource _useSequenceSkillCts;
-        private CreatureController _owner;
-
-        
-        public List<SupportSkillData> lockSupportSkillDataList = new(Const.SUPPORT_ITEM_USEABLECOUNT);
-
-        
-        private List<SupportSkillData> _currentSupportSkillDataList;
         public List<SupportSkillData> CurrentSupportSkillDataList
         {
             get
@@ -36,7 +24,7 @@ namespace SlimeMaster.InGame.Skill
                 if (_currentSupportSkillDataList == null || _currentSupportSkillDataList.Count == 0)
                 {
                     _currentSupportSkillDataList =
-                        GameManager.I.Object.Player.SkillBook.GetRecommendSupportSkillDataList();
+                        Managers.Manager.I.Object.Player.SkillBook.GetRecommendSupportSkillDataList();
                 }
 
                 return _currentSupportSkillDataList;
@@ -47,7 +35,14 @@ namespace SlimeMaster.InGame.Skill
                 _currentSupportSkillDataList = value;
             }
         }
-        
+
+        private List<BaseSkill> _activateSkillList = new();
+        private List<SupportSkill> _activateSupportSkillDataList = new();
+        private CancellationTokenSource _useSequenceSkillCts;
+        private CreatureController _owner;
+        public List<SupportSkillData> _lockSupportSkillDataList = new(Const.SUPPORT_ITEM_USEABLECOUNT);
+        private List<SupportSkillData> _currentSupportSkillDataList;
+
         public SkillBook(CreatureController owner, List<SkillData> skillList)
         {
             _owner = owner;
@@ -68,7 +63,7 @@ namespace SlimeMaster.InGame.Skill
                 AddSkill(skillData, ref skill);
                 if (skill != null)
                 {
-                    _skillList.Add(skill);
+                    _activateSkillList.Add(skill);
                 }
             }
         }
@@ -77,7 +72,7 @@ namespace SlimeMaster.InGame.Skill
         {
             if (useRepeatSkill)
             {
-                var repeatSkillList = _skillList.FindAll(v => v is RepeatSkill);
+                var repeatSkillList = _activateSkillList.FindAll(v => v is RepeatSkill);
                 repeatSkillList.ForEach(v =>
                 {
                     if (v.IsLearn)
@@ -95,7 +90,7 @@ namespace SlimeMaster.InGame.Skill
 
         private async void UseSequenceSkill(CreatureController targetCreature)
         {
-            var sequenceSkillList = _skillList.FindAll(v => v is SequenceSkill);
+            var sequenceSkillList = _activateSkillList.FindAll(v => v is SequenceSkill);
             if (sequenceSkillList.Count == 0)
             {
                 return;
@@ -157,6 +152,17 @@ namespace SlimeMaster.InGame.Skill
             return _activateSupportSkillDataList.Select(x => x.SupportSkillData)
                 .Where(x => x.SupportSkillType == SupportSkillType.EliteKill).ToList();
         }
+
+        public bool IsLearnSkill(SkillData skillData)
+        {
+            BaseSkill baseSkill = _activateSkillList.Find(v => v.SkillData == skillData);
+            return baseSkill == null ? false : baseSkill.IsLearn;
+        }
+
+        public bool IsExistSkillInActivateSkillList(BaseSkill skill)
+        {
+            return _activateSkillList.Exists(v => v == skill);
+        }
         
         public void StopSequenceSkill()
         {
@@ -197,7 +203,18 @@ namespace SlimeMaster.InGame.Skill
 
         public void UpgradeOrAddSkill(SkillData skillData)
         {
-            var skill = _skillList.Find(v => v.SkillData.DataId == skillData.DataId);
+            if (skillData == null)
+            {
+                Debug.LogError("SkillData is null");
+                return;
+            }
+            
+            var skill = _activateSkillList.Find(v => v.SkillData.DataId == skillData.DataId);
+            if (skill == null)
+            {
+                AddSkill(skillData, ref skill);
+            }
+            
             if (skill.IsMaxLevel)
             {
                 Debug.LogWarning("is max level :" + skill.SkillData.DataId);
@@ -211,14 +228,14 @@ namespace SlimeMaster.InGame.Skill
                 return;
             }
             
-            SkillData upgradeSkillData = GameManager.I.Data.SkillDict[skillData.DataId + 1];
+            SkillData upgradeSkillData = Managers.Manager.I.Data.SkillDict[skillData.DataId + 1];
             skill.UpdateSkillData(upgradeSkillData);
             UseSkill(skill);
         }
 
         public void UpdateSkill(SupportSkillData supportSkill)
         {
-            foreach (BaseSkill skill in _skillList)
+            foreach (BaseSkill skill in _activateSkillList)
             {
                 if (skill.SkillType.ToString() == supportSkill.SupportSkillName.ToString())
                 {
@@ -241,6 +258,8 @@ namespace SlimeMaster.InGame.Skill
         {
             var skill = new SupportSkill(supportSkillData);
             _activateSupportSkillDataList.Add(skill);
+
+            Managers.Manager.I.GameContinueData.supportSkillDataList = _activateSupportSkillDataList.Select(x=> x.SupportSkillData).ToList();
         }
 
         public List<SupportSkillData> GetRecommendSupportSkillDataList()
@@ -255,7 +274,7 @@ namespace SlimeMaster.InGame.Skill
 
             int count = Const.SUPPORT_ITEM_USEABLECOUNT;
             var recommendSkillDataList = new List<SupportSkillData>();
-            recommendSkillDataList.AddRange(lockSupportSkillDataList);
+            recommendSkillDataList.AddRange(_lockSupportSkillDataList);
 
             count -= recommendSkillDataList.Count;
             for (int i = 0; i < count; i++)
@@ -297,10 +316,10 @@ namespace SlimeMaster.InGame.Skill
 
         private List<SupportSkillData> GetSupportSkillData(SupportSkillGrade grade, List<SupportSkillData> addedSupportSkillDataList)
         {
-            var skillDataList = GameManager.I.Data.SupportSkillDataDict.Values.ToList();
+            var skillDataList = Managers.Manager.I.Data.SupportSkillDataDict.Values.ToList();
             var excludeList =
                 new HashSet<SupportSkillData>().Concat(_activateSupportSkillDataList.Select(c => c.SupportSkillData))
-                    .Concat(lockSupportSkillDataList)
+                    .Concat(_lockSupportSkillDataList)
                     .Concat(addedSupportSkillDataList);
             
             return skillDataList.Where(x => !excludeList.Contains(x) && x.SupportSkillGrade == grade).ToList();
@@ -367,22 +386,15 @@ namespace SlimeMaster.InGame.Skill
             }
             
             string skillName = $"{typeof(BaseSkill).Namespace}.{skillType}";
-            try
+            var skill = Activator.CreateInstance(Type.GetType(skillName)) as BaseSkill;
+            // Debug.Log($"{skill} / {skillName} / {skill == null}");
+            if (skill == null)
             {
-                var skill = Activator.CreateInstance(Type.GetType(skillName)) as BaseSkill;
-                // Debug.Log($"{skill} / {skillName} / {skill == null}");
-                if (skill == null)
-                {
-                    return;
-                }
+                return;
+            }
 
-                skill.Initialize(skillType, _owner, skillData);
-                baseSkill = skill;
-            }
-            catch (Exception e)
-            {
-                
-            }
+            skill.Initialize(skillType, _owner, skillData);
+            baseSkill = skill;
         }
         
         public void UseSkill(BaseSkill baseSkill)
@@ -401,14 +413,14 @@ namespace SlimeMaster.InGame.Skill
 
         public void StopAllSkillLogic()
         {
-            _skillList.ForEach(v=> v.StopSkillLogic());
+            _activateSkillList.ForEach(v=> v.StopSkillLogic());
         }
 
         public List<BaseSkill> GetRecommendSkillList(int recommendSkillCount = 3)
         {
             List<BaseSkill> list = ActivateSkillList.Count == Const.MAX_SKILL_COUNT
                 ? ActivateSkillList.FindAll(v => v.CurrentLevel < Const.MAX_SKILL_Level)
-                : _skillList.FindAll(v => v.CurrentLevel < Const.MAX_SKILL_Level);
+                : _activateSkillList.FindAll(v => v.CurrentLevel < Const.MAX_SKILL_Level);
             
             list.Shuffle();
             return list.Take(recommendSkillCount).ToList();

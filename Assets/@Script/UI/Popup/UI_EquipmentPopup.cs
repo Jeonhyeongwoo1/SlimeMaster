@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using SlimeMaster.Common;
 using SlimeMaster.Enum;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Popup;
 using SlimeMaster.UISubItemElement;
 using TMPro;
@@ -45,7 +45,7 @@ namespace SlimeMaster.OutGame.Popup
 
         private void OnClickMergeButton()
         {
-            GameManager.I.Event.Raise(GameEventType.ShowMergePopup);
+            Manager.I.Event.Raise(GameEventType.ShowMergePopup);
         }
 
         public void SetSortType(string sortType)

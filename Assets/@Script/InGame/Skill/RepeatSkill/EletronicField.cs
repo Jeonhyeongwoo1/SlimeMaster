@@ -1,6 +1,6 @@
 using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -28,7 +28,7 @@ namespace SlimeMaster.InGame.Skill
         protected override async UniTask UseSkill()
         {
             Release();
-            GameObject prefab = GameManager.I.Resource.Instantiate(_skillData.PrefabLabel);
+            GameObject prefab = Managers.Manager.I.Resource.Instantiate(_skillData.PrefabLabel);
             var shootable = prefab.GetComponent<IGeneratable>();
             shootable.OnHit = OnHit;
             shootable.Generate(_owner.Position, Vector3.zero, _skillData, _owner);

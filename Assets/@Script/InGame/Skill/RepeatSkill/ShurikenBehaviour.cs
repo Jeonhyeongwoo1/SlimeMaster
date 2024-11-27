@@ -1,6 +1,6 @@
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -16,7 +16,7 @@ namespace SlimeMaster.InGame.Skill
             gameObject.SetActive(true);
             UpdateVelocity(direction, skillData.ProjSpeed);
             Invoke(nameof(Release), 3);
-            GameManager.I.Audio.Play(Sound.Effect, "Shuriken_Start");
+            Managers.Manager.I.Audio.Play(Sound.Effect, "Shuriken_Start");
         }
         
         public void Bounce(Vector3 direction, float speed)

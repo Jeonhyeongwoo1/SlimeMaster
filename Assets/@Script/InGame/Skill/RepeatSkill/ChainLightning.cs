@@ -4,7 +4,7 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
 using SlimeMaster.InGame.Controller;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -39,7 +39,7 @@ namespace SlimeMaster.InGame.Skill
             }
             
             List<MonsterController> monsterList =
-                GameManager.I.Object.ActivateMonsterList
+                Managers.Manager.I.Object.ActivateMonsterList
                     .OrderBy(a => (targetPosition - a.transform.position).sqrMagnitude).ToList();
             if (monsterList.Count == 0)
             {
@@ -78,7 +78,7 @@ namespace SlimeMaster.InGame.Skill
 
         protected override async UniTask UseSkill()
         {
-            var nearestMonsterList = GameManager.I.Object.GetNearestMonsterList(_skillData.NumProjectiles);
+            var nearestMonsterList = Managers.Manager.I.Object.GetNearestMonsterList(_skillData.NumProjectiles);
             if (nearestMonsterList == null)
             {
                 return;
@@ -101,7 +101,7 @@ namespace SlimeMaster.InGame.Skill
                 
                 for (var j = 0; j < chainedMonsterList.Count; j++)
                 {
-                    GameObject prefab = GameManager.I.Resource.Instantiate(_skillData.PrefabLabel);
+                    GameObject prefab = Managers.Manager.I.Resource.Instantiate(_skillData.PrefabLabel);
                     var generatable = prefab.GetComponent<IGeneratable>();
                     generatable.OnHit = OnHit;
                     (generatable as ChainLightningBehaviour).EndPosition = chainedMonsterList[j].Position;

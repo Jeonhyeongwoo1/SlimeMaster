@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Controller
@@ -42,7 +42,7 @@ namespace SlimeMaster.InGame.Controller
             base.TakeDamage(damage, attacker);
 
             float ratio = HP == 0 ? 0 : HP / _creatureData.MaxHp;
-            GameManager.I.Event.Raise(GameEventType.TakeDamageEliteOrBossMonster, ratio);
+            Managers.Manager.I.Event.Raise(GameEventType.TakeDamageEliteOrBossMonster, ratio);
         }
     }
 }

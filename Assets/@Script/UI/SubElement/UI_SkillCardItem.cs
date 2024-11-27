@@ -1,5 +1,5 @@
 using SlimeMaster.Enum;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.UISubItemElement;
 using TMPro;
 using UnityEngine;
@@ -44,7 +44,7 @@ namespace SlimeMaster.InGame.Popup
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            GameManager.I.Event.Raise(GameEventType.UpgradeOrAddNewSkill, _skillId);
+            Managers.Manager.I.Event.Raise(GameEventType.UpgradeOrAddNewSkill, _skillId);
         }
     }
 }

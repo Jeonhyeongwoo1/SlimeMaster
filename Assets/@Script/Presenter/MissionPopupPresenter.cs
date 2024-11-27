@@ -4,7 +4,7 @@ using SlimeMaster.Data;
 using SlimeMaster.Enum;
 using SlimeMaster.Factory;
 using SlimeMaster.Interface;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.OutGame.Popup;
 using SlimeMaster.UISubItemElement;
@@ -17,15 +17,15 @@ namespace SlimeMaster.Presenter
         private UserModel _userModel;
         private MissionModel _missionModel;
         private UI_MissionPopup _popup;
-        private UIManager _uiManager = GameManager.I.UI;
-        private DataManager _dataManager = GameManager.I.Data;
+        private UIManager _uiManager = Manager.I.UI;
+        private DataManager _dataManager = Manager.I.Data;
         
         public void Initialize(UserModel userModel, MissionModel missionModel)
         {
             _userModel = userModel;
             _missionModel = missionModel;
             
-            GameManager.I.Event.AddEvent(GameEventType.ShowOutGameContentPopup, OnOpenCheckoutPopup);
+            Manager.I.Event.AddEvent(GameEventType.ShowOutGameContentPopup, OnOpenCheckoutPopup);
         }
 
         private void OnOpenCheckoutPopup(object value)
@@ -44,7 +44,7 @@ namespace SlimeMaster.Presenter
         {
             _popup.ReleaseSubItem<UI_MissionItem>(_popup.DailyMissionScrollObject);
 
-            ResourcesManager resourcesManager = GameManager.I.Resource;
+            ResourcesManager resourcesManager = Manager.I.Resource;
             foreach (var (key, missionData) in _dataManager.MissionDataDict)
             {
                 MissionModelData missionModelData = _missionModel.GetMissionData(missionData.MissionId);
@@ -88,7 +88,7 @@ namespace SlimeMaster.Presenter
             ItemData itemData = _userModel.GetItemData(response.DBRewardItemData.ItemId);
             long rewardValue = response.DBRewardItemData.ItemValue - itemData.ItemValue.Value;
             _userModel.SetItemValue(response.DBRewardItemData.ItemId, response.DBRewardItemData.ItemValue);
-            GameManager.I.Event.Raise(GameEventType.GetReward, new List<RewardItemData>()
+            Manager.I.Event.Raise(GameEventType.GetReward, new List<RewardItemData>()
             {
                 new RewardItemData() { materialItemId = response.DBRewardItemData.ItemId, rewardValue = (int)rewardValue }
             });

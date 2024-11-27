@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using SlimeMaster.Firebase.Data;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 
 namespace SlimeMaster.Server
 {

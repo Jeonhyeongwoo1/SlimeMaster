@@ -1,6 +1,6 @@
 using SlimeMaster.Common;
 using SlimeMaster.Enum;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.UISubItemElement;
 using UnityEngine;
 using UnityEngine.Events;
@@ -23,7 +23,7 @@ namespace SlimeMaster.Popup
          
             if (_bgCloseButton != null)
             {
-                _bgCloseButton.SafeAddButtonListener(()=> GameManager.I.UI.ClosePopup());
+                _bgCloseButton.SafeAddButtonListener(()=> Manager.I.UI.ClosePopup());
             }
             IsInitialize = true;
         }
@@ -62,12 +62,12 @@ namespace SlimeMaster.Popup
         {
             Debug.Log("ClosePopup");
             PlayPopupCommonCloseSound();
-            GameManager.I.Pool.ReleaseObject(gameObject.name, gameObject);
+            Manager.I.Pool.ReleaseObject(gameObject.name, gameObject);
         }
 
         private void PlayPopupCommonCloseSound()
         {
-            GameManager.I.Audio.Play(Sound.Effect, "PopupClose_Common");
+            Manager.I.Audio.Play(Sound.Effect, "PopupClose_Common");
         }
     }
 }

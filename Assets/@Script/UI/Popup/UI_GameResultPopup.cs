@@ -1,7 +1,7 @@
 using SlimeMaster.Common;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Popup;
 using SlimeMaster.UISubItemElement;
 using TMPro;
@@ -22,7 +22,7 @@ namespace SlimeMaster.InGame.Popup
 
         private void Start()
         {
-            SafeButtonAddListener(ref _confirmButton, () => GameManager.I.MoveToLobbyScene());
+            SafeButtonAddListener(ref _confirmButton, () => Managers.Manager.I.MoveToLobbyScene());
         }
 
         public void UpdateUI(string stageDepth, string gameplayTime, int rewardGold, string totalMonsterKillCount)
@@ -38,9 +38,9 @@ namespace SlimeMaster.InGame.Popup
                 materialItem.Release();
             }
             
-            var item = GameManager.I.UI.AddSubElementItem<UI_MaterialItem>(_resultRewardScrollContent);
-            var materialData = GameManager.I.Data.MaterialDataDict[(int)MaterialType.RandomScroll];
-            Sprite sprite = GameManager.I.Resource.Load<Sprite>(materialData.SpriteName);
+            var item = Managers.Manager.I.UI.AddSubElementItem<UI_MaterialItem>(_resultRewardScrollContent);
+            var materialData = Managers.Manager.I.Data.MaterialDataDict[(int)MaterialType.RandomScroll];
+            Sprite sprite = Managers.Manager.I.Resource.Load<Sprite>(materialData.SpriteName);
             Color color = Const.EquipmentUIColors.GetMaterialGradeColor(materialData.MaterialGrade);
             item.UpdateUI(sprite, color, rewardGold.ToString(), true, _resultRewardScrollContent);
         }

@@ -59,5 +59,10 @@ namespace SlimeMaster.Equipmenets
             
             return false;
         }
+
+        public EquipmentType GetEquipmentType()
+        {
+            return _equipmentData.EquipmentType;
+        }
     }
 }

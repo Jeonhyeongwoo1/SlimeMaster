@@ -1,4 +1,4 @@
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.UISubItemElement
@@ -19,7 +19,7 @@ namespace SlimeMaster.UISubItemElement
 
         public virtual void Release()
         {
-            GameManager.I.Pool.ReleaseObject(gameObject.name, gameObject);
+            Manager.I.Pool.ReleaseObject(gameObject.name, gameObject);
         }
     }
 }

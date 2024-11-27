@@ -4,7 +4,7 @@ using SlimeMaster.Common;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
 using SlimeMaster.InGame.Controller;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -17,7 +17,7 @@ namespace SlimeMaster.InGame.Skill
         {
             base.Initialize(skillType, owner, skillData);
 
-            _player = GameManager.I.Object.Player;
+            _player = Managers.Manager.I.Object.Player;
         }
 
         public override void StopSkillLogic()
@@ -42,7 +42,7 @@ namespace SlimeMaster.InGame.Skill
             for (int i = 0; i < projectileCount; i++)
             {
                 Vector3 direction = (_player.Position - _owner.Position).normalized;
-                GameObject prefab = GameManager.I.Resource.Instantiate(_skillData.PrefabLabel);
+                GameObject prefab = Managers.Manager.I.Resource.Instantiate(_skillData.PrefabLabel);
                 var shootable = prefab.GetComponent<IGeneratable>();
                 shootable.OnHit = OnHit;
                 shootable.Generate(_owner.Position, direction, _skillData, _owner);

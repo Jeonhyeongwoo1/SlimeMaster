@@ -1,5 +1,5 @@
 using SlimeMaster.Enum;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Popup;
 using UniRx.Triggers;
 using UnityEngine;
@@ -22,7 +22,7 @@ namespace SlimeMaster.InGame.Popup
 
         private void OnResumeGame()
         {
-            GameManager.I.UI.ClosePopup();
+            Managers.Manager.I.UI.ClosePopup();
         }
 
         private void OnQuit()

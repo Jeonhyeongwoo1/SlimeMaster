@@ -1,14 +1,36 @@
 using System;
-using SlimeMaster.InGame.Manager;
-using SlimeMaster.InGame.View;
+using SlimeMaster.Managers;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace SlimeMaster.Controller
 {
     public class GameSceneController : MonoBehaviour
     {
         private void Start()
+        {
+            
+        }
+
+        private void OnApplicationQuit()
+        {
+            Manager.I.SaveGameContinueData();
+        }
+
+        private void OnDisable()
+        {
+            Test_SaveGameContinueData();
+            Manager.I.SaveGameContinueData();
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                OnDisable();
+            }
+        }
+
+        public void Test_SaveGameContinueData()
         {
         }
     }

@@ -5,7 +5,7 @@ using DG.Tweening;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
 using SlimeMaster.InGame.Skill;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 public class CreatureController : MonoBehaviour, IHitable
@@ -23,6 +23,7 @@ public class CreatureController : MonoBehaviour, IHitable
     
     public virtual float MaxHP { get; set; }
     public virtual float HP { get; set; }
+    protected virtual float MoveSpeed { get; set; }
     
     [SerializeField] protected CreatureStateType _creatureStateType;
     [SerializeField] protected SpriteRenderer _spriteRenderer;
@@ -33,7 +34,6 @@ public class CreatureController : MonoBehaviour, IHitable
     protected CreatureData _creatureData;
     protected CircleCollider2D _collider;
     protected float _attackDamage;
-    protected float _moveSpeed;
     
     public virtual void TakeDamage(float damage, CreatureController attacker)
     {
@@ -62,13 +62,13 @@ public class CreatureController : MonoBehaviour, IHitable
 
     protected virtual void InitCreatureStat(bool isFullHP = true)
     {
-        float waveRate = GameManager.I.Stage.WaveData.HpIncreaseRate;
-        MaxHP = (CreatureData.MaxHp + (CreatureData.MaxHpBonus * GameManager.I.Stage.StageData.StageLevel)) *
+        float waveRate = Manager.I.Game.WaveData.HpIncreaseRate;
+        MaxHP = (CreatureData.MaxHp + (CreatureData.MaxHpBonus * Manager.I.Game.StageData.StageLevel)) *
                 (CreatureData.HpRate + waveRate);
-        _attackDamage = (CreatureData.Atk + (CreatureData.AtkBonus * GameManager.I.Stage.StageData.StageLevel)) *
+        _attackDamage = (CreatureData.Atk + (CreatureData.AtkBonus * Manager.I.Game.StageData.StageLevel)) *
                         CreatureData.AtkRate;
         HP = MaxHP;
-        _moveSpeed = CreatureData.MoveSpeed * CreatureData.MoveSpeedRate;
+        MoveSpeed = CreatureData.MoveSpeed * CreatureData.MoveSpeedRate;
     }
 
     private void AddSkillBook(List<SkillData> skillDataList)
@@ -83,14 +83,14 @@ public class CreatureController : MonoBehaviour, IHitable
 
     public void Release()
     {
-        GameManager.I.Pool.ReleaseObject(gameObject.name, gameObject);
+        Manager.I.Pool.ReleaseObject(gameObject.name, gameObject);
     }
 
     public Action<int, int> onHitReceived { get; set; }
 
     protected async UniTask DeadAnimation()
     {
-        ResourcesManager resource = GameManager.I.Resource;
+        ResourcesManager resource = Manager.I.Resource;
         Material defaultMat =  resource.Load<Material>("CreatureDefaultMat");
         Material hitEffectMat = resource.Load<Material>("PaintWhite");
 

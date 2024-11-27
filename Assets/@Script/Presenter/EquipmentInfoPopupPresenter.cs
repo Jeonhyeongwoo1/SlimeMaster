@@ -4,7 +4,7 @@ using SlimeMaster.Enum;
 using SlimeMaster.Equipmenets;
 using SlimeMaster.Factory;
 using SlimeMaster.Interface;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.OutGame.Popup;
 using UnityEngine;
@@ -21,9 +21,9 @@ namespace SlimeMaster.Presenter
         public void Initialize(UserModel model)
         {
             _model = model;
-            _resourcesManager = GameManager.I.Resource;
-            _dataManager = GameManager.I.Data;
-            GameManager.I.Event.AddEvent(GameEventType.ShowEquipmentInfoPopup, OnShowEquipmentInfoPopup);
+            _resourcesManager = Manager.I.Resource;
+            _dataManager = Manager.I.Data;
+            Manager.I.Event.AddEvent(GameEventType.ShowEquipmentInfoPopup, OnShowEquipmentInfoPopup);
         }
 
         private void OnShowEquipmentInfoPopup(object value)
@@ -35,7 +35,7 @@ namespace SlimeMaster.Presenter
                 return;
             }
             
-            _infoPopup = GameManager.I.UI.OpenPopup<UI_EquipmentInfoPopup>();
+            _infoPopup = Manager.I.UI.OpenPopup<UI_EquipmentInfoPopup>();
             
             _infoPopup.onEquipAction = () => OnEquip(equipment);
             _infoPopup.onMergeAction = () => OnMerge(id);
@@ -54,7 +54,7 @@ namespace SlimeMaster.Presenter
             Sprite equipmentOptionSprite = _resourcesManager.Load<Sprite>(sprName);
             float equipmentOptionValue = equipmentData.MaxHpBonus == 0 ? equipmentData.AtkDmgBonus : equipmentData.MaxHpBonus;
 
-            Dictionary<int, SupportSkillData> supportSkillDataDict = GameManager.I.Data.SupportSkillDataDict;
+            Dictionary<int, SupportSkillData> supportSkillDataDict = Manager.I.Data.SupportSkillDataDict;
             string[] skillDescriptionArray = 
             {
                 // supportSkillDataDict[equipmentData.BasicSkill].Description,
@@ -102,9 +102,9 @@ namespace SlimeMaster.Presenter
             _model.SetItemValue(materialItemData.ItemId, materialItemData.ItemValue);
             equipment.LevelUp();
             
-            GameManager.I.Audio.Play(Sound.Effect, "Levelup_Equipment");
+            Manager.I.Audio.Play(Sound.Effect, "Levelup_Equipment");
             Refresh(equipment);
-            GameManager.I.Event.Raise(GameEventType.OnUpdatedEquipment);
+            Manager.I.Event.Raise(GameEventType.OnUpdatedEquipment);
         }
 
         private async void OnUnquip(Equipment equipment)
@@ -128,8 +128,8 @@ namespace SlimeMaster.Presenter
 
             _model.ClearAndSetEquipmentDataList(response.EquipmentDataList);
             _model.ClearAndSetUnEquipmentDataList(response.UnEquipmentDataList);
-            GameManager.I.UI.ClosePopup();
-            GameManager.I.Event.Raise(GameEventType.OnUpdatedEquipment);
+            Manager.I.UI.ClosePopup();
+            Manager.I.Event.Raise(GameEventType.OnUpdatedEquipment);
         }
 
         private void OnMerge(string equipmentId)
@@ -159,8 +159,8 @@ namespace SlimeMaster.Presenter
             
             _model.ClearAndSetEquipmentDataList(response.EquipmentDataList);
             _model.ClearAndSetUnEquipmentDataList(response.UnEquipmentDataList);
-            GameManager.I.UI.ClosePopup();
-            GameManager.I.Event.Raise(GameEventType.OnUpdatedEquipment);
+            Manager.I.UI.ClosePopup();
+            Manager.I.Event.Raise(GameEventType.OnUpdatedEquipment);
         }
     }
 }

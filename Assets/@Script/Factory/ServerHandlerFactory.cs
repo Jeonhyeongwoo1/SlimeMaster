@@ -5,7 +5,7 @@ using System.Reflection;
 using SlimeMaster.Attribute;
 using SlimeMaster.Firebase;
 using SlimeMaster.Interface;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Server;
 using UnityEngine;
 

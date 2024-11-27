@@ -1,7 +1,7 @@
 using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
 using SlimeMaster.InGame.Controller;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -19,10 +19,10 @@ namespace SlimeMaster.InGame.Skill
         {
             int projectileCount = _skillData.NumProjectiles;
 
-            var list = GameManager.I.Object.GetNearestMonsterList(projectileCount);
+            var list = Managers.Manager.I.Object.GetNearestMonsterList(projectileCount);
             for (int i = 0; i < projectileCount; i++)
             {
-                GameObject prefab = GameManager.I.Resource.Instantiate(_skillData.PrefabLabel);
+                GameObject prefab = Managers.Manager.I.Resource.Instantiate(_skillData.PrefabLabel);
                 var generatable = prefab.GetComponent<IGeneratable>();
                 Vector3 direction = _owner.GetDirection();
                 var photonStrike = (generatable as PhotonStrikeBehaviour);

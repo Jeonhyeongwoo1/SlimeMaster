@@ -1,149 +1,348 @@
+using System;
+using System.Linq;
+using System.Threading;
 using Cysharp.Threading.Tasks;
+using SlimeMaster.Common;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
 using SlimeMaster.Factory;
+using SlimeMaster.InGame.Controller;
 using SlimeMaster.InGame.Data;
-using SlimeMaster.InGame.Manager;
-using SlimeMaster.InGame.View;
+using SlimeMaster.InGame.Entity;
+using SlimeMaster.InGame.Popup;
+using SlimeMaster.Interface;
+using SlimeMaster.Managers;
 using SlimeMaster.Model;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
-namespace SlimeMaster.Manager
+namespace SlimeMaster.InGame.Manager
 {
     public class GameManager
     {
-        public static GameManager I
+        public Map CurrentMap => _currentMap;
+        public StageData StageData => _stageData;
+        public WaveData WaveData => _waveData;
+        public GameState GameState => _gameState;
+        
+        private StageData _stageData;
+        private WaveData _waveData;
+        private MonsterSpawnPool _monsterSpawnPool;
+        private Map _currentMap;
+        private StageModel _stageModel;
+
+        private EventManager _event = Managers.Manager.I.Event;
+        private ObjectManager _object = Managers.Manager.I.Object;
+        private ResourcesManager _resource = Managers.Manager.I.Resource;
+        private CancellationTokenSource _waveTimerCts;
+        private GameState _gameState;
+        
+        public DateTime GameStartTime { get; private set; }
+        
+        public void Initialize()
         {
-            get
+            _stageModel = ModelFactory.CreateOrGetModel<StageModel>();
+            _monsterSpawnPool = new MonsterSpawnPool();
+            AddEvent();
+        }
+
+        private void AddEvent()
+        {
+            _event.AddEvent(GameEventType.DeadMonster, OnDeadMonster);
+            _event.AddEvent(GameEventType.DeadPlayer, OnDeadPlayer);
+            _event.AddEvent(GameEventType.ResurrectionPlayer, OnResurrectionPlayer);
+        }
+        
+        private void OnResurrectionPlayer(object value)
+        {
+            UpdateGameState(GameState.Start);
+        }
+
+        private bool TrySpawnGem(ref GemType gemType)
+        {
+            float smallGemRatio = _waveData.SmallGemDropRate;
+            float greenGemRatio = _waveData.GreenGemDropRate;
+            float blueGemRatio = _waveData.BlueGemDropRate;
+            float yellowGemRatio = _waveData.YellowGemDropRate;
+
+            float select = Random.value;
+            if (select <= smallGemRatio)
             {
-                if (_instance == null)
-                {
-                    _instance = new GameManager();
-                }
-                
-                return _instance;
+                gemType = GemType.SmallGem;
+            }
+            
+            if (select <= greenGemRatio)
+            {
+                gemType = GemType.GreenGem;
+            }
+            
+            if (select <= blueGemRatio)
+            {
+                gemType = GemType.BlueGem;
+            }
+            
+            if(select <= yellowGemRatio)
+            {
+                gemType = GemType.YellowGem;
+            }
+
+            if (gemType == GemType.None)
+            {
+                // Debug.LogError($"failed get gemType random value {select}");
+                return false;
+            }
+
+            return true;
+        }
+
+        private void SpawnDropItemByMonsterType(MonsterType monsterType, Vector3 spawnPosition)
+        {
+            switch (monsterType)
+            {
+                case MonsterType.Normal:
+                    bool isPossibleSpawnDropItem = Random.value >= _waveData.nonDropRate;
+                    if (!isPossibleSpawnDropItem)
+                    {
+                        return;
+                    }
+
+                    GemType gemType = GemType.None;
+                    bool isSuccess = TrySpawnGem(ref gemType);
+                    if (isSuccess)
+                    {
+                        GemController gem = Managers.Manager.I.Object.MakeGem(gemType, spawnPosition);
+                        _currentMap.AddItemInGrid(gem.transform.position, gem);
+                    }
+
+                    break;
+                case MonsterType.Elete:
+                    var dropItemIdList = _waveData.EliteDropItemId;
+
+                    foreach (int id in dropItemIdList)
+                    {
+                        if (!Managers.Manager.I.Data.DropItemDict.TryGetValue(id, out DropItemData dropItemData))
+                        {
+                            Debug.LogWarning($"failed spawn drop item {id}");
+                            continue;
+                        }
+                        
+                        string prefabName = dropItemData.DropItemType.ToString();
+                        GameObject prefab = Managers.Manager.I.Resource.Instantiate(prefabName);
+                        var dropItem = prefab.GetComponent<DropItemController>();
+                        dropItem.Spawn(spawnPosition);
+                        dropItem.SetInfo(dropItemData);
+                        _currentMap.AddItemInGrid(spawnPosition, dropItem);
+                    }
+
+                    break;
+                case MonsterType.Boss:
+                    break;
+            }
+
+            if (Random.value < Const.STAGE_SOULDROP_RATE)
+            {
+                SoulController soul = Managers.Manager.I.Object.MakeSoul(spawnPosition);
+                _currentMap.AddItemInGrid(spawnPosition, soul);
+            }
+        }
+
+        private void OnDeadMonster(object value)
+        {
+            StageModel model = ModelFactory.CreateOrGetModel<StageModel>();
+            model.killCount.Value++;
+            Managers.Manager.I.GameContinueData.killCount++;
+      
+            var monster = (MonsterController)value;
+            SpawnDropItemByMonsterType(monster.MonsterType, monster.Position);
+
+            if (model.killCount.Value != 0 && model.killCount.Value % Const.MONSTER_KILL_BONUS_COUNT == 0)
+            {
+                Managers.Manager.I.Object.Player.OnUpgradeStatByMonsterKill();
             }
         }
         
-        private static GameManager _instance;
-        
-        public PoolManager Pool => I._pool ??= new PoolManager();
-        public EventManager Event => I._event ??= new EventManager();
-        public ResourcesManager Resource => I._resource ??= new ResourcesManager();
-        public DataManager Data => I._data ??= new DataManager();
-        public StageManager Stage => I._stage ??= new StageManager();
-        public ObjectManager Object => I._object ??= new ObjectManager();
-        public UIManager UI => I._ui ??= new UIManager();
-        public AudioManager Audio => I._audio ??= new AudioManager();
-
-        private EventManager _event;
-        private PoolManager _pool;
-        private ResourcesManager _resource;
-        private DataManager _data;
-        private StageManager _stage;
-        private ObjectManager _object;
-        private UIManager _ui;
-        private AudioManager _audio;
-
-        public GameContinueData GameContinueData => _gameContinueData ??= new GameContinueData();
-        private GameContinueData _gameContinueData;
-
-        public bool IsOnBGM
+        private void SetStageData(StageData stageData, int waveIndex = 0)
         {
-            get => PlayerPrefs.GetInt(nameof(IsOnBGM), 0) == 0;
-            set
+            _stageData = stageData;
+            _waveData = _stageData.WaveArray[waveIndex];
+            _stageModel.currentWaveStep.Value = _waveData.WaveIndex;
+        }
+
+        private void MakeMap()
+        {
+            //맵, 몬스터 스폰, Wave
+            GameObject map = _resource.Instantiate(_stageData.MapName, false);
+            _currentMap = map.GetOrAddComponent<Map>();
+            map.SetActive(true);
+        }
+
+        public async UniTaskVoid StartStage(StageData stageData, int waveIndex)
+        {
+            SetStageData(stageData, waveIndex);
+            MakeMap();
+            _object.CreatePlayer();
+            await StartStageAsync();
+        }
+
+        private async UniTask StartStageAsync()
+        {
+            GameStartTime = DateTime.UtcNow;
+            int waveCount = _stageData.WaveArray.Count;
+            for (int i = 0; i < waveCount; i++)
             {
-                PlayerPrefs.SetInt(nameof(IsOnBGM), value ? 0 : 1);
-                if (value)
+                await StartWave();
+                
+                _currentMap.DoChangeMap(waveCount, i);
+                StopWave();
+                int nextIndex = i + 1;
+                if (nextIndex == waveCount)
                 {
-                    Scene scene = SceneManager.GetActiveScene();
-                    Audio.Play(Sound.Bgm, scene.name == SceneType.LobbyScene.ToString() ? "Bgm_Lobby" : "Bgm_Game");
+                    break;
                 }
-                else
+
+                _waveData = _stageData.WaveArray[nextIndex];
+                _stageModel.currentWaveStep.Value = _waveData.WaveIndex;
+                Managers.Manager.I.GameContinueData.waveIndex = _waveData.WaveIndex;
+                Managers.Manager.I.Event.Raise(GameEventType.EndWave);
+            }
+            
+            CompleteStage();
+        }
+
+        private async void CompleteStage()
+        {
+            Time.timeScale = 0;
+            var gameResultPopup = Managers.Manager.I.UI.OpenPopup<UI_GameResultPopup>();
+
+            TimeSpan playTimeSpan = DateTime.UtcNow - GameStartTime;
+            string playTime = playTimeSpan.ToString(@"mm\:ss");
+            gameResultPopup.UpdateUI(_stageData.StageLevel.ToString(), playTime, _stageData.ClearReward_Gold,
+                _stageModel.killCount.ToString());
+            
+            _object.AllObjectRelease();
+
+            var response = await ServerHandlerFactory.Get<IUserClientSender>().StageClearRequest(_stageData.StageIndex);
+            if (response.responseCode != ServerErrorCode.Success)
+            {
+                switch (response.responseCode)
                 {
-                    Audio.Stop(Sound.Bgm);
+                    case ServerErrorCode.FailedFirebaseError:
+                    case ServerErrorCode.FailedGetUserData:
+                        //Alert
+                        Debug.LogError("Failed :" + response.errorMessage);
+                        return;
                 }
             }
+
+            var userModel = ModelFactory.CreateOrGetModel<UserModel>();
+            userModel.AddItemValue(response.ItemData.ItemId, response.ItemData.ItemValue);
+            userModel.UpdateStage(response.StageData.StageIndex, response.StageData.WaveDataList.Last().WaveIndex);
         }
 
-        public bool IsOnSfx
+        private async UniTask StartWave()
         {
-            get => PlayerPrefs.GetInt(nameof(IsOnSfx), 0) == 0;
-            set
+            _monsterSpawnPool.SpawnMonsterAsync(_waveData.SpawnInterval, _waveData.MonsterId,
+                _waveData.OnceSpawnCount,
+                _waveData.FirstMonsterSpawnRate, _waveData.EleteId, _waveData.BossId).Forget();
+         
+            await WaveTimerAsync();   
+            SpawnDropItem();
+        }
+
+        enum EDropItemType
+        {
+            Potion,
+            Magnet,
+            Bomb
+        }
+
+        private void SpawnDropItem()
+        {
+            int length = System.Enum.GetValues(typeof(EDropItemType)).Length;
+            int random = Random.Range(0, length);
+            string prefabName = ((EDropItemType)random).ToString();
+            GameObject prefab = Managers.Manager.I.Resource.Instantiate(prefabName);
+            var dropItem = prefab.GetComponent<DropItemController>();
+            
+            Vector3 spawnPosition = Utils.GetPositionInDonut(_object.Player.transform, 5, 10);
+            dropItem.Spawn(spawnPosition);
+
+            DropItemData dropItemData = null;
+            switch ((EDropItemType) random)
             {
-                PlayerPrefs.SetInt(nameof(IsOnSfx), value ? 0 : 1);
-                if (!value)
-                {
-                    Audio.Stop(Sound.Effect);
-                }
+                case EDropItemType.Potion:
+                    if (Managers.Manager.I.Data.DropItemDict.TryGetValue(Const.ID_POTION, out dropItemData))
+                    {
+                        dropItem.SetInfo(dropItemData);
+                    }
+                    break;
+                case EDropItemType.Magnet:
+                    if (Managers.Manager.I.Data.DropItemDict.TryGetValue(Const.ID_MAGNET, out dropItemData))
+                    {
+                        dropItem.SetInfo(dropItemData);
+                    }
+                    break;
+                case EDropItemType.Bomb:
+                    if (Managers.Manager.I.Data.DropItemDict.TryGetValue(Const.ID_BOMB, out dropItemData))
+                    {
+                        dropItem.SetInfo(dropItemData);
+                    }
+                    break;
             }
+            
+            _currentMap.AddItemInGrid(spawnPosition, dropItem);
         }
 
-        public bool IsFixJoystick
+        public void StopWave()
         {
-            get => PlayerPrefs.GetInt(nameof(IsFixJoystick), 0) == 0;
-            set => PlayerPrefs.SetInt(nameof(IsFixJoystick), value ? 0 : 1);
+            _monsterSpawnPool.StopMonsterSpawn();
+            Utils.SafeCancelCancellationTokenSource(ref _waveTimerCts);
         }
 
-        public int CurrentStageIndex
+        private async UniTask WaveTimerAsync()
         {
-            get
+            _waveTimerCts = new();
+            CancellationToken token = _waveTimerCts.Token;
+            int timer = (int) _waveData.RemainsTime;
+            Managers.Manager manager = Managers.Manager.I;
+            while (timer > 0)
             {
-                int savedStageIndex = PlayerPrefs.GetInt(nameof(CurrentStageIndex), 0);
-                int stageIndex = savedStageIndex == 0
-                    ? ModelFactory.CreateOrGetModel<UserModel>().GetLastClearStageIndex()
-                    : savedStageIndex;
-
-                return stageIndex;
-            }
-            set => PlayerPrefs.SetInt(nameof(CurrentStageIndex), value);
-        }
-
-        public void InitializeManager()
-        {
-            Data.Initialize();
-            Stage.Initialize();
-            Object.Initialize();
-            Audio.Initialize();
-        }
-
-        public async void StartGame()
-        {
-            string sceneName = SceneType.GameScene.ToString();
-            SceneManager.sceneLoaded += (scene, loadSceneMode) =>
-            {
-                if (scene.name != sceneName)
+                if (GameState == GameState.DeadPlayer)
                 {
-                    return;
+                    try
+                    {
+                        await UniTask.Yield(cancellationToken: _waveTimerCts.Token);
+                        continue;
+                    }
+                    catch (Exception e) when (!(e is OperationCanceledException))
+                    {
+                        Debug.LogError("error wave time " + e);
+                        break;
+                    }
                 }
                 
-                var gameSceneUI = UI.ShowUI<UI_GameScene>();
-                gameSceneUI.Initialize();
-            
-                UserModel userModel = ModelFactory.CreateOrGetModel<UserModel>();
-                int stageIndex = userModel.GetLastClearStageIndex();
-                StageData stageData = Data.StageDict[stageIndex];
-                Stage.StartStage(stageData).Forget();
-            };
-            
-            var operation = SceneManager.LoadSceneAsync(sceneName);
-            if (!operation.isDone)
-            {
-                await UniTask.Yield();
+                _stageModel.timer.Value = timer;
+                timer--;
+                try
+                {
+                    await UniTask.WaitForSeconds(1, cancellationToken: token);
+                }
+                catch (Exception e) when (!(e is OperationCanceledException))
+                {
+                    Debug.LogError("error wave time " + e);
+                    break;
+                }
             }
             
-            //Fader 
+            Debug.Log("End");
         }
-
-        public async void MoveToLobbyScene()
+        
+        private void OnDeadPlayer(object value)
         {
-            string sceneName = SceneType.LobbyScene.ToString();
-            var operation = SceneManager.LoadSceneAsync(sceneName);
-            if (!operation.isDone)
-            {
-                await UniTask.Yield();
-            }
+            UpdateGameState(GameState.DeadPlayer);
         }
+        
+        private void UpdateGameState(GameState gameState) => _gameState = gameState;
     }
 }

@@ -2,7 +2,7 @@ using System;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
 using SlimeMaster.InGame.Data;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -32,7 +32,7 @@ namespace SlimeMaster.InGame.Skill
             
             gameObject.SetActive(true);
             Invoke(nameof(Release), 2);
-            GameManager.I.Audio.Play(Sound.Effect, "SavageSmash_Start");
+            Managers.Manager.I.Audio.Play(Sound.Effect, "SavageSmash_Start");
         }
 
         public override void OnChangedSkillData(SkillData skillData)

@@ -5,7 +5,7 @@ using SlimeMaster.Data;
 using SlimeMaster.Enum;
 using SlimeMaster.Factory;
 using SlimeMaster.Interface;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.OutGame.Popup;
 using SlimeMaster.UISubItemElement;
@@ -23,7 +23,7 @@ namespace SlimeMaster.Presenter
         {
             _userModel = userModel;
             _timeDataModel = ModelFactory.CreateOrGetModel<TimeDataModel>();
-            GameManager.I.Event.AddEvent(GameEventType.ShowOutGameContentPopup, OnOpenPopup);
+            Manager.I.Event.AddEvent(GameEventType.ShowOutGameContentPopup, OnOpenPopup);
         }
 
         private void OnOpenPopup(object value)
@@ -34,7 +34,7 @@ namespace SlimeMaster.Presenter
                 return;
             }
             
-            _popup = GameManager.I.UI.OpenPopup<UI_OfflineRewardPopup>();
+            _popup = Manager.I.UI.OpenPopup<UI_OfflineRewardPopup>();
             _popup.onClaimAction = OnClaimReward;
             _popup.onOpenFastRewardAction = OnOpenFastRewardPopup;
             _popup.AddEvents();
@@ -43,13 +43,13 @@ namespace SlimeMaster.Presenter
 
         private void OnOpenFastRewardPopup()
         {
-            GameManager.I.Event.Raise(GameEventType.ShowFastRewardPopup);
+            Manager.I.Event.Raise(GameEventType.ShowFastRewardPopup);
         }
 
         private void RefreshPopupUI()
         {
             int stageIndex = _userModel.GetLastClearStageIndex();
-            OfflineRewardData rewardData = GameManager.I.Data.OfflineRewardDataDict[stageIndex];
+            OfflineRewardData rewardData = Manager.I.Data.OfflineRewardDataDict[stageIndex];
             int gold = rewardData.Reward_Gold;
 
             _popup.ReleaseSubItem<UI_MaterialItem>(_popup.RewardItemScrollContentObject);
@@ -57,8 +57,8 @@ namespace SlimeMaster.Presenter
             bool isPossibleReward = timeSpan.TotalMinutes > Const.MIN_OFFLINE_REWARD_MINUTE;
             if (isPossibleReward)
             {
-                var item = GameManager.I.UI.AddSubElementItem<UI_MaterialItem>(_popup.RewardItemScrollContentObject);
-                Sprite itemSprite = GameManager.I.Resource.Load<Sprite>(Const.GOLD_SPRITE_NAME);
+                var item = Manager.I.UI.AddSubElementItem<UI_MaterialItem>(_popup.RewardItemScrollContentObject);
+                Sprite itemSprite = Manager.I.Resource.Load<Sprite>(Const.GOLD_SPRITE_NAME);
                 Color goldColor = Const.EquipmentUIColors.Epic;
                 item.UpdateUI(itemSprite, goldColor, CalculateRewardGold(gold).ToString(), true);
             }
@@ -85,7 +85,7 @@ namespace SlimeMaster.Presenter
             int itemId = response.DBRewardItemData.ItemId;
             int itemValue = response.DBRewardItemData.ItemValue;
             long rewardValue = itemValue - _userModel.GetItemData(itemId).ItemValue.Value;
-            GameManager.I.Event.Raise(GameEventType.GetReward, new List<RewardItemData>
+            Manager.I.Event.Raise(GameEventType.GetReward, new List<RewardItemData>
             {
                 new RewardItemData()
                 {

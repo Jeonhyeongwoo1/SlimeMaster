@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.OutGame.Popup;
 using SlimeMaster.OutGame.UI;
 using SlimeMaster.UISubItemElement;
@@ -16,17 +16,17 @@ namespace SlimeMaster.Presenter
         
         public void Initialize()
         {
-            GameManager.I.Event.AddEvent(GameEventType.ShowGachaListPopup, OnShowProbabilityTablePopup);
+            Manager.I.Event.AddEvent(GameEventType.ShowGachaListPopup, OnShowProbabilityTablePopup);
         }
 
         private void OnShowProbabilityTablePopup(object value)
         {
             GachaType gachaType = (GachaType)value;
             
-            _popup = GameManager.I.UI.OpenPopup<UI_GachaListPopup>();
+            _popup = Manager.I.UI.OpenPopup<UI_GachaListPopup>();
 
-            DataManager dataManager = GameManager.I.Data;
-            UIManager uiManager = GameManager.I.UI;
+            DataManager dataManager = Manager.I.Data;
+            UIManager uiManager = Manager.I.UI;
             GachaTableData tableDataList = dataManager.GachaTableDataDict[gachaType];
             int count = tableDataList.GachaRateTable.Count;
             foreach (UI_GachaGradeRateItem element in _popup.GachagradeRateItemList)

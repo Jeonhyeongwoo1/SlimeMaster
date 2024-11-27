@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using SlimeMaster.Data;
 using SlimeMaster.Factory;
 using SlimeMaster.InGame.Skill;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.Popup;
 using TMPro;
@@ -35,7 +35,7 @@ namespace SlimeMaster.InGame.Popup
             for (int i = 0; i < Const.SKILL_CARD_ITEM_COUNT; i++)
             {
                 UI_SkillCardItem item =
-                    GameManager.I.UI.AddSubElementItem<UI_SkillCardItem>(_skillCardSelectListObject.transform);
+                    Managers.Manager.I.UI.AddSubElementItem<UI_SkillCardItem>(_skillCardSelectListObject.transform);
                 
                 item.Initialize();
                 _skillCardItemList.Add(item);
@@ -47,7 +47,7 @@ namespace SlimeMaster.InGame.Popup
             for (var index = 0; index < activateSKillList.Count; index++)
             {
                 var skillModel = activateSKillList[index];
-                var sprite = GameManager.I.Resource.Load<Sprite>(skillModel.SkillData.IconLabel);
+                var sprite = Managers.Manager.I.Resource.Load<Sprite>(skillModel.SkillData.IconLabel);
                 var image = _skillImageArray[index];
                 image.sprite = sprite;
                 image.enabled = true;
@@ -59,7 +59,7 @@ namespace SlimeMaster.InGame.Popup
             for (var i = 0; i < _skillCardItemList.Count; i++)
             {
                 BaseSkill skill = recommendSkillList[i];
-                Sprite sprite = GameManager.I.Resource.Load<Sprite>(skill.SkillData.IconLabel);
+                Sprite sprite = Managers.Manager.I.Resource.Load<Sprite>(skill.SkillData.IconLabel);
                 _skillCardItemList[i].UpdateUI(skill.SkillData.DataId, skill.SkillData.Name, sprite,
                     skill.SkillData.Description,
                     !skill.IsLearn, skill.CurrentLevel);

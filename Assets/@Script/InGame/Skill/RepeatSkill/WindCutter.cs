@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
 using SlimeMaster.InGame.Entity;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -27,7 +27,7 @@ namespace SlimeMaster.InGame.Skill
             {
                 float angle = _skillData.AngleBetweenProj * (i - (_skillData.NumProjectiles - 1) / 2f);
                 var direction = Quaternion.AngleAxis(angle, Vector3.forward) * _owner.GetDirection();
-                GameObject prefab = GameManager.I.Resource.Instantiate(_skillData.PrefabLabel);
+                GameObject prefab = Managers.Manager.I.Resource.Instantiate(_skillData.PrefabLabel);
                 IGeneratable generatable = prefab.GetComponent<IGeneratable>();
                 generatable.OnHit = OnHit;
                 generatable.Generate(_owner.Position, direction, _skillData, _owner);

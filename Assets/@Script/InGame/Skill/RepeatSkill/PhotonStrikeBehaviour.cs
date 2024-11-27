@@ -2,7 +2,7 @@ using System.Linq;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
 using SlimeMaster.InGame.Controller;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -32,13 +32,13 @@ namespace SlimeMaster.InGame.Skill
             _range = 15;
             CancelInvoke();
             Invoke(nameof(Release), 4);
-            GameManager.I.Audio.Play(Sound.Effect, "PhotonStrike_Start");
+            Managers.Manager.I.Audio.Play(Sound.Effect, "PhotonStrike_Start");
         }
 
         private void SetTargetMonster(float speed)
         {
             _monster = null;
-            var monsterList = GameManager.I.Object.GetNearestMonsterList(10);
+            var monsterList = Managers.Manager.I.Object.GetNearestMonsterList(10);
             if (monsterList != null && monsterList.Count > 0)
             {
                 var list = monsterList.FindAll(v => Vector2.Distance(v.Position, transform.position) < _range && !v.IsDeadState).ToList();

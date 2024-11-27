@@ -11,7 +11,7 @@ using SlimeMaster.View;
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace SlimeMaster.Manager
+namespace SlimeMaster.Managers
 {
     public class UIManager
     {
@@ -41,7 +41,7 @@ namespace SlimeMaster.Manager
                 name = typeof(T).Name;
             }
 
-            GameObject prefab = GameManager.I.Resource.Instantiate($"{name}");
+            GameObject prefab = Manager.I.Resource.Instantiate($"{name}");
             T ui = prefab.GetOrAddComponent<T>();
             _sceneUI = ui;
             ui.transform.SetParent(UIRootObject.transform);
@@ -61,7 +61,7 @@ namespace SlimeMaster.Manager
                 name = typeof(T).Name;
             }
 
-            GameObject prefab = GameManager.I.Resource.Instantiate($"{name}");
+            GameObject prefab = Manager.I.Resource.Instantiate($"{name}");
             T element = prefab.GetOrAddComponent<T>();
             element.Initialize();
             element.transform.SetParent(parent);
@@ -75,7 +75,7 @@ namespace SlimeMaster.Manager
                 name = typeof(T).Name;
             }
             
-            GameObject prefab = GameManager.I.Resource.Instantiate($"{name}", isPool);
+            GameObject prefab = Manager.I.Resource.Instantiate($"{name}", isPool);
             T popup = prefab.GetOrAddComponent<T>();
             popup.transform.SetParent(UIRootObject.transform);
             popup.transform.SetAsLastSibling();

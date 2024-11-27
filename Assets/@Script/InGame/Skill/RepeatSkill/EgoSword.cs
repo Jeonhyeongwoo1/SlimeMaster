@@ -2,7 +2,7 @@ using System;
 using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
 using SlimeMaster.Data;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -27,7 +27,7 @@ namespace SlimeMaster.InGame.Skill
                     ? "EgoSwordProjectile_Final"
                     : _skillData.PrefabLabel;
                 
-                GameObject prefab = GameManager.I.Resource.Instantiate(label);
+                GameObject prefab = Managers.Manager.I.Resource.Instantiate(label);
                 IGeneratable generatable = prefab.GetComponent<IGeneratable>();
                 generatable.OnHit = OnHit;
                 generatable.Generate(_owner.Position, direction, _skillData, _owner);

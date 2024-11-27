@@ -4,7 +4,7 @@ using SlimeMaster.Common;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
 using SlimeMaster.Factory;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.View;
 using UniRx;
@@ -25,7 +25,7 @@ namespace SlimeMaster.Presenter
             _lobbySceneView.onClickToggleAction = OnClickToggles;
             _lobbySceneView.Initialize();
             
-            GameManager.I.Audio.Play(Sound.Bgm, "Bgm_Lobby");
+            Manager.I.Audio.Play(Sound.Bgm, "Bgm_Lobby");
 
             var goldItemData = _model.GetItemData(Const.ID_GOLD);
             goldItemData.ItemValue.Subscribe((v) => _lobbySceneView.UpdateUserGoodsInfo(GoodsType.Gold, v.ToString()))
@@ -65,7 +65,7 @@ namespace SlimeMaster.Presenter
 
         private void OnClickToggles(ToggleType selectedToggleType, ToggleType activatedToggleType)
         {
-            UIManager uiManager = GameManager.I.UI;
+            UIManager uiManager = Manager.I.UI;
             uiManager.ClosePopup();
             // switch (activatedToggleType)
             // {
@@ -77,7 +77,7 @@ namespace SlimeMaster.Presenter
             //         break;
             // }
             
-            GameManager.I.Event.Raise(GameEventType.MoveToTap, selectedToggleType);
+            Manager.I.Event.Raise(GameEventType.MoveToTap, selectedToggleType);
         }
 
         private void OnClickGoods(GoodsType goodsType)

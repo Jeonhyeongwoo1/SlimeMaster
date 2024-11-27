@@ -11,7 +11,7 @@ using SlimeMaster.Firebase;
 using SlimeMaster.Firebase.Data;
 using SlimeMaster.Interface;
 using SlimeMaster.Key;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 using Random = System.Random;
 

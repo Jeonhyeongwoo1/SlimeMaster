@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Pool;
 using Object = UnityEngine.Object;
 
-namespace SlimeMaster.Manager
+namespace SlimeMaster.Managers
 {
     public class PoolManager
     {

@@ -2,7 +2,7 @@ using SlimeMaster.Data;
 using SlimeMaster.Enum;
 using SlimeMaster.InGame.Enum;
 using SlimeMaster.InGame.Skill;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -41,11 +41,11 @@ namespace SlimeMaster.InGame.Entity
 
             _rigidbody.velocity = direction * skillData.ProjSpeed;
 
-            GameObject shadowPrefab = GameManager.I.Resource.Instantiate(Const.MeteorShadow);
+            GameObject shadowPrefab = Managers.Manager.I.Resource.Instantiate(Const.MeteorShadow);
             shadowPrefab.transform.position = destinationPosition;
             shadowPrefab.SetActive(true);
             _shadowObject = shadowPrefab;
-            GameManager.I.Audio.Play(Sound.Effect, "Meteor_Start");
+            Managers.Manager.I.Audio.Play(Sound.Effect, "Meteor_Start");
         }
 
         private void Update()
@@ -62,7 +62,7 @@ namespace SlimeMaster.InGame.Entity
         private void Explosion()
         {
             string hitEffectPrefabName = Level == Const.MAX_SKILL_Level ? "MeteorHitEffect_Final" : "MeteorHitEffect";
-            GameObject prefab = GameManager.I.Resource.Instantiate(hitEffectPrefabName);
+            GameObject prefab = Managers.Manager.I.Resource.Instantiate(hitEffectPrefabName);
             prefab.SetActive(true);
             prefab.transform.position = _destinationPosition;
             
@@ -81,7 +81,7 @@ namespace SlimeMaster.InGame.Entity
         public override void Release()
         {
             base.Release();
-            GameManager.I.Pool.ReleaseObject(_shadowObject.name, _shadowObject);
+            Managers.Manager.I.Pool.ReleaseObject(_shadowObject.name, _shadowObject);
             _shadowObject.SetActive(false);
         }
     }

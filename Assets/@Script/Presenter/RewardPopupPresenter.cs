@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.UISubItemElement;
 using UnityEngine;
@@ -26,16 +26,16 @@ namespace SlimeMaster.Presenter
         public void Initialize(UserModel userModel)
         {
             _userModel = userModel;
-            GameManager.I.Event.AddEvent(GameEventType.GetReward, OnGetReward);
+            Manager.I.Event.AddEvent(GameEventType.GetReward, OnGetReward);
         }
 
         private void OnGetReward(object value)
         {
             List<RewardItemData> list = (List<RewardItemData>)value;
-            DataManager dataManager = GameManager.I.Data;
-            ResourcesManager resourcesManager = GameManager.I.Resource;
+            DataManager dataManager = Manager.I.Data;
+            ResourcesManager resourcesManager = Manager.I.Resource;
 
-            _rewardPopup = GameManager.I.UI.OpenPopup<UI_RewardPopup>();
+            _rewardPopup = Manager.I.UI.OpenPopup<UI_RewardPopup>();
             _rewardPopup.ReleaseRewardItemScrollContentChildComponent();
             
             foreach (RewardItemData itemData in list)

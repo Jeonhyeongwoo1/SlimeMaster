@@ -1,7 +1,7 @@
 using SlimeMaster.Firebase;
 using SlimeMaster.InGame.Manager;
 using SlimeMaster.Interface;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 
 namespace SlimeMaster.Server
 {

@@ -1,6 +1,6 @@
 using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -29,7 +29,7 @@ namespace SlimeMaster.InGame.Skill
         {
             Release();
             string prefabLabel = "SavageSmash";
-            GameObject prefab = GameManager.I.Resource.Instantiate(prefabLabel);
+            GameObject prefab = Managers.Manager.I.Resource.Instantiate(prefabLabel);
             _generatable = prefab.GetComponent<IGeneratable>();
             _generatable.OnHit = OnHit;
             _generatable.Level = CurrentLevel;

@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -42,7 +42,7 @@ namespace SlimeMaster.InGame.Skill
 
             if (_owner.CreatureType == CreatureType.Player)
             {
-                GameManager.I.Event.Raise(GameEventType.LearnSkill, SkillData);
+                Managers.Manager.I.Event.Raise(GameEventType.LearnSkill, SkillData);
             }
         }
 
@@ -64,7 +64,7 @@ namespace SlimeMaster.InGame.Skill
                 creature.TakeDamage(damage, _owner);
                 AccumulatedDamage += damage;
                 
-                GameManager.I.Audio.Play(Sound.Effect, HitSoundName);
+                Managers.Manager.I.Audio.Play(Sound.Effect, HitSoundName);
             }
         }
     }

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Popup;
 using SlimeMaster.UISubItemElement;
 using UnityEngine;
@@ -24,7 +24,7 @@ namespace SlimeMaster.InGame.Popup
         {
             base.OpenPopup();
 
-            var list = GameManager.I.Object.Player.GetTotalDamageInfoData();
+            var list = Managers.Manager.I.Object.Player.GetTotalDamageInfoData();
             for (int i = 0; i < _skillDamageItemList.Count; i++)
             {
                 if (i >= list.Count)

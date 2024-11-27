@@ -6,13 +6,13 @@ using SlimeMaster.Common;
 using SlimeMaster.Enum;
 using SlimeMaster.InGame.Controller;
 using SlimeMaster.InGame.Manager;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace SlimeMaster.InGame.Entity
 {
-    public class MonsterSpawnPool : IDisposable
+    public class MonsterSpawnPool
     {
         private float _spawnInterval;
         private CancellationTokenSource _spawnCts;
@@ -24,7 +24,7 @@ namespace SlimeMaster.InGame.Entity
 
         private void AddEvent()
         {
-            GameManager.I.Event.AddEvent(GameEventType.GameOver, OnGameOver);
+            Managers.Manager.I.Event.AddEvent(GameEventType.GameOver, OnGameOver);
         }
 
         private void OnGameOver(object value)
@@ -49,7 +49,7 @@ namespace SlimeMaster.InGame.Entity
                     RaiseSpawnMonster(i, bossIdList[i], typeof(BossMonsterController));
                 }
                 
-                GameManager.I.Event.Raise(GameEventType.SpawnedBoss);
+                Managers.Manager.I.Event.Raise(GameEventType.SpawnedBoss);
             }
 
             if (eleteIdList != null && eleteIdList.Count > 0)
@@ -90,12 +90,12 @@ namespace SlimeMaster.InGame.Entity
             spawnObjectData.spawnPosition = spawnPosition;
             spawnObjectData.id = id;
             spawnObjectData.Type = monsterType;
-            GameManager.I.Event.Raise(GameEventType.SpawnMonster, spawnObjectData);
+            Managers.Manager.I.Event.Raise(GameEventType.SpawnMonster, spawnObjectData);
         }
 
         private Vector3 GetCirclePosition(float angle)
         {
-            float radius = 10;
+            float radius = Random.Range(20, 50);
             angle += Random.Range(0, 180);
             float x = Mathf.Cos(angle) * radius;
             float y = Mathf.Sin(angle) * radius;

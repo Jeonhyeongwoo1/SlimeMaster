@@ -1,7 +1,7 @@
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
 using SlimeMaster.InGame.Enum;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -43,7 +43,7 @@ namespace SlimeMaster.InGame.Skill
                 OnHit.Invoke(hit.collider, this);
             }
             
-            GameManager.I.Audio.Play(Sound.Effect, "ChainLightning_Start");
+            Managers.Manager.I.Audio.Play(Sound.Effect, "ChainLightning_Start");
             gameObject.SetActive(true);
         }
     }

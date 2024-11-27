@@ -1,6 +1,6 @@
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,7 +24,7 @@ namespace SlimeMaster.UISubItemElement
 
         public void SetInfo(SupportSkillData supportSkillData, Transform parent)
         {
-            _supportSkillIconImage.sprite = GameManager.I.Resource.Load<Sprite>(supportSkillData.IconLabel);
+            _supportSkillIconImage.sprite = Manager.I.Resource.Load<Sprite>(supportSkillData.IconLabel);
             
             Color color = _bgSkillImage.color;
             switch (supportSkillData.SupportSkillGrade)
@@ -54,7 +54,7 @@ namespace SlimeMaster.UISubItemElement
 
         public void Release()
         {
-            GameManager.I.Pool.ReleaseObject(nameof(UI_SupportSkillItem), gameObject);
+            Manager.I.Pool.ReleaseObject(nameof(UI_SupportSkillItem), gameObject);
         }
     }
 }

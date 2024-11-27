@@ -5,7 +5,7 @@ using SlimeMaster.Enum;
 using SlimeMaster.Factory;
 using SlimeMaster.Firebase.Data;
 using SlimeMaster.Interface;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.OutGame.Popup;
 using SlimeMaster.UISubItemElement;
@@ -18,14 +18,14 @@ namespace SlimeMaster.Presenter
         private UI_FastRewardPopup _popup;
         private TimeDataModel _timeDataModel;
         private UserModel _userModel;
-        private DataManager _dataManager = GameManager.I.Data;
-        private UIManager _uiManager = GameManager.I.UI;
+        private DataManager _dataManager = Manager.I.Data;
+        private UIManager _uiManager = Manager.I.UI;
         
         public void Initialize(TimeDataModel timeDataModel)
         {
             _timeDataModel = timeDataModel;
             _userModel = ModelFactory.CreateOrGetModel<UserModel>();
-            GameManager.I.Event.AddEvent(GameEventType.ShowFastRewardPopup, OnOpenPopup);       
+            Manager.I.Event.AddEvent(GameEventType.ShowFastRewardPopup, OnOpenPopup);       
         }
 
         private void OnOpenPopup(object value)
@@ -93,14 +93,14 @@ namespace SlimeMaster.Presenter
 
             _uiManager.ClosePopup();
             _userModel.AddUnEquipmentDataList(new List<DBEquipmentData>(){ response.DBEquipmentData});
-            GameManager.I.Event.Raise(GameEventType.GetReward, rewardItemDataList);
+            Manager.I.Event.Raise(GameEventType.GetReward, rewardItemDataList);
         }
         
         private void AddMaterialItem(int itemId, Color bgColor, int rewardValue)
         {
             var materialItem = _uiManager.AddSubElementItem<UI_MaterialItem>(_popup.ItemContainer);
             string spriteName = _dataManager.MaterialDataDict[itemId].SpriteName;
-            Sprite materialSprite = GameManager.I.Resource.Load<Sprite>(spriteName); 
+            Sprite materialSprite = Manager.I.Resource.Load<Sprite>(spriteName); 
             materialItem.UpdateUI(materialSprite, bgColor, rewardValue.ToString(), true);
         }
     }

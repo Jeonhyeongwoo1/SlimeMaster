@@ -6,7 +6,7 @@ using SlimeMaster.Enum;
 using SlimeMaster.Factory;
 using SlimeMaster.Firebase.Data;
 using SlimeMaster.Interface;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.OutGame.Popup;
 using UnityEngine;
@@ -49,9 +49,9 @@ namespace SlimeMaster.Presenter
         public void Initialize(UserModel model)
         {
             _userModel = model;
-            _dataManager = GameManager.I.Data;
-            _resourcesManager = GameManager.I.Resource;
-            GameManager.I.Event.AddEvent(GameEventType.MoveToTap, OnMoveToTap);
+            _dataManager = Manager.I.Data;
+            _resourcesManager = Manager.I.Resource;
+            Manager.I.Event.AddEvent(GameEventType.MoveToTap, OnMoveToTap);
         }
 
         private void OnMoveToTap(object value)
@@ -65,7 +65,7 @@ namespace SlimeMaster.Presenter
 
         private void OpenShopPopup()
         {
-            _shopPopup = GameManager.I.UI.OpenPopup<UI_ShopPopup>();
+            _shopPopup = Manager.I.UI.OpenPopup<UI_ShopPopup>();
             Refresh();
         }
         
@@ -177,12 +177,12 @@ namespace SlimeMaster.Presenter
                         list.Add(rewardItemData);
                     }
                     
-                    GameManager.I.Event.Raise(GameEventType.GetReward, list);
+                    Manager.I.Event.Raise(GameEventType.GetReward, list);
                     break;
                 case ShopType.EquipmentItem:
                 case ShopType.Advance_EquipmentItem:
                 case ShopType.Normal_EquipmentItem:
-                    GameManager.I.Event.Raise(GameEventType.ShowGachaResultPopup, response.RewardEquipmentDataList);
+                    Manager.I.Event.Raise(GameEventType.ShowGachaResultPopup, response.RewardEquipmentDataList);
                     break;
             }
 

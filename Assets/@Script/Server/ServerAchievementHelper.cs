@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
 using SlimeMaster.Firebase.Data;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.Server

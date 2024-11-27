@@ -8,7 +8,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
 using Object = UnityEngine.Object;
 
-namespace SlimeMaster.Manager
+namespace SlimeMaster.Managers
 {
     public class ResourcesManager
     {
@@ -48,7 +48,7 @@ namespace SlimeMaster.Manager
 
             if (isPooling)
             {
-                var obj = GameManager.I.Pool.GetObject(prefab.name, prefab);
+                var obj = Manager.I.Pool.GetObject(prefab.name, prefab);
                 obj.name = prefab.name;
                 return obj;
             }

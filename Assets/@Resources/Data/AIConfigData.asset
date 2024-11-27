@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bac74f54074843fb8b02ba66fbe96d31, type: 3}
+  m_Name: AIConfigData
+  m_EditorClassIdentifier: 
+  _aiBehaviourDataList:
+  - aiDirectionTypeDataList:
+    - aiDirectionType: 1
+      weight: 0.2
+      radius: 0
+      isOpposite: 0
+      duration: 0.5
+      gizmoColor: {r: 1, g: 0, b: 0, a: 0}
+    - aiDirectionType: 2
+      weight: 1
+      radius: 5
+      isOpposite: 1
+      duration: 0.5
+      gizmoColor: {r: 1, g: 0, b: 0, a: 1}
+    - aiDirectionType: 3
+      weight: 0.5
+      radius: 10
+      isOpposite: 0
+      duration: 0.5
+      gizmoColor: {r: 0.18813777, g: 1, b: 0, a: 1}
+    - aiDirectionType: 4
+      weight: 1
+      radius: 10
+      isOpposite: 0
+      duration: 0.5
+      gizmoColor: {r: 0, g: 0.108952045, b: 1, a: 1}
+    - aiDirectionType: 5
+      weight: 15
+      radius: 50
+      isOpposite: 1
+      duration: 1
+      gizmoColor: {r: 1, g: 0, b: 0.908308, a: 1}
+    aiBehaviourType: 1
+    duration: 1

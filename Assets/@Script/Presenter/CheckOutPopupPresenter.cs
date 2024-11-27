@@ -5,7 +5,7 @@ using SlimeMaster.Enum;
 using SlimeMaster.Factory;
 using SlimeMaster.Firebase.Data;
 using SlimeMaster.Interface;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.OutGame.Popup;
 using SlimeMaster.UISubItemElement;
@@ -18,16 +18,16 @@ namespace SlimeMaster.Presenter
         private UserModel _userModel;
         private CheckoutModel _checkoutModel;
         private UI_CheckOutPopup _popup;
-        private UIManager _uiManager = GameManager.I.UI;
-        private DataManager _dataManager = GameManager.I.Data;
-        private ResourcesManager _resourcesManager = GameManager.I.Resource;
+        private UIManager _uiManager = Manager.I.UI;
+        private DataManager _dataManager = Manager.I.Data;
+        private ResourcesManager _resourcesManager = Manager.I.Resource;
         
         public void Initialize(UserModel model, CheckoutModel checkoutModel)
         {
             _userModel = model;
             _checkoutModel = checkoutModel;
             
-            GameManager.I.Event.AddEvent(GameEventType.ShowOutGameContentPopup, OnOpenCheckoutPopup);
+            Manager.I.Event.AddEvent(GameEventType.ShowOutGameContentPopup, OnOpenCheckoutPopup);
         }
 
         private void OnOpenCheckoutPopup(object value)
@@ -104,12 +104,12 @@ namespace SlimeMaster.Presenter
                 itemData.rewardValue = (int)(itemValue - item.ItemValue.Value);
                 _userModel.SetItemValue(itemID, itemValue);
                 itemData.materialItemId = itemID;
-                GameManager.I.Event.Raise(GameEventType.GetReward, new List<RewardItemData>(1) { itemData });
+                Manager.I.Event.Raise(GameEventType.GetReward, new List<RewardItemData>(1) { itemData });
             }
             else if (response.DBEquipmentData != null)
             {
                 _userModel.AddUnEquipmentDataList(new List<DBEquipmentData>() { response.DBEquipmentData });
-                GameManager.I.Event.Raise(GameEventType.ShowGachaResultPopup,
+                Manager.I.Event.Raise(GameEventType.ShowGachaResultPopup,
                     new List<DBEquipmentData>() { response.DBEquipmentData });
             }
 

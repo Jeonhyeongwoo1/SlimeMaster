@@ -1,7 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -25,7 +25,7 @@ namespace SlimeMaster.InGame.Skill
                                    _skillData.ProjRange;
 
                 string prefabName = CurrentLevel == 6 ? "PoisonFieldProjectile_Final" : "PoisonFieldProjectile";
-                GameObject prefab = GameManager.I.Resource.Instantiate(prefabName);
+                GameObject prefab = Managers.Manager.I.Resource.Instantiate(prefabName);
                 var generatable = prefab.GetComponent<IGeneratable>();
                 generatable.OnHit = OnHit;
                 generatable.Level = CurrentLevel;

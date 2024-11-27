@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -37,7 +37,7 @@ namespace SlimeMaster.InGame.Skill
             int projectile = _skillData.NumProjectiles;
             for (int i = 0; i < projectile; i++)
             {
-                GameObject prefab = GameManager.I.Resource.Instantiate(_skillData.PrefabLabel);
+                GameObject prefab = Managers.Manager.I.Resource.Instantiate(_skillData.PrefabLabel);
                 var generatable = prefab.GetComponent<IGeneratable>();
                 generatable.OnHit = OnHit;
                 generatable.Generate(_owner.Position, _owner.GetDirection(), _skillData, _owner);

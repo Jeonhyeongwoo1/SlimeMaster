@@ -1,7 +1,7 @@
 using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
 using SlimeMaster.Data;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -25,7 +25,7 @@ namespace SlimeMaster.InGame.Skill
                 string prefabName = CurrentLevel == Const.MAX_SKILL_Level
                     ? "MeteorProjectile_Final"
                     : "MeteorProjectile";
-                GameObject prefab = GameManager.I.Resource.Instantiate(prefabName);
+                GameObject prefab = Managers.Manager.I.Resource.Instantiate(prefabName);
                 var shootable = prefab.GetComponent<IGeneratable>();
                 shootable.OnHit = OnHit;
                 shootable.Generate(_owner.Position, direction, _skillData, _owner);

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using SlimeMaster.Enum;
 using UnityEngine;
 
-namespace SlimeMaster.Manager
+namespace SlimeMaster.Managers
 {
     public delegate void OnEvent(object value);
     public class EventManager

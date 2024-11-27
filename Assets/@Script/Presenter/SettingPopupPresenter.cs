@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using SlimeMaster.Enum;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.OutGame.Popup;
 using UnityEngine;
 
@@ -21,7 +21,7 @@ namespace SlimeMaster.Presenter
 
         public void Initialize()
         {
-            GameManager.I.Event.AddEvent(GameEventType.ShowOutGameContentPopup, OnOpenPopup);
+            Manager.I.Event.AddEvent(GameEventType.ShowOutGameContentPopup, OnOpenPopup);
         }
 
         private void OnOpenPopup(object value)
@@ -32,7 +32,7 @@ namespace SlimeMaster.Presenter
                 return;
             }
             
-            _popup = GameManager.I.UI.OpenPopup<UI_SettingPopup>();
+            _popup = Manager.I.UI.OpenPopup<UI_SettingPopup>();
             RefreshUI();
         }
 
@@ -47,9 +47,9 @@ namespace SlimeMaster.Presenter
                 {
                     isOn = settingType switch
                     {
-                        SettingType.BGM => GameManager.I.IsOnBGM,
-                        SettingType.SFX => GameManager.I.IsOnSfx,
-                        SettingType.Joystick => GameManager.I.IsFixJoystick
+                        SettingType.BGM => Manager.I.IsOnBGM,
+                        SettingType.SFX => Manager.I.IsOnSfx,
+                        SettingType.Joystick => Manager.I.IsFixJoystick
                     },
                     settingType = settingType,
                     onActivateAction = OnActivateSettingByType
@@ -65,13 +65,13 @@ namespace SlimeMaster.Presenter
             switch (settingType)
             {
                 case SettingType.BGM:
-                    GameManager.I.IsOnBGM = isActivate;
+                    Manager.I.IsOnBGM = isActivate;
                     break;
                 case SettingType.SFX:
-                    GameManager.I.IsOnSfx = isActivate;
+                    Manager.I.IsOnSfx = isActivate;
                     break;
                 case SettingType.Joystick:
-                    GameManager.I.IsFixJoystick = isActivate;
+                    Manager.I.IsFixJoystick = isActivate;
                     break;
             }
             

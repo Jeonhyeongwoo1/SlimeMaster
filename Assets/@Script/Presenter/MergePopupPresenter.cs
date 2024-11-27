@@ -7,7 +7,7 @@ using SlimeMaster.Enum;
 using SlimeMaster.Equipmenets;
 using SlimeMaster.Factory;
 using SlimeMaster.Interface;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.OutGame.Popup;
 using SlimeMaster.Shared.Data;
@@ -40,10 +40,10 @@ namespace SlimeMaster.Presenter
         public void Initialize(UserModel model)
         {
             _userModel = model;
-            _resourcesManager = GameManager.I.Resource;
-            _uiManager = GameManager.I.UI;
+            _resourcesManager = Manager.I.Resource;
+            _uiManager = Manager.I.UI;
             
-            GameManager.I.Event.AddEvent(GameEventType.ShowMergePopup, OnShowMergePopup);
+            Manager.I.Event.AddEvent(GameEventType.ShowMergePopup, OnShowMergePopup);
         }
 
         private void OnClosePopup()
@@ -232,7 +232,7 @@ namespace SlimeMaster.Presenter
             AddEquipmentList();
             Reset();
             SortEquipItem(_equipmentSortType);
-            GameManager.I.Event.Raise(GameEventType.ShowMergeResultPopup, response.NewItemUIDList);
+            Manager.I.Event.Raise(GameEventType.ShowMergeResultPopup, response.NewItemUIDList);
         }
 
         private void AddEquipmentList()
@@ -309,8 +309,8 @@ namespace SlimeMaster.Presenter
             AddEquipmentList();
             Reset();
             SortEquipItem(_equipmentSortType);
-            GameManager.I.Audio.Play(Sound.Effect, "Merge_Equipment");
-            GameManager.I.Event.Raise(GameEventType.ShowMergeResultPopup, response.NewItemUIDList);
+            Manager.I.Audio.Play(Sound.Effect, "Merge_Equipment");
+            Manager.I.Event.Raise(GameEventType.ShowMergeResultPopup, response.NewItemUIDList);
         }
 
         private void Reset()
@@ -449,7 +449,7 @@ namespace SlimeMaster.Presenter
         {
             EquipmentData selectedEquipmentData = _selectedResultMergeEquipment.EquipmentData;
             string equipmentCode = _selectedResultMergeEquipment.EquipmentData.MergedItemCode;
-            DataManager dataManager = GameManager.I.Data;
+            DataManager dataManager = Manager.I.Data;
             EquipmentData resultEquipmentData = dataManager.EquipmentDataDict[equipmentCode];
             var mergeOptionResultDataList = Utils.GetMergeOptionResultDataList(_selectedResultMergeEquipment);
             string improveOptionValue = null;

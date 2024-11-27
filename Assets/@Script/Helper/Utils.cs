@@ -4,7 +4,7 @@ using System.Threading;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
 using SlimeMaster.Equipmenets;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Presenter;
 using UnityEngine;
 using UnityEngine.Events;
@@ -150,7 +150,7 @@ namespace SlimeMaster.Common
         {
             EquipmentData selectedEquipmentData = selectedResultMergeEquipment.EquipmentData;
             string equipmentCode = selectedResultMergeEquipment.EquipmentData.MergedItemCode;
-            EquipmentData resultEquipmentData = GameManager.I.Data.EquipmentDataDict[equipmentCode];
+            EquipmentData resultEquipmentData = Manager.I.Data.EquipmentDataDict[equipmentCode];
             var mergeOptionResultDataList = new List<MergeOptionResultData>();
             if (selectedEquipmentData.AtkDmgBonus != 0)
             {

@@ -1,5 +1,5 @@
 using SlimeMaster.Enum;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,12 +14,12 @@ namespace SlimeMaster.InGame.View
 
         private void OnEnable()
         {
-            GameManager.I.Event.AddEvent(GameEventType.TakeDamageEliteOrBossMonster, OnChangedRatio);
+            Managers.Manager.I.Event.AddEvent(GameEventType.TakeDamageEliteOrBossMonster, OnChangedRatio);
         }
 
         private void OnDisable()
         {
-            GameManager.I.Event.RemoveEvent(GameEventType.TakeDamageEliteOrBossMonster, OnChangedRatio);
+            Managers.Manager.I.Event.RemoveEvent(GameEventType.TakeDamageEliteOrBossMonster, OnChangedRatio);
         }
         
         public void UpdateMonsterInfo(string name, float ratio)

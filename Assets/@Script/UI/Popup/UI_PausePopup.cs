@@ -1,4 +1,4 @@
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Popup;
 using UniRx.Triggers;
 using UnityEngine;
@@ -26,7 +26,7 @@ namespace SlimeMaster.InGame.Popup
 
         private void OnShowStatisticsPopup()
         {
-            GameManager.I.UI.OpenPopup<UI_TotalDamagePopup>();
+            Managers.Manager.I.UI.OpenPopup<UI_TotalDamagePopup>();
         }
 
         private void OnShowSettingPopup()
@@ -42,12 +42,12 @@ namespace SlimeMaster.InGame.Popup
         private void OnResumeGame()
         {
             Time.timeScale = 1;
-            GameManager.I.UI.ClosePopup();
+            Managers.Manager.I.UI.ClosePopup();
         }
 
         private void OnGoHomeButton()
         {
-            GameManager.I.UI.OpenPopup<UI_BackToHomePopup>();
+            Managers.Manager.I.UI.OpenPopup<UI_BackToHomePopup>();
         }
     }
 }

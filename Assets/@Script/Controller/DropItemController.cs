@@ -4,7 +4,7 @@ using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 //죽었을 때, 새로운 웨이브가 시작되었을때 스폰
@@ -61,11 +61,9 @@ namespace SlimeMaster.InGame.Controller
                         return;
             }
             
-            Debug.Log($"Release {dropableItemType}");
-
             IsRelease = true;
             Utils.SafeCancelCancellationTokenSource(ref _moveToTargetCts);
-            GameManager.I.Pool.ReleaseObject(name, gameObject);
+            Managers.Manager.I.Pool.ReleaseObject(name, gameObject);
         }
 
         public virtual void GetItem(Transform target, Action callback = null)
@@ -125,7 +123,7 @@ namespace SlimeMaster.InGame.Controller
             
             if (_dropItemData != null)
             {
-                GameManager.I.Event.Raise(GameEventType.ActivateDropItem, _dropItemData);
+                Managers.Manager.I.Event.Raise(GameEventType.ActivateDropItem, _dropItemData);
             }
         }
     }

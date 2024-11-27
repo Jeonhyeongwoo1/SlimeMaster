@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using SlimeMaster.Data;
 using SlimeMaster.Firebase.Data;
 using SlimeMaster.Interface;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UniRx;
 using UnityEngine;
 
@@ -42,7 +42,7 @@ namespace SlimeMaster.Model
             
             foreach (DBMissionData dbMissionData in dbMissionContainerData.DBDailyMissionDataList)
             {
-                MissionData missionData = GameManager.I.Data.MissionDataDict[dbMissionData.MissionId];
+                MissionData missionData = Manager.I.Data.MissionDataDict[dbMissionData.MissionId];
                 bool isPossibleGetReward = missionData.MissionTargetValue <= dbMissionData.AccumulatedValue && !dbMissionData.IsGet;
                 IsPossibleGetReward.Value = isPossibleGetReward;
                 if (isPossibleGetReward)

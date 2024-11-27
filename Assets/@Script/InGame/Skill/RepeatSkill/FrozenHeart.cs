@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -37,7 +37,7 @@ namespace SlimeMaster.InGame.Skill
                 float x = Mathf.Cos(angle) * _skillData.ProjRange;
                 float y = Mathf.Sin(angle) * _skillData.ProjRange;
                 Vector3 position = new Vector3(x, y);
-                GameObject prefab = GameManager.I.Resource.Instantiate(_skillData.PrefabLabel);
+                GameObject prefab = Managers.Manager.I.Resource.Instantiate(_skillData.PrefabLabel);
                 var shootable = prefab.GetComponent<IGeneratable>();
                 shootable.OnHit = OnHit;
                 shootable.Level = CurrentLevel;

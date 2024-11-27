@@ -5,7 +5,7 @@ using SlimeMaster.Data;
 using SlimeMaster.Enum;
 using SlimeMaster.Equipmenets;
 using SlimeMaster.Firebase.Data;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.OutGame.Popup;
 using SlimeMaster.UISubItemElement;
@@ -19,7 +19,7 @@ namespace SlimeMaster.Presenter
         public void Initialize(UserModel model)
         {
             _model = model;
-            GameManager.I.Event.AddEvent(GameEventType.ShowGachaResultPopup, OnShowResultPopup);
+            Manager.I.Event.AddEvent(GameEventType.ShowGachaResultPopup, OnShowResultPopup);
         }
         
         private void OnShowResultPopup(object value)
@@ -30,8 +30,8 @@ namespace SlimeMaster.Presenter
                 return;
             }
 
-            UIManager uiManager = GameManager.I.UI;
-            ResourcesManager resourcesManager = GameManager.I.Resource;
+            UIManager uiManager = Manager.I.UI;
+            ResourcesManager resourcesManager = Manager.I.Resource;
             var popup = uiManager.OpenPopup<UI_GachaResultsPopup>();
             popup.ReleaseItem();
             popup.AddEvents();

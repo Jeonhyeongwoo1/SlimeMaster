@@ -5,7 +5,7 @@ using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -29,10 +29,8 @@ namespace SlimeMaster.InGame.Controller
             _creatureType = CreatureType.Monster;
             if (skillDataList != null && skillDataList.Count > 0)
             {
-                _skillBook.UseAllSkillList(true, true, GameManager.I.Object.Player);
+                _skillBook.UseAllSkillList(true, true, Managers.Manager.I.Object.Player);
             }
-
-            HP = 1;
         }
 
         private void Awake()
@@ -46,14 +44,14 @@ namespace SlimeMaster.InGame.Controller
 
         protected virtual void OnEnable()
         {
-            GameManager.I.Event.AddEvent(GameEventType.DeadPlayer, OnDeadPlayer);
-            GameManager.I.Event.AddEvent(GameEventType.ResurrectionPlayer, OnResurrectionPlayer);
+            Managers.Manager.I.Event.AddEvent(GameEventType.DeadPlayer, OnDeadPlayer);
+            Managers.Manager.I.Event.AddEvent(GameEventType.ResurrectionPlayer, OnResurrectionPlayer);
         }
 
         protected virtual void OnDisable()
         {
-            GameManager.I.Event.RemoveEvent(GameEventType.DeadPlayer, OnDeadPlayer);
-            GameManager.I.Event.RemoveEvent(GameEventType.ResurrectionPlayer, OnResurrectionPlayer);
+            Managers.Manager.I.Event.RemoveEvent(GameEventType.DeadPlayer, OnDeadPlayer);
+            Managers.Manager.I.Event.RemoveEvent(GameEventType.ResurrectionPlayer, OnResurrectionPlayer);
            
             AllCancelCancellationTokenSource();
         }
@@ -109,7 +107,7 @@ namespace SlimeMaster.InGame.Controller
                 Vector3 prevPosition = _rigidbody.position;
                 Vector3 direction = (_player.transform.position - prevPosition).normalized;
                 Vector3 nextPosition = (Vector3) _rigidbody.position + direction;
-                Vector3 lerp = Vector3.Lerp(prevPosition, nextPosition, Time.fixedDeltaTime * _moveSpeed);
+                Vector3 lerp = Vector3.Lerp(prevPosition, nextPosition, Time.fixedDeltaTime * MoveSpeed);
                 _rigidbody.MovePosition(lerp);
                 SetSpriteFlipX(direction.x >= 0);
                 
@@ -167,7 +165,7 @@ namespace SlimeMaster.InGame.Controller
             }
             
             base.TakeDamage(damage, attacker);
-            GameManager.I.Object.ShowDamageFont(Position, damage, 0, transform, isCritical);
+            Managers.Manager.I.Object.ShowDamageFont(Position, damage, 0, transform, isCritical);
         }
 
         protected override async void Dead()
@@ -182,7 +180,7 @@ namespace SlimeMaster.InGame.Controller
             
             HP = 0;
             UpdateCreatureState(CreatureStateType.Dead);
-            GameManager.I.Event.Raise(GameEventType.DeadMonster, this);
+            Managers.Manager.I.Event.Raise(GameEventType.DeadMonster, this);
             AllCancelCancellationTokenSource();
         }
 

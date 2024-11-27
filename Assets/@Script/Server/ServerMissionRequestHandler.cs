@@ -9,7 +9,7 @@ using SlimeMaster.Firebase;
 using SlimeMaster.Firebase.Data;
 using SlimeMaster.Interface;
 using SlimeMaster.Key;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Shared.Data;
 using UnityEngine;
 

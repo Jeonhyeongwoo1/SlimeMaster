@@ -3,7 +3,7 @@ using SlimeMaster.Common;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
 using SlimeMaster.Equipmenets;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.OutGame.Popup;
 using SlimeMaster.UISubItemElement;
@@ -14,12 +14,12 @@ namespace SlimeMaster.Presenter
     public class MergeAllResultPopupPresenter : BasePresenter
     {
         private UserModel _userModel;
-        private ResourcesManager _resourcesManager = GameManager.I.Resource;
+        private ResourcesManager _resourcesManager = Manager.I.Resource;
         
         public void Initialize(UserModel model)
         {
             _userModel = model;
-            GameManager.I.Event.AddEvent(GameEventType.ShowMergeResultPopup, OnShowMergeResultPopup);
+            Manager.I.Event.AddEvent(GameEventType.ShowMergeResultPopup, OnShowMergeResultPopup);
         }
         
         private void OnShowMergeResultPopup(object value)
@@ -30,7 +30,7 @@ namespace SlimeMaster.Presenter
                 return;
             }
 
-            UIManager uiManager = GameManager.I.UI;
+            UIManager uiManager = Manager.I.UI;
             var popup = uiManager.OpenPopup<UI_MergeAllResultPopup>();
             popup.ReleaseEquipItem();
             foreach (string uid in newItemUIDList)
@@ -42,7 +42,7 @@ namespace SlimeMaster.Presenter
                 equipItem.UpdateUI(sprite, equipTypeSprite, false, false, false, false, false, level, gradeColor);
             }
             
-            GameManager.I.Audio.Play(Sound.Effect, "Result_CommonMerge");
+            Manager.I.Audio.Play(Sound.Effect, "Result_CommonMerge");
         }
         
         

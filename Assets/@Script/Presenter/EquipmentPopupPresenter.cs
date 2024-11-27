@@ -4,7 +4,7 @@ using System.Linq;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
 using SlimeMaster.Equipmenets;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.OutGame.Popup;
 using SlimeMaster.UISubItemElement;
@@ -24,11 +24,11 @@ namespace SlimeMaster.Presenter
         public void Initialize(UserModel userModel)
         {
             _userModel = userModel;
-            _resourcesManager = GameManager.I.Resource;
-            _dataManager = GameManager.I.Data;
-            _uiManager = GameManager.I.UI;
-            GameManager.I.Event.AddEvent(GameEventType.MoveToTap, OnMoveToTap);
-            GameManager.I.Event.AddEvent(GameEventType.OnUpdatedEquipment, OnUpdatedEquipment);
+            _resourcesManager = Manager.I.Resource;
+            _dataManager = Manager.I.Data;
+            _uiManager = Manager.I.UI;
+            Manager.I.Event.AddEvent(GameEventType.MoveToTap, OnMoveToTap);
+            Manager.I.Event.AddEvent(GameEventType.OnUpdatedEquipment, OnUpdatedEquipment);
         }
 
         private void OnUpdatedEquipment(object value)
@@ -47,7 +47,7 @@ namespace SlimeMaster.Presenter
         
         private void OpenPopup()
         {
-            _equipmentPopup = GameManager.I.UI.OpenPopup<UI_EquipmentPopup>();
+            _equipmentPopup = Manager.I.UI.OpenPopup<UI_EquipmentPopup>();
             _equipmentPopup.Initialize();
             _equipmentPopup.onSortEquipItemAction = OnSortEquipItem;
             _equipmentPopup.AddEvents();
@@ -167,7 +167,7 @@ namespace SlimeMaster.Presenter
 
         private void OnClickEquipItem(string id)
         {
-            GameManager.I.Event.Raise(GameEventType.ShowEquipmentInfoPopup, id);
+            Manager.I.Event.Raise(GameEventType.ShowEquipmentInfoPopup, id);
         }
     }
 }

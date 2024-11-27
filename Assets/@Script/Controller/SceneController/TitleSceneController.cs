@@ -9,7 +9,7 @@ using SlimeMaster.Factory;
 using SlimeMaster.Firebase;
 using SlimeMaster.Firebase.Data;
 using SlimeMaster.Interface;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -45,9 +45,9 @@ namespace SlimeMaster.Controller
                 await firebaseController.SignInAnonymously();
             }
 
-            await GameManager.I.Resource.LoadResourceAsync<Object>("PreLoad", (v) => _slider.value = v);
-            GameManager.I.InitializeManager();
-            ServerHandlerFactory.InitializeServerHandlerRequest(firebaseController, GameManager.I.Data);
+            await Manager.I.Resource.LoadResourceAsync<Object>("PreLoad", (v) => _slider.value = v);
+            Manager.I.Initialize();
+            ServerHandlerFactory.InitializeServerHandlerRequest(firebaseController, Manager.I.Data);
             var response = await ServerHandlerFactory.Get<IUserClientSender>()
                 .LoadUserDataRequest(new UserRequest());
             if (response.responseCode != ServerErrorCode.Success)
@@ -79,7 +79,7 @@ namespace SlimeMaster.Controller
                 userModel.AddStage(stageInfo);
             }
 
-            DataManager dataManager = GameManager.I.Data;
+            DataManager dataManager = Manager.I.Data;
             userModel.ClearAndSetEquipmentDataList(response.DBUserData.EquippedItemDataList);
 
             if (response.DBUserData.UnEquippedItemDataList != null)

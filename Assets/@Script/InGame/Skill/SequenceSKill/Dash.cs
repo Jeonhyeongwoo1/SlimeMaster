@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
 using SlimeMaster.Enum;
 using SlimeMaster.InGame.Entity;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill
@@ -17,7 +17,7 @@ namespace SlimeMaster.InGame.Skill
                 return;
             }
 
-            GameObject obj = GameManager.I.Resource.Instantiate(nameof(SkillRange));
+            GameObject obj = Managers.Manager.I.Resource.Instantiate(nameof(SkillRange));
             obj.transform.SetParent(_owner.transform);
             obj.transform.localPosition = Vector3.zero;
             var skillRange = obj.GetComponent<SkillRange>();
@@ -49,7 +49,7 @@ namespace SlimeMaster.InGame.Skill
                 }
             }
 
-            GameManager.I.Pool.ReleaseObject(nameof(SkillRange), obj);
+            Managers.Manager.I.Pool.ReleaseObject(nameof(SkillRange), obj);
             obj.SetActive(false);
 
             Vector3 myPos = _owner.Position;

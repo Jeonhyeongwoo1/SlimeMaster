@@ -6,7 +6,7 @@ using SlimeMaster.Factory;
 using SlimeMaster.InGame.Input;
 using SlimeMaster.InGame.Popup;
 using SlimeMaster.InGame.Skill;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.UISubItemElement;
 using SlimeMaster.View;
@@ -56,10 +56,10 @@ namespace SlimeMaster.InGame.View
 
             uiGameStageInfoPanel.Initialize(OnPauseGame);
             
-            GameManager.I.Event.AddEvent(GameEventType.SpawnedBoss, OnSpawnedBoss);
-            GameManager.I.Event.AddEvent(GameEventType.EndWave, OnWaveEnd);
-            GameManager.I.Event.AddEvent(GameEventType.LearnSkill, OnLearnSkill);
-            GameManager.I.Event.AddEvent(GameEventType.PurchaseSupportSkill, OnPurchaseSupportSkill);
+            Managers.Manager.I.Event.AddEvent(GameEventType.SpawnedBoss, OnSpawnedBoss);
+            Managers.Manager.I.Event.AddEvent(GameEventType.EndWave, OnWaveEnd);
+            Managers.Manager.I.Event.AddEvent(GameEventType.LearnSkill, OnLearnSkill);
+            Managers.Manager.I.Event.AddEvent(GameEventType.PurchaseSupportSkill, OnPurchaseSupportSkill);
 
             var playerModel = ModelFactory.CreateOrGetModel<PlayerModel>();
             playerModel.CurrentExpRatio
@@ -114,7 +114,7 @@ namespace SlimeMaster.InGame.View
             _uiSupportSkillItemList.Clear();
             foreach (SupportSkill supportSkill in supportSkillList)
             {
-                GameObject prefab = GameManager.I.Resource.Instantiate(nameof(UI_SupportSkillItem));
+                GameObject prefab = Managers.Manager.I.Resource.Instantiate(nameof(UI_SupportSkillItem));
                 var skillItem = prefab.GetComponent<UI_SupportSkillItem>();
                 skillItem.SetInfo(supportSkill.SupportSkillData, _supprotSkillGroupTransform);
                 _uiSupportSkillItemList.Add(skillItem);
@@ -125,24 +125,24 @@ namespace SlimeMaster.InGame.View
 
         private void OnResetSupportSkillCard()
         {
-            bool isSuccess = GameManager.I.Object.TryResetSupportSkillList();
+            bool isSuccess = Managers.Manager.I.Object.TryResetSupportSkillList();
             if (!isSuccess)
             {
                 return;    
             }
 
-            SetSupportSkillInfo(GameManager.I.Object.Player.SkillBook.CurrentSupportSkillDataList);
+            SetSupportSkillInfo(Managers.Manager.I.Object.Player.SkillBook.CurrentSupportSkillDataList);
         }
 
         private void OnOpenStaticsPopup()
         {
-            GameManager.I.UI.OpenPopup<UI_TotalDamagePopup>();
+            Managers.Manager.I.UI.OpenPopup<UI_TotalDamagePopup>();
         }
 
         private void OnOpenPausePopup()
         {
             Time.timeScale = 0;
-            GameManager.I.UI.OpenPopup<UI_PausePopup>();
+            Managers.Manager.I.UI.OpenPopup<UI_PausePopup>();
         }
 
         public void UpdateSkillSlotItem(List<BaseSkill> skillList)
@@ -152,7 +152,7 @@ namespace SlimeMaster.InGame.View
                 _uiSkillSlotItemList = new List<UI_SkillSlotItem>(Const.MAX_SKILL_COUNT);
                 for (int i = 0; i < Const.MAX_SKILL_COUNT; i++)
                 {
-                    GameObject prefab = GameManager.I.Resource.Instantiate(nameof(UI_SkillSlotItem), false);
+                    GameObject prefab = Managers.Manager.I.Resource.Instantiate(nameof(UI_SkillSlotItem), false);
                     var slotItem = prefab.GetComponent<UI_SkillSlotItem>();
                     Transform tran = slotItem.transform;
                     tran.SetParent(_skillSlotGroupTransform);
@@ -172,7 +172,7 @@ namespace SlimeMaster.InGame.View
                 else
                 {
                     BaseSkill skill = skillList[i];
-                    Sprite sprite = GameManager.I.Resource.Load<Sprite>(skill.SkillData.IconLabel);
+                    Sprite sprite = Managers.Manager.I.Resource.Load<Sprite>(skill.SkillData.IconLabel);
                     _uiSkillSlotItemList[i].UpdateUI(sprite, skill.CurrentLevel);
                 }
             }
@@ -242,7 +242,7 @@ namespace SlimeMaster.InGame.View
             _soulShopBGButton.gameObject.SetActive(true);
             _OwnBattleSkillInfoObject.SetActive(true);
             InputHandler.onActivateInputHandlerAction.Invoke(false);
-            SetSupportSkillInfo(GameManager.I.Object.Player.SkillBook.CurrentSupportSkillDataList);
+            SetSupportSkillInfo(Managers.Manager.I.Object.Player.SkillBook.CurrentSupportSkillDataList);
             Time.timeScale = 0;
         }
 
@@ -260,7 +260,7 @@ namespace SlimeMaster.InGame.View
         private void OnLearnSkill(object value)
         {
             SkillData skillData = (SkillData)value;
-            var iconLabel = GameManager.I.Resource.Load<Sprite>(skillData.IconLabel);
+            var iconLabel = Managers.Manager.I.Resource.Load<Sprite>(skillData.IconLabel);
             _uiSkillList.UpdateSkillInfo(iconLabel);
         }
         

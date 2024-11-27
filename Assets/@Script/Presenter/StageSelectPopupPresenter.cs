@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
-using SlimeMaster.Manager;
+using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.OutGame.Popup;
 using SlimeMaster.UISubItemElement;
@@ -14,15 +14,15 @@ namespace SlimeMaster.Presenter
     {
         private UserModel _userModel;
         private UI_StageSelectPopup _popup;
-        private DataManager _dataManager = GameManager.I.Data;
-        private UIManager _uiManager = GameManager.I.UI;
-        private ResourcesManager _resourcesManager = GameManager.I.Resource;
+        private DataManager _dataManager = Manager.I.Data;
+        private UIManager _uiManager = Manager.I.UI;
+        private ResourcesManager _resourcesManager = Manager.I.Resource;
         private int _currentStageIndex = 0;
         
         public void Initialize(UserModel userModel)
         {
             _userModel = userModel;
-            GameManager.I.Event.AddEvent(GameEventType.ShowStageSelectPopup, OnOpenStageSelectPopup);
+            Manager.I.Event.AddEvent(GameEventType.ShowStageSelectPopup, OnOpenStageSelectPopup);
         }
 
         private void OnOpenStageSelectPopup(object value)
@@ -33,8 +33,8 @@ namespace SlimeMaster.Presenter
             _popup.onCloseStageSelectAction = OnCloseStageSelectPopup;
             _popup.AddEvents();
 
-            _currentStageIndex = GameManager.I.CurrentStageIndex;
-            ResourcesManager resourcesManager = GameManager.I.Resource;
+            _currentStageIndex = Manager.I.CurrentStageIndex;
+            ResourcesManager resourcesManager = Manager.I.Resource;
             List<bool> stageCompletedList = new List<bool>(3);
             _popup.ReleaseSubItem<UI_StageInfoItem>(_popup.StageScrollContentObject);
             foreach (var (key, stageData) in _dataManager.StageDict)
@@ -56,7 +56,7 @@ namespace SlimeMaster.Presenter
                 AddMonsterInfoItem(stageData.AppearingMonsters, stageData.StageLevel);
             }
 
-            _popup.UpdateUI(GameManager.I.CurrentStageIndex);
+            _popup.UpdateUI(Manager.I.CurrentStageIndex);
         }
 
         private void AddMonsterInfoItem(List<int> appearingMonsters, int stageLevel)
@@ -87,9 +87,9 @@ namespace SlimeMaster.Presenter
                 return;
             }
 
-            GameManager.I.CurrentStageIndex = _currentStageIndex;
+            Manager.I.CurrentStageIndex = _currentStageIndex;
             _uiManager.ClosePopup();
-            GameManager.I.Event.Raise(GameEventType.ChangeStage);
+            Manager.I.Event.Raise(GameEventType.ChangeStage);
         }
         
         private void OnCloseStageSelectPopup()
