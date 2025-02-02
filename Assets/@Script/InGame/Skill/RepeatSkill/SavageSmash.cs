@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
 using SlimeMaster.Managers;
@@ -27,6 +28,11 @@ namespace SlimeMaster.InGame.Skill
 
         protected override async UniTask UseSkill()
         {
+            if (_skillLogicCts == null || _skillLogicCts.IsCancellationRequested)
+            {
+                return;
+            }
+            
             Release();
             string prefabLabel = "SavageSmash";
             GameObject prefab = Managers.Manager.I.Resource.Instantiate(prefabLabel);
@@ -35,7 +41,15 @@ namespace SlimeMaster.InGame.Skill
             _generatable.Level = CurrentLevel;
             _generatable.Generate(_owner.Position, Vector3.zero, _skillData, _owner);
 
-            await UniTask.WaitForSeconds(_skillData.ProjectileSpacing, cancellationToken: _skillLogicCts.Token);
+            try
+            {
+                await UniTask.WaitForSeconds(_skillData.ProjectileSpacing, cancellationToken: _skillLogicCts.Token);
+            }
+            catch (Exception e) when (!(e is OperationCanceledException))
+            {
+                Debug.LogError($"error {nameof(UseSkill)} log : {e.Message}");
+                StopSkillLogic();
+            }
         }
 
         public override void OnChangedSkillData()

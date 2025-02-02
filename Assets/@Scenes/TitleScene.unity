@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccbeba004bab1429db86106286eb5630, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _button: {fileID: 144021412}
+  _gameStartbutton: {fileID: 144021412}
   _slider: {fileID: 1544649514}
 --- !u!114 &144021412 stripped
 MonoBehaviour:
@@ -191,7 +191,6 @@ GameObject:
   - component: {fileID: 1236372154}
   - component: {fileID: 1236372153}
   - component: {fileID: 1236372152}
-  - component: {fileID: 1236372155}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -273,18 +272,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1236372155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1236372151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2913123eeacd25149ad499c082f67867, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1544649514 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7585355888491677759, guid: 43e2b00d921cfda4f81cf6eb938b51c1, type: 3}
@@ -493,7 +480,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7585355888155611815, guid: 43e2b00d921cfda4f81cf6eb938b51c1, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7585355888172306898, guid: 43e2b00d921cfda4f81cf6eb938b51c1, type: 3}
       propertyPath: m_Name

@@ -27,7 +27,8 @@ namespace SlimeMaster.InGame.Popup
 
         private void OnQuit()
         {
-            SceneManager.LoadScene(SceneType.LobbyScene.ToString());
+            Time.timeScale = 1;
+            Managers.Manager.I.Game.GameEnd();
         }
     }
 }

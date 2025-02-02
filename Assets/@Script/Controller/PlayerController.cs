@@ -323,11 +323,6 @@ namespace SlimeMaster.InGame.Controller
             RecoveryHpAsync().Forget();
         }
 
-        private void OnDestroy()
-        {
-            Utils.SafeCancelCancellationTokenSource(ref _recoveryHPCts);
-        }
-        
         private void OnLevelUp()
         {
             /*
@@ -369,6 +364,24 @@ namespace SlimeMaster.InGame.Controller
                 }
             }
         }
+        private void OnEnable()
+        {
+            InputHandler.onInputAction += OnChangedInputVector;
+            // InputHandler.onPointerUpAction += OnChangedInputVector;
+            Managers.Manager.I.Event.AddEvent(GameEventType.ActivateDropItem, OnActivateDropItem);
+            Managers.Manager.I.Event.AddEvent(GameEventType.UpgradeOrAddNewSkill, OnUpgradeOrAddNewSkill);
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            
+            Utils.SafeCancelCancellationTokenSource(ref _recoveryHPCts);
+            InputHandler.onInputAction -= OnChangedInputVector;
+            // InputHandler.onPointerUpAction -= OnChangedInputVector;
+            Managers.Manager.I.Event.RemoveEvent(GameEventType.ActivateDropItem, OnActivateDropItem);
+            Managers.Manager.I.Event.RemoveEvent(GameEventType.UpgradeOrAddNewSkill, OnUpgradeOrAddNewSkill);
+        }
 
         private void OnChangedInputVector(Vector2 input)
         {
@@ -390,14 +403,6 @@ namespace SlimeMaster.InGame.Controller
             }
             
             _playerMove.SetDirection(_inputVector);
-        }
-        
-        private void OnEnable()
-        {
-            InputHandler.onPointerDownAction += OnChangedInputVector;
-            InputHandler.onPointerUpAction += () => OnChangedInputVector(Vector2.zero);
-            Managers.Manager.I.Event.AddEvent(GameEventType.ActivateDropItem, OnActivateDropItem);
-            Managers.Manager.I.Event.AddEvent(GameEventType.UpgradeOrAddNewSkill, OnUpgradeOrAddNewSkill);
         }
         
         private void OnUpgradeOrAddNewSkill(object value)
@@ -478,14 +483,6 @@ namespace SlimeMaster.InGame.Controller
             MoveSpeed *= MoveSpeedRate;
             
             Debug.Log($"HP {HP} / MAXHP {MaxHP} / {MaxHPBonus}");
-        }
-        
-        private void OnDisable()
-        {
-            InputHandler.onPointerDownAction -= OnChangedInputVector;
-            InputHandler.onPointerUpAction -= () => OnChangedInputVector(Vector2.zero);
-
-            Managers.Manager.I.Event.RemoveEvent(GameEventType.ActivateDropItem, OnActivateDropItem);
         }
 
         private void Update()

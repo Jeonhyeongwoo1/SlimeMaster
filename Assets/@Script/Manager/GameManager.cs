@@ -15,6 +15,7 @@ using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 namespace SlimeMaster.InGame.Manager
@@ -45,6 +46,17 @@ namespace SlimeMaster.InGame.Manager
             _stageModel = ModelFactory.CreateOrGetModel<StageModel>();
             _monsterSpawnPool = new MonsterSpawnPool();
             AddEvent();
+        }
+
+        public void GameEnd()
+        {
+            var playerModel = ModelFactory.CreateOrGetModel<PlayerModel>();
+            playerModel.Reset();
+            var stageModel = ModelFactory.CreateOrGetModel<StageModel>();
+            stageModel.Reset();
+            StopStage();
+            Managers.Manager.I.Object.GameEnd();
+            SceneManager.LoadScene(SceneType.LobbyScene.ToString());
         }
 
         private void AddEvent()
@@ -171,6 +183,7 @@ namespace SlimeMaster.InGame.Manager
 
         private void MakeMap()
         {
+            Debug.LogError("MakeMap");
             //맵, 몬스터 스폰, Wave
             GameObject map = _resource.Instantiate(_stageData.MapName, false);
             _currentMap = map.GetOrAddComponent<Map>();
@@ -182,7 +195,20 @@ namespace SlimeMaster.InGame.Manager
             SetStageData(stageData, waveIndex);
             MakeMap();
             _object.CreatePlayer();
-            await StartStageAsync();
+            _stageTaskSource = new();
+            var task = UniTask.WhenAll(_stageTaskSource.Task, StartStageAsync());
+        }
+
+        private UniTaskCompletionSource _stageTaskSource;
+        public void StopStage()
+        {
+            if (_stageTaskSource != null)
+            {
+                _stageTaskSource.TrySetResult();
+            }
+            
+            StopWave();
+            Utils.SafeCancelCancellationTokenSource(ref _waveTimerCts);
         }
 
         private async UniTask StartStageAsync()
@@ -342,6 +368,7 @@ namespace SlimeMaster.InGame.Manager
         {
             UpdateGameState(GameState.DeadPlayer);
         }
+        
         
         private void UpdateGameState(GameState gameState) => _gameState = gameState;
     }

@@ -89,7 +89,6 @@ namespace SlimeMaster.Server
                 };
             }
             
-            Debug.Log($"{dbItemData.ItemId} / {dbItemData.ItemValue}");
             return new OfflineRewardResponse()
             {
                 DBRewardItemData = dbItemData,

@@ -60,7 +60,6 @@ namespace SlimeMaster.Popup
 
         public virtual void ClosePopup()
         {
-            Debug.Log("ClosePopup");
             PlayPopupCommonCloseSound();
             Manager.I.Pool.ReleaseObject(gameObject.name, gameObject);
         }

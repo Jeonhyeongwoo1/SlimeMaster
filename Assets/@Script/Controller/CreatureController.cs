@@ -136,4 +136,9 @@ public class CreatureController : MonoBehaviour, IHitable
         _rigidbody.MovePosition(_rigidbody.position + direction);
         SetSpriteFlipX(direction.x > 0);
     }
+
+    protected virtual void OnDisable()
+    {
+        _skillBook.StopAllSkillLogic();
+    }
 }

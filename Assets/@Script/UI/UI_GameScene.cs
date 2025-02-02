@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using SlimeMaster.Data;
@@ -82,7 +83,15 @@ namespace SlimeMaster.InGame.View
             
             IsInitialize = true;
         }
-        
+
+        private void OnDestroy()
+        {
+            Managers.Manager.I.Event.RemoveEvent(GameEventType.SpawnedBoss, OnSpawnedBoss);
+            Managers.Manager.I.Event.RemoveEvent(GameEventType.EndWave, OnWaveEnd);
+            Managers.Manager.I.Event.RemoveEvent(GameEventType.LearnSkill, OnLearnSkill);
+            Managers.Manager.I.Event.RemoveEvent(GameEventType.PurchaseSupportSkill, OnPurchaseSupportSkill);
+        }
+
         private void OnShowSupportSkillList()
         {
             _isShowSupportSkillList = !_isShowSupportSkillList;

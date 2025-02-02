@@ -14,9 +14,9 @@ namespace SlimeMaster.InGame.Skill
         protected CreatureController _targetCreature;
         protected CancellationTokenSource _skillLogicCts;
         
-        public override async UniTask StartSkillLogicProcessAsync(CancellationTokenSource cts = null)
+        public override async UniTask StartSkillLogicProcessAsync()
         {
-            _skillLogicCts = cts ?? new CancellationTokenSource();
+            _skillLogicCts = new CancellationTokenSource();
             var token = _skillLogicCts.Token;
             
             try

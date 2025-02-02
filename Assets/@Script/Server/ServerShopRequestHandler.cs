@@ -78,6 +78,7 @@ namespace SlimeMaster.Server
                     _rewardItemList.Capacity = capacity;
                     _rewardEquipmentItemList.Capacity = capacity;
                     
+                    Debug.Log($"{shopData.CostItemType}");
                     if (!userData.ItemDataDict.TryGetValue(shopData.CostItemType.ToString(),
                             out DBItemData dbCostItemData))
                     {

@@ -17,6 +17,7 @@ namespace SlimeMaster.InGame.Entity
 
         private void Awake()
         {
+            _demarcation = GameObject.Find("Demarcation").transform;
             _grid = GetComponentInChildren<GridController>();
         }
 
@@ -30,7 +31,7 @@ namespace SlimeMaster.InGame.Entity
             _demarcation.DOKill();
 
             Vector3 originScale = Vector3.one * 20;
-            Vector3 scale = originScale * (lastWaveIndex - currentIndex + 1) * 0.1f;
+            Vector3 scale = originScale * ((lastWaveIndex - currentIndex + 1) * 0.1f);
             _demarcation.DOScale(scale, 3);
         }
     }

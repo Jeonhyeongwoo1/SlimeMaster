@@ -38,18 +38,16 @@ namespace SlimeMaster.InGame.Controller
             TryGetComponent(out _rigidbody);
         }
 
-        private void Start()
-        {
-        }
-
         protected virtual void OnEnable()
         {
             Managers.Manager.I.Event.AddEvent(GameEventType.DeadPlayer, OnDeadPlayer);
             Managers.Manager.I.Event.AddEvent(GameEventType.ResurrectionPlayer, OnResurrectionPlayer);
         }
 
-        protected virtual void OnDisable()
+        protected override void OnDisable()
         {
+            Utils.SafeCancelCancellationTokenSource(ref _takeDamageCts);
+            Utils.SafeCancelCancellationTokenSource(ref _moveCts);
             Managers.Manager.I.Event.RemoveEvent(GameEventType.DeadPlayer, OnDeadPlayer);
             Managers.Manager.I.Event.RemoveEvent(GameEventType.ResurrectionPlayer, OnResurrectionPlayer);
            

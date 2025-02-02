@@ -30,6 +30,11 @@ namespace SlimeMaster.InGame.Controller
             gameObject.SetActive(true);
         }
 
+        private void OnDestroy()
+        {
+            Utils.SafeCancelCancellationTokenSource(ref _moveToTargetCts);
+        }
+
         public void SetInfo(DropItemData dropItemData)
         {
             _dropItemData = dropItemData;

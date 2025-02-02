@@ -3,6 +3,8 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
+
 public static class RemoveMissingScriptsEditor
 {
     [MenuItem("GameObject/Editor Extensions/Remove Missing Scripts")]
@@ -73,3 +75,4 @@ public static class RemoveMissingScriptsEditor
         return t.Distinct().Select(x => x.gameObject).ToArray();
     }
 }
+#endif

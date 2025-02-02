@@ -37,8 +37,8 @@ namespace SlimeMaster.Firebase
 
             return _auth != null;
         }
-        
-        public async UniTask<FirebaseUser> SignInAnonymously()
+
+        public async UniTask<bool> TrySignInAnonymously()
         {
             FirebaseUser user = null;
             await _auth.SignInAnonymouslyAsync().ContinueWithOnMainThread((task) =>
@@ -54,12 +54,7 @@ namespace SlimeMaster.Firebase
                 _user = result.User;
             });
 
-            return _user;
-        }
-        
-        public async UniTask SignInGoogle()
-        {
-            return;
+            return _user != null;
         }
     }
 }

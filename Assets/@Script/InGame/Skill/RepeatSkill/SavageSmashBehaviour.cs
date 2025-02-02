@@ -1,8 +1,5 @@
-using System;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
-using SlimeMaster.InGame.Data;
-using SlimeMaster.Managers;
 using UnityEngine;
 
 namespace SlimeMaster.InGame.Skill

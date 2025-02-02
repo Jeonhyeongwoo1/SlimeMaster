@@ -27,7 +27,7 @@ namespace SlimeMaster.InGame.Skill
             float radius = _skillData.ProjRange + _targetCreature.CircleColliderRadius;
             float duration =  skillRange.SetCircle(radius);
 
-            await UniTask.WaitForSeconds(duration);
+            await UniTask.WaitForSeconds(duration, cancellationToken: _skillLogicCts.Token);
             float distance = Vector3.Distance(_owner.Position, _targetCreature.Position);
             if (distance <= radius)
             {

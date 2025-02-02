@@ -10,6 +10,7 @@ using SlimeMaster.Firebase.Data;
 using SlimeMaster.Interface;
 using SlimeMaster.Key;
 using SlimeMaster.Managers;
+using SlimeMaster.Shared;
 using SlimeMaster.Shared.Data;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -365,6 +366,48 @@ namespace SlimeMaster.Server
                 DBItemData = dbItemData,
                 DBStageData = dbStageData
             };
+        }
+
+        public async UniTask<Response> CopyNewUser()
+        {
+            string userID = _firebaseController.UserId;
+            FirebaseFirestore db = _firebaseController.DB;
+
+            string newUserId = "ss";
+
+            List<string> dbKeyList = new List<string>() { DBKey.CheckoutDB, DBKey.UserDB, DBKey.ShopDB };
+            List<Task<DocumentSnapshot>> taskList = new(dbKeyList.Count);
+            Response response = await db.RunTransactionAsync(async transaction =>
+            {
+                foreach (string dbKey in dbKeyList)
+                {
+                    DocumentReference docRef = db.Collection(dbKey).Document(userID);
+                    Task<DocumentSnapshot> userTask = transaction.GetSnapshotAsync(docRef);
+                    taskList.Add(userTask);
+                }
+
+                DocumentSnapshot[] result = await Task.WhenAll(taskList.ToArray());
+                foreach (DocumentSnapshot snapshot in result)
+                {
+                    string collectionName = snapshot.Reference.Parent.Id;
+                    DocumentReference reference = db.Collection(collectionName).Document(newUserId);
+                    var dict = snapshot.ToDictionary();
+                    var newDataDict = new Dictionary<string, object>();
+                    foreach (var (key, value) in dict)
+                    {
+                        newDataDict.Add(key, value);
+                    }
+
+                    transaction.Set(reference, newDataDict);
+                }
+
+                return new Response()
+                {
+                    responseCode = ServerErrorCode.Success
+                };
+            });
+
+            return response;
         }
     }
 }

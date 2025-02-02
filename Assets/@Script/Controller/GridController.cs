@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using SlimeMaster.Enum;
 using SlimeMaster.InGame.Enum;
@@ -16,7 +17,12 @@ namespace SlimeMaster.InGame.Controller
 
         private Dictionary<Vector3Int, Cell> _cellDict = new();
         private List<DropItemController> _cachedDropItemControllerList = new();
-        
+
+        private void Awake()
+        {
+            _grid.GetComponent<Grid>();
+        }
+
         public void AddItem(Vector3 position, DropItemController dropItemController)
         {
             Vector3Int pos = _grid.WorldToCell(position);

@@ -45,6 +45,11 @@ namespace SlimeMaster.InGame.Skill
         {
         }
 
+        protected virtual void OnDestroy()
+        {
+            CancelInvoke();
+        }
+
         public virtual void Release()
         {
             if (IsRelease)

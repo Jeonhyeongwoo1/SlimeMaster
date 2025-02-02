@@ -72,6 +72,7 @@ namespace SlimeMaster.InGame.Entity
                     break;
                 }
                 
+                Debug.Log("Spawn");
                 for (int i = 0; i < onceSpawnCount; i++)
                 {
                     float select = Random.value;

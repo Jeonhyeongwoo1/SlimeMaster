@@ -27,9 +27,16 @@ namespace SlimeMaster.Presenter
         private UI_BattlePopup _battlePopup;
         private UserModel _userModel;
         private DataManager _dataManager;
+        private bool _isInit;
         
         public void Initialize(UserModel userModel)
         {
+            if (_isInit)
+            {
+                return;
+            }
+
+            _isInit = true;
             _dataManager = Manager.I.Data;
             _userModel = userModel;
             Manager.I.Event.AddEvent(GameEventType.MoveToTap, OnMoveToTap);
@@ -204,7 +211,7 @@ namespace SlimeMaster.Presenter
             }
 
             DBItemData staminaItemData = response.DBUserData.ItemDataDict[Const.ID_STAMINA.ToString()];
-            _userModel.AddItemValue(staminaItemData.ItemId, staminaItemData.ItemValue);
+            _userModel.SetItemValue(staminaItemData.ItemId, staminaItemData.ItemValue);
             Manager.I.StartGame();
         }
 

@@ -8,6 +8,7 @@ using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.View;
 using UniRx;
+using UnityEngine;
 
 namespace SlimeMaster.Presenter
 {
@@ -36,7 +37,7 @@ namespace SlimeMaster.Presenter
                 .AddTo(_lobbySceneView);
 
             var staminaData = _model.GetItemData(Const.ID_STAMINA);
-            staminaData.ItemValue.Subscribe((v) => _lobbySceneView.UpdateUserGoodsInfo(GoodsType.Stamina, v.ToString()))
+            staminaData.ItemValue.Subscribe((v) =>_lobbySceneView.UpdateUserGoodsInfo(GoodsType.Stamina, v.ToString()))
                 .AddTo(_lobbySceneView);
             
             var checkoutModel = ModelFactory.CreateOrGetModel<CheckoutModel>();

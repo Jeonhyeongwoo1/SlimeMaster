@@ -10,15 +10,15 @@ namespace SlimeMaster.InGame.Skill
     {
         protected CancellationTokenSource _skillLogicCts;
         
-        public override async UniTask StartSkillLogicProcessAsync(CancellationTokenSource cts = null)
+        public override async UniTask StartSkillLogicProcessAsync()
         {
             _skillLogicCts = new CancellationTokenSource();
             var token = _skillLogicCts.Token;
-            while (_skillLogicCts != null || !_skillLogicCts.IsCancellationRequested)
+            while (_skillLogicCts != null && !_skillLogicCts.IsCancellationRequested)
             {
                 try
                 {
-                    await UniTask.WaitForSeconds(_skillData.CoolTime, cancellationToken: token);
+                    await UniTask.WaitForSeconds(_skillData.CoolTime, cancellationToken: _skillLogicCts.Token);
                     await UseSkill();
                 }
                 catch (Exception e) when (!(e is OperationCanceledException))

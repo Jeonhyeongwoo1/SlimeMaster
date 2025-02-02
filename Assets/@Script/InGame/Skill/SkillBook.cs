@@ -121,7 +121,7 @@ namespace SlimeMaster.InGame.Skill
                 var sequenceSkill = sequenceSkillList[index];
                 try
                 {
-                    await sequenceSkill.StartSkillLogicProcessAsync(_useSequenceSkillCts);
+                    await sequenceSkill.StartSkillLogicProcessAsync();
                 }
                 catch (Exception e) when (!(e is OperationCanceledException))
                 {
@@ -213,6 +213,7 @@ namespace SlimeMaster.InGame.Skill
             if (skill == null)
             {
                 AddSkill(skillData, ref skill);
+                _activateSkillList.Add(skill);
             }
             
             if (skill.IsMaxLevel)
@@ -382,6 +383,7 @@ namespace SlimeMaster.InGame.Skill
             Debug.Log("SkillType : " + skillType.ToString());
             if (skillType == SkillType.None)
             {
+                Debug.LogWarning("SkillType is None / skill id : " + skillData.DataId);
                 return;
             }
             
@@ -390,6 +392,7 @@ namespace SlimeMaster.InGame.Skill
             // Debug.Log($"{skill} / {skillName} / {skill == null}");
             if (skill == null)
             {
+                Debug.LogWarning("skill is null : " + skillData.DataId);
                 return;
             }
 
@@ -414,6 +417,7 @@ namespace SlimeMaster.InGame.Skill
         public void StopAllSkillLogic()
         {
             _activateSkillList.ForEach(v=> v.StopSkillLogic());
+            StopSequenceSkill();
         }
 
         public List<BaseSkill> GetRecommendSkillList(int recommendSkillCount = 3)

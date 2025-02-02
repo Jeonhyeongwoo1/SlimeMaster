@@ -13,6 +13,7 @@ namespace SlimeMaster.InGame.View
 
         public void UpdateSkillInfo(Sprite sprite)
         {
+            Debug.Log(transform.name);
             var image = _skillImageList.Find(v => !v.enabled);
             if (image)
             {

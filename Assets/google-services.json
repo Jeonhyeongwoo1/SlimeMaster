@@ -9,10 +9,15 @@
       "client_info": {
         "mobilesdk_app_id": "1:138438818620:android:a9f792b340af3326f33c39",
         "android_client_info": {
-          "package_name": "com.Jeonhyeongwoo.SlimeMaster"
+          "package_name": "com.HyeongwooCompany.SlimeMaster"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "138438818620-c1vd1i30mh1n8o5cpuqriogmuh4g5nf5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyD74tptF1por0-xcWXrIeAQFxJHxPvtg2Y"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "138438818620-c1vd1i30mh1n8o5cpuqriogmuh4g5nf5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

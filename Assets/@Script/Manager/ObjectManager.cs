@@ -31,7 +31,6 @@ namespace SlimeMaster.InGame.Manager
         public List<DropItemController> DroppedItemControllerList => _droppedItemControllerList;
         public PlayerController Player => _player;
         
-        private EventManager _event;
         private ResourcesManager _resource;
         private DataManager _data;
         private PoolManager _pool;
@@ -43,12 +42,18 @@ namespace SlimeMaster.InGame.Manager
         public void Initialize()
         {
             Managers.Manager manager = Managers.Manager.I;
-            _event = manager.Event;
             _resource = manager.Resource;
             _data = manager.Data;
             _pool = manager.Pool;
             
             AddEvent();
+        }
+
+        public void GameEnd()
+        {
+            _activateMonsterList.Clear();
+            _droppedItemControllerList.Clear();
+            _player = null;
         }
 
         public void CreatePlayer()

@@ -6,11 +6,6 @@ namespace SlimeMaster.Controller
 {
     public class GameSceneController : MonoBehaviour
     {
-        private void Start()
-        {
-            
-        }
-
         private void OnApplicationQuit()
         {
             Manager.I.SaveGameContinueData();
@@ -18,7 +13,6 @@ namespace SlimeMaster.Controller
 
         private void OnDisable()
         {
-            Test_SaveGameContinueData();
             Manager.I.SaveGameContinueData();
         }
 
@@ -28,10 +22,6 @@ namespace SlimeMaster.Controller
             {
                 OnDisable();
             }
-        }
-
-        public void Test_SaveGameContinueData()
-        {
         }
     }
 }

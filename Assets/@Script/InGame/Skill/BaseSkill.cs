@@ -46,7 +46,7 @@ namespace SlimeMaster.InGame.Skill
             }
         }
 
-        public abstract UniTask StartSkillLogicProcessAsync(CancellationTokenSource cts = null);
+        public abstract UniTask StartSkillLogicProcessAsync();
         public abstract void StopSkillLogic();
         protected abstract UniTask UseSkill();
 

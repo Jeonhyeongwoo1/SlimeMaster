@@ -107,15 +107,8 @@ namespace SlimeMaster.Managers
         public async void StartGame()
         {
             string sceneName = SceneType.GameScene.ToString();
-            SceneManager.sceneLoaded += (scene, loadSceneMode) =>
-            {
-                if (scene.name != sceneName)
-                {
-                    return;
-                }
-
-                OnLoadedGameScene();
-            };
+            SceneManager.sceneLoaded -= OnLoadedGameScene;
+            SceneManager.sceneLoaded += OnLoadedGameScene;
             
             var operation = SceneManager.LoadSceneAsync(sceneName);
             if (!operation.isDone)
@@ -126,8 +119,13 @@ namespace SlimeMaster.Managers
             //Fader 
         }
 
-        private void OnLoadedGameScene()
+        private void OnLoadedGameScene(Scene scene, LoadSceneMode loadSceneMode)
         {
+            if (scene.name != SceneType.GameScene.ToString())
+            {
+                return;
+            }
+            
             var gameSceneUI = UI.ShowUI<UI_GameScene>();
             gameSceneUI.Initialize();
 
@@ -138,25 +136,27 @@ namespace SlimeMaster.Managers
             Game.StartStage(stageData, waveIndex).Forget();
             Audio.Play(Sound.Bgm, "Bgm_Game");
 
-            Debug.Log($"stage {stageIndex} / {waveIndex}");
             var playerModel = ModelFactory.CreateOrGetModel<PlayerModel>();
-            if (!isExistContinueGameData)
-            {
-                playerModel.Reset();
-            }
-            else
-            {
-                playerModel.SoulAmount.Value = GameContinueData.soulAmount;
-                playerModel.CurrentLevel.Value = GameContinueData.playerLevel;
-                playerModel.CurrentExp.Value = GameContinueData.playerExp;
-                var levelData = Data.LevelDataDict[GameContinueData.playerLevel];
-                playerModel.CurrentExpRatio.Value = (float)playerModel.CurrentExp.Value / levelData.TotalExp;
+            playerModel.Reset();
+            var stageModel = ModelFactory.CreateOrGetModel<StageModel>();
+            stageModel.Reset();
 
-                Debug.Log($"{GameContinueData.playerLevel}/ {GameContinueData.playerExp}");
-                var stageModel = ModelFactory.CreateOrGetModel<StageModel>();
-                stageModel.killCount.Value = GameContinueData.killCount;
-                stageModel.currentWaveStep.Value = GameContinueData.waveIndex;
-            }
+            // if (!isExistContinueGameData)
+            // {
+            //     playerModel.Reset();
+            // }
+            // else
+            // {
+            //     playerModel.SoulAmount.Value = GameContinueData.soulAmount;
+            //     playerModel.CurrentLevel.Value = GameContinueData.playerLevel;
+            //     playerModel.CurrentExp.Value = GameContinueData.playerExp;
+            //     var levelData = Data.LevelDataDict[GameContinueData.playerLevel];
+            //     playerModel.CurrentExpRatio.Value = (float)playerModel.CurrentExp.Value / levelData.TotalExp;
+            //
+            //     var stageModel = ModelFactory.CreateOrGetModel<StageModel>();
+            //     stageModel.killCount.Value = GameContinueData.killCount;
+            //     stageModel.currentWaveStep.Value = GameContinueData.waveIndex;
+            // }
         }
 
         public async void MoveToLobbyScene()
