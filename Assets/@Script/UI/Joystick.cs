@@ -17,18 +17,24 @@ namespace SlimeMaster.InGame.View
 
         private void OnEnable()
         {
-            InputHandler.onActivateInputHandlerAction += OnActivate;
-            
             if (_fadeCor != null)
             {
                 StopCoroutine(_fadeCor);
             }
         }
 
-        private void OnDisable()
+        private void Start()
+        {
+            InputHandler.onActivateInputHandlerAction += OnActivate;
+        }
+
+        private void OnDestroy()
         {
             InputHandler.onActivateInputHandlerAction -= OnActivate;
-            
+        }
+
+        private void OnDisable()
+        {
             if (_fadeCor != null)
             {
                 StopCoroutine(_fadeCor);

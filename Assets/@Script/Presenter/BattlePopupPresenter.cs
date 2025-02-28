@@ -8,6 +8,7 @@ using SlimeMaster.Interface;
 using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.OutGame.Popup;
+using SlimeMaster.Shared.Data;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UniRx;
@@ -62,7 +63,8 @@ namespace SlimeMaster.Presenter
             int lastStageIndex = _userModel.GetLastClearStageIndex();
 
             var response = await ServerHandlerFactory.Get<IUserClientSender>()
-                .GetWaveClearRewardRequest(lastStageIndex, waveClearType);
+                .GetWaveClearRewardRequest(new GetWaveClearRewardRequest()
+                    { stageIndex = lastStageIndex, waveClearType = waveClearType });
 
             if (response.responseCode != ServerErrorCode.Success)
             {
@@ -195,7 +197,7 @@ namespace SlimeMaster.Presenter
             }
 
             var response = await ServerHandlerFactory.Get<IUserClientSender>()
-                .UseStaminaRequest(Const.GAME_START_STAMINA_COUNT);
+                .UseStaminaRequest(new UseStaminaRequest(){ staminaCount = Const.GAME_START_STAMINA_COUNT});
             switch (response.responseCode)
             {
                 case ServerErrorCode.NotEnoughStamina:

@@ -15,6 +15,7 @@ namespace SlimeMaster.Model
 {
     public class UserModel : IModel
     {        
+        public string Token { get; set; }
         public int MaxHp => (int)(CreatureData.MaxHp + (CreatureData.MaxHpBonus * _userLevel) * CreatureData.HpRate);
         public int MaxAttackDamage => (int)(CreatureData.Atk + (CreatureData.AtkBonus * _userLevel) * CreatureData.AtkRate);
 

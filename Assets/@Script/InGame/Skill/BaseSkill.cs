@@ -59,7 +59,6 @@ namespace SlimeMaster.InGame.Skill
         {
             if (Utils.TryGetComponentInParent(collider.gameObject, out CreatureController creature))
             {
-                // Debug.Log(_owner.AttackDamage * _skillData.DamageMultiplier);
                 float damage = _owner.AttackDamage * _skillData.DamageMultiplier;
                 creature.TakeDamage(damage, _owner);
                 AccumulatedDamage += damage;

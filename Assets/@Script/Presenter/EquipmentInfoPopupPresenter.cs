@@ -7,6 +7,7 @@ using SlimeMaster.Interface;
 using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.OutGame.Popup;
+using SlimeMaster.Shared.Data;
 using UnityEngine;
 
 namespace SlimeMaster.Presenter
@@ -76,7 +77,10 @@ namespace SlimeMaster.Presenter
         private async void OnLevelUp(Equipment equipment)
         {
             var response = await ServerHandlerFactory.Get<IEquipmentClientSender>()
-                .EquipmentLevelUpRequest(equipment.DataId, equipment.UID, equipment.Level, equipment.IsEquipped());
+                .EquipmentLevelUpRequest(new EquipmentLevelUpRequestBase()
+                {
+                    equipmentDataId = equipment.DataId, equipmentUID = equipment.UID, level = equipment.Level, isEquipped = equipment.IsEquipped()
+                });
 
             if (response.responseCode != ServerErrorCode.Success)
             {
@@ -110,7 +114,7 @@ namespace SlimeMaster.Presenter
         private async void OnUnquip(Equipment equipment)
         {
             var response = await ServerHandlerFactory.Get<IEquipmentClientSender>()
-                .UnequipRequest(equipment.UID);
+                .UnequipRequest(new UnequipRequestBase() { equipmentUID = equipment.UID});
 
             if (response.responseCode != ServerErrorCode.Success)
             {
@@ -141,7 +145,7 @@ namespace SlimeMaster.Presenter
         {
             Equipment equippedItem = _model.FindEquippedItem(equipment.EquipmentData.EquipmentType);
             var response = await ServerHandlerFactory.Get<IEquipmentClientSender>()
-                .EquipRequest(equipment.UID, equippedItem?.UID);
+                .EquipRequest(new EquipRequestBase(){ equippedItemUID = equipment.UID, unequippedItemUID = equippedItem?.UID});
 
             if (response.responseCode != ServerErrorCode.Success)
             {

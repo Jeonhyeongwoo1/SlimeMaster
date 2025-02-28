@@ -7,6 +7,6 @@ namespace SlimeMaster.Interface
     [ClientSender]
     public interface ICheckoutClientSender : IClientSender
     {
-        public UniTask<GetCheckoutRewardResponse> GetCheckoutRewardRequest(int day);
+        public UniTask<GetCheckoutRewardResponseBase> GetCheckoutRewardRequest(GetCheckoutRewardRequestBase requestBase);
     }
 }

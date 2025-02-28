@@ -7,7 +7,7 @@ namespace SlimeMaster.Interface
     [ClientSender]
     public interface IOfflineRewardClientSender : IClientSender
     {
-        UniTask<OfflineRewardResponse> GetOfflineRewardRequest();
-        UniTask<FastRewardResponse> GetFastRewardRequest();
+        UniTask<OfflineRewardResponseBase> GetOfflineRewardRequest();
+        UniTask<FastRewardResponseBase> GetFastRewardRequest();
     }
 }

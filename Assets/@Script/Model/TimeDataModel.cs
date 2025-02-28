@@ -16,7 +16,7 @@ namespace SlimeMaster.Model
 
         public void Initialize(DateTime lastLoginTime)
         {
-            PlayerPrefs.DeleteAll();
+            // PlayerPrefs.DeleteAll();
             if ((DateTime.UtcNow - lastLoginTime).TotalHours < 24)
             {
                 return;

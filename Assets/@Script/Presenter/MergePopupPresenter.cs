@@ -212,7 +212,7 @@ namespace SlimeMaster.Presenter
                 Debug.Log($" {allMergeEquipmentData.id1} / {allMergeEquipmentData.id2} / {allMergeEquipmentData.id3}");
             }
 
-            var response = await ServerHandlerFactory.Get<IEquipmentClientSender>().MergeEquipmentRequest(equipmentDataList);
+            var response = await ServerHandlerFactory.Get<IEquipmentClientSender>().MergeEquipmentRequest(new MergeEquipmentRequestBase() { equipmentList = equipmentDataList});
             if (response.responseCode != ServerErrorCode.Success)
             {
                 switch (response.responseCode)
@@ -288,7 +288,7 @@ namespace SlimeMaster.Presenter
             };
             
             equipmentDataList.Add(data);
-            var response = await ServerHandlerFactory.Get<IEquipmentClientSender>().MergeEquipmentRequest(equipmentDataList);
+            var response = await ServerHandlerFactory.Get<IEquipmentClientSender>().MergeEquipmentRequest(new MergeEquipmentRequestBase() { equipmentList = equipmentDataList});
             if (response.responseCode != ServerErrorCode.Success)
             {
                 switch (response.responseCode)

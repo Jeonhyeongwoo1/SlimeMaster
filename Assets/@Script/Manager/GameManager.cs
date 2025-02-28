@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
@@ -13,6 +14,8 @@ using SlimeMaster.InGame.Popup;
 using SlimeMaster.Interface;
 using SlimeMaster.Managers;
 using SlimeMaster.Model;
+using SlimeMaster.Shared.Data;
+using SlimeMaster.Util;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -248,7 +251,7 @@ namespace SlimeMaster.InGame.Manager
             
             _object.AllObjectRelease();
 
-            var response = await ServerHandlerFactory.Get<IUserClientSender>().StageClearRequest(_stageData.StageIndex);
+            var response = await ServerHandlerFactory.Get<IUserClientSender>().StageClearRequest(new StageClearRequest() { stageIndex = _stageData.StageIndex});
             if (response.responseCode != ServerErrorCode.Success)
             {
                 switch (response.responseCode)
@@ -325,7 +328,7 @@ namespace SlimeMaster.InGame.Manager
             _monsterSpawnPool.StopMonsterSpawn();
             Utils.SafeCancelCancellationTokenSource(ref _waveTimerCts);
         }
-
+        
         private async UniTask WaveTimerAsync()
         {
             _waveTimerCts = new();
@@ -371,5 +374,175 @@ namespace SlimeMaster.InGame.Manager
         
         
         private void UpdateGameState(GameState gameState) => _gameState = gameState;
+
+        #region PathFinding
+
+        private readonly Vector3Int[] _dirArray =
+        {
+            new Vector3Int(1, 0),
+            new Vector3Int(0, 1),
+            new Vector3Int(-1, 0),
+            new Vector3Int(0, -1),
+            new Vector3Int(1, 1),
+            new Vector3Int(1, -1),
+            new Vector3Int(-1, 1),
+            new Vector3Int(-1, -1),
+        };
+
+        private Dictionary<Vector3Int, CreatureController> _cellDict = new Dictionary<Vector3Int, CreatureController>();
+        
+        public List<Vector3Int> PathFinding(Vector3Int startPosition, Vector3Int destPosition, int maxDepth = 10)
+        {
+            // 상하좌우 + 대각선 (8 방향)
+            //int[] cost = { 10, 10, 10, 10, 14, 14, 14, 14 }; // 대각선 이동은 비용 14
+
+            Dictionary<Vector3Int, int> bestDict = new Dictionary<Vector3Int, int>();
+            HashSet<Vector3Int> visited = new HashSet<Vector3Int>();
+            PriorityQueue<Node> queue = new PriorityQueue<Node>();
+            Dictionary<Vector3Int, Vector3Int> pathDict = new Dictionary<Vector3Int, Vector3Int>();
+
+            //목적지에 도착하지 못할 경우에 그나마 가장 가까운 위치로 보낸다.
+            int closedH = int.MaxValue;
+            Vector3Int closePos = Vector3Int.zero;
+            int depth = 0;
+
+            {
+                int h = Mathf.Abs(destPosition.x - startPosition.x) + Mathf.Abs(destPosition.y - startPosition.y);
+                Node startNode = new Node(h, depth, startPosition);
+                queue.Push(startNode);
+                bestDict[startPosition] = h;
+                pathDict[startPosition] = startPosition;
+
+                closedH = h;
+                closePos = startPosition;
+            }
+
+            while (!queue.IsEmpty())
+            {
+                Node node = queue.Top();
+                queue.Pop();
+
+                Vector3Int nodePos = new Vector3Int(node.x, node.y, 0);
+                if (nodePos == destPosition)
+                {
+                    // closePos = nodePos;
+                    break;
+                }
+
+                if (visited.Contains(nodePos))
+                {
+                    continue;
+                }
+                
+                visited.Add(nodePos);
+                depth = node.depth;
+
+                // Debug.Log($"{depth}");
+                if (depth == maxDepth)
+                {
+                    break;
+                }
+                
+                for (int i = 0; i < _dirArray.Length; i++)
+                {
+                    int nextY = node.y + _dirArray[i].y;
+                    int nextX = node.x + _dirArray[i].x;
+                    if (!CanGo(nextX, nextY))
+                    {
+                        continue;
+                    }
+
+                    // Debug.Log("Can");
+                    Vector3Int nextPos = new Vector3Int(nextX, nextY, 0);
+                    //int g = cost[i] + node.g;
+                    int h = Mathf.Abs(destPosition.x - nextPos.x) + Mathf.Abs(destPosition.y - nextPos.y);
+                    if (bestDict.ContainsKey(nextPos) && bestDict[nextPos] <= h)
+                    {
+                        continue;
+                    }
+
+                    bestDict[nextPos] = h;
+                    queue.Push(new Node(h, depth + 1, nextPos));
+                    pathDict[nextPos] = nodePos;
+                    
+                    if (closedH > h)
+                    {
+                        closedH = h;
+                        closePos = nextPos;
+                    }
+                }
+            }
+
+            List<Vector3Int> list = new List<Vector3Int>();
+            Vector3Int now = destPosition;
+
+            if (!pathDict.ContainsKey(now))
+            {
+                now = closePos;
+                if (!pathDict.ContainsKey(now))
+                {
+                    Debug.LogError($"Pathfinding Error: No valid path found to {destPosition} or closest position {closePos}");
+                    return new List<Vector3Int>(); 
+                }
+            }
+
+            int count = 0;
+            while (pathDict[now] != now)
+            {
+                if (!list.Contains(now))
+                {
+                    list.Add(now);
+                }
+            
+                count++;
+                now = pathDict[now];
+                if (count > maxDepth)
+                {
+                    break;
+                }
+            }
+
+            list.Add(now);
+            list.Reverse();
+            // Debug.Log($"now {depth} {now} / {destPosition} / {closePos} / {startPosition} / {list.Count}");
+            return list;
+        }
+
+        public bool CanGo(int x, int y, bool ignoreObject = false)
+        {
+            if (ignoreObject)
+            {
+                return true;
+            }
+            
+            if (_cellDict.TryGetValue(new Vector3Int(x, y), out var creature))
+            {
+                return false;
+            }
+            
+            return true;
+        }
+
+        public void AddCreatureInGrid(Vector3Int position, CreatureController creature)
+        {
+            if (_cellDict.ContainsKey(position))
+            {
+                return;
+            }
+            
+            _cellDict[position] = creature;
+        }
+
+        public Vector3Int WorldToCell(Vector3 worldPosition)
+        {
+            return _currentMap.Grid.Grid.WorldToCell(worldPosition);
+        }
+
+        public Vector3 CellToWorld(Vector3Int cellPosition)
+        {
+            return _currentMap.Grid.Grid.CellToWorld(cellPosition);
+        }
+        
+        #endregion
     }
 }

@@ -13,6 +13,8 @@ namespace SlimeMaster.InGame.Controller
     
     public class GridController : MonoBehaviour
     {
+        public Grid Grid => _grid;
+        
         [SerializeField] private Grid _grid;
 
         private Dictionary<Vector3Int, Cell> _cellDict = new();

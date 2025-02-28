@@ -7,6 +7,7 @@ using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.OutGame.Popup;
 using SlimeMaster.Server;
+using SlimeMaster.Shared.Data;
 using SlimeMaster.UISubItemElement;
 using UnityEngine;
 
@@ -61,7 +62,8 @@ namespace SlimeMaster.Presenter
 
         private async void OnGetReward(int id)
         {
-            var response = await ServerHandlerFactory.Get<IAchievementClientSender>().GetAchievementRewardRequest(id);
+            var response = await ServerHandlerFactory.Get<IAchievementClientSender>()
+                .GetAchievementRewardRequest(new AchievementRequestBase() { achievementId = id });
 
             if (response.responseCode != ServerErrorCode.Success)
             {

@@ -8,6 +8,7 @@ using SlimeMaster.Interface;
 using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.OutGame.Popup;
+using SlimeMaster.Shared.Data;
 using SlimeMaster.UISubItemElement;
 using UnityEngine;
 
@@ -79,7 +80,7 @@ namespace SlimeMaster.Presenter
 
         private async void OnGetReward(int day)
         {
-            var response = await ServerHandlerFactory.Get<ICheckoutClientSender>().GetCheckoutRewardRequest(day);
+            var response = await ServerHandlerFactory.Get<ICheckoutClientSender>().GetCheckoutRewardRequest(new GetCheckoutRewardRequestBase() { day = day});
             if (response.responseCode != ServerErrorCode.Success)
             {
                 switch(response.responseCode)

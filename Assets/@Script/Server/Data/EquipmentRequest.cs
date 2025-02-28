@@ -2,11 +2,6 @@ using System;
 
 namespace SlimeMaster.Shared.Data
 {
-    public class EquipmentRequest
-    {
-        
-    }
-    
     [Serializable]
     public class AllMergeEquipmentRequestData
     {

@@ -1,4 +1,5 @@
 using System.IO;
+using Clicker.Manager;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using SlimeMaster.Data;
@@ -25,7 +26,8 @@ namespace SlimeMaster.Managers
         public ObjectManager Object => I._object ??= new ObjectManager();
         public UIManager UI => I._ui ??= new UIManager();
         public AudioManager Audio => I._audio ??= new AudioManager();
-
+        public WebManager Web => I._web ??= new WebManager();
+        
         public GameContinueData GameContinueData
         {
             get =>I._gameContinueData ??= new GameContinueData();
@@ -41,6 +43,7 @@ namespace SlimeMaster.Managers
         private ObjectManager _object;
         private UIManager _ui;
         private AudioManager _audio;
+        private WebManager _web;
         private GameContinueData _gameContinueData;
 
         public bool IsOnBGM
@@ -100,8 +103,9 @@ namespace SlimeMaster.Managers
             Game.Initialize();
             Object.Initialize();
             Audio.Initialize();
+            Web.Initialize();
 
-            TryLoadGameContinueData();
+            // TryLoadGameContinueData();
         }
 
         public async void StartGame()

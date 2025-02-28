@@ -308,7 +308,7 @@ namespace SlimeMaster.InGame.Controller
             MaxHP += equip_hp;
             MaxHP *= MaxHPBonus;
             
-            _attackDamage += equip_attack;
+            // _attackDamage += equip_attack;
             _playerModel = ModelFactory.CreateOrGetModel<PlayerModel>();
             _playerModel.CurrentLevel.Value = Level;
 
@@ -599,7 +599,7 @@ namespace SlimeMaster.InGame.Controller
 
         protected override async void Dead()
         {
-            UpdateCreatureState(CreatureStateType.Idle);
+            UpdateCreatureState(CreatureStateType.Dead);
             HP = 0;
             transform.DOKill();
             transform.DOScale(Vector3.zero, 0.3f);
@@ -613,8 +613,12 @@ namespace SlimeMaster.InGame.Controller
             {
                 await DoResurrectionAsync(supportSkill);
             }
+            else
+            {
+            }
         }
 
+        //부활
         private async UniTask DoResurrectionAsync(SupportSkill supportSkill)
         {
             Heal(supportSkill.SupportSkillData.HealRate);

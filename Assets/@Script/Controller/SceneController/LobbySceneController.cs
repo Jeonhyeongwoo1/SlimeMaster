@@ -5,6 +5,7 @@ using SlimeMaster.Interface;
 using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.Presenter;
+using SlimeMaster.Shared;
 using UnityEngine;
 
 namespace SlimeMaster.Controller
@@ -29,7 +30,7 @@ namespace SlimeMaster.Controller
         {
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                var response = await ServerHandlerFactory.Get<IUserClientSender>().CopyNewUser();
+                var response = await ServerHandlerFactory.Get<IUserClientSender>().CopyNewUser(new RequestBase());
                 Debug.Log("response  " + response.responseCode);
             }
         }

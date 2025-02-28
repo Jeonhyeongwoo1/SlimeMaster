@@ -7,6 +7,6 @@ namespace SlimeMaster.Interface
     [ClientSender]
     public interface IShopClientSender : IClientSender
     {
-        public UniTask<ShopPurchaseResponse> PurchaseItemRequest(int shopId);
+        public UniTask<ShopPurchaseResponseBase> PurchaseItemRequest(ShopPurchaseRequestBase request);
     }
 }

@@ -9,6 +9,7 @@ using SlimeMaster.Interface;
 using SlimeMaster.Managers;
 using SlimeMaster.Model;
 using SlimeMaster.OutGame.Popup;
+using SlimeMaster.Shared.Data;
 using UnityEngine;
 
 namespace SlimeMaster.Presenter
@@ -125,8 +126,9 @@ namespace SlimeMaster.Presenter
                 Debug.Log("Load Ads");
                 return;
             }
-            
-            var response = await ServerHandlerFactory.Get<IShopClientSender>().PurchaseItemRequest(shopId);
+
+            var response = await ServerHandlerFactory.Get<IShopClientSender>()
+                .PurchaseItemRequest(new ShopPurchaseRequestBase() { shopId = shopId });
             if (response.responseCode != ServerErrorCode.Success)
             {
                 Debug.Log("Respons :" + response.responseCode);

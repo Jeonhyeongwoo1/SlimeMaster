@@ -1,60 +1,37 @@
-using System;
-using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using Firebase;
 using UnityEngine;
 using Firebase.Auth;
-using Firebase.Extensions;
-using Firebase.Firestore;
+using Script.Server.Data;
+using SlimeMaster.Enum;
+using SlimeMaster.Factory;
+using SlimeMaster.Model;
 
 namespace SlimeMaster.Firebase
 {
     public class FirebaseController
     {
-        public bool HasUserId => _auth?.CurrentUser != null;
-        public string UserId => _auth.CurrentUser?.UserId;
-        public FirebaseFirestore DB => _db;
+        public string UserId => _uid;
         
-        private FirebaseAuth _auth;
-        private FirebaseUser _user;
-        private FirebaseFirestore _db;
-
-        public async UniTask<bool> FirebaseInit()
-        {
-            await FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread((task) =>
-            {
-                if (task.IsCanceled || task.IsFaulted)
-                {
-                    Debug.LogError("Failed firebase app init " + task.Exception?.Message);
-                    return false;
-                }
-                
-                FirebaseApp app = FirebaseApp.DefaultInstance;
-                _db = FirebaseFirestore.DefaultInstance;
-                _auth = FirebaseAuth.DefaultInstance;
-                return true;
-            });
-
-            return _auth != null;
-        }
+        private string _uid;
+        private readonly string _key = "firebase_uid";
 
         public async UniTask<bool> TrySignInAnonymously()
         {
-            FirebaseUser user = null;
-            await _auth.SignInAnonymouslyAsync().ContinueWithOnMainThread((task) =>
+            string uid = PlayerPrefs.GetString(_key);
+            var response =
+                await Managers.Manager.I.Web.SendRequest<DBAuthResponseBase>("/api/auth/login",
+                    new DBAuthRequest() { uid = uid });
+            if (response.responseCode == ServerErrorCode.Success)
             {
-                if (task.IsCanceled || task.IsFaulted)
-                {
-                    Debug.LogError("failed sign in anonymmoulsy" +
-                                   task.Exception.Message);
-                    return;
-                }
+                //내부 저장
+                _uid = response.uid;
+                PlayerPrefs.SetString(_key, response.uid);
+                PlayerPrefs.Save();
+                ModelFactory.CreateOrGetModel<UserModel>().Token = response.token;
+                return true;
+            }
 
-                AuthResult result = task.Result;
-                _user = result.User;
-            });
-
-            return _user != null;
+            return false;
         }
     }
 }

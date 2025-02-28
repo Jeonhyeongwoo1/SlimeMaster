@@ -7,6 +7,6 @@ namespace SlimeMaster.Interface
     [ClientSender]
     public interface IAchievementClientSender : IClientSender
     {
-        UniTask<AchievementResponse> GetAchievementRewardRequest(int achievementId);
+        UniTask<AchievementResponseBase> GetAchievementRewardRequest(AchievementRequestBase request);
     }
 }

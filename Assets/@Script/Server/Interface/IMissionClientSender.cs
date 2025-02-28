@@ -8,6 +8,6 @@ namespace SlimeMaster.Interface
     [ClientSender]
     public interface IMissionClientSender : IClientSender
     {
-        UniTask<GetMissionRewardResponse> GetMissionRewardRequest(int missionId, MissionType missionType);
+        UniTask<GetMissionRewardResponseBase> GetMissionRewardRequest(GetMissionRewardRequest request);
     }
 }

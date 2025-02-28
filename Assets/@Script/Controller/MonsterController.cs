@@ -5,8 +5,10 @@ using Cysharp.Threading.Tasks;
 using SlimeMaster.Common;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
+using SlimeMaster.InGame.Manager;
 using SlimeMaster.Managers;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace SlimeMaster.InGame.Controller
@@ -95,36 +97,72 @@ namespace SlimeMaster.InGame.Controller
             }
         }
 
-        private async UniTaskVoid MoveToPlayer()
+        private Vector3 _cellPos;
+
+        private async UniTaskVoid FindPathToPlayer()
         {
             _moveCts = new CancellationTokenSource();
             CancellationToken token = _moveCts.Token;
-            
+
+            GameManager game = Managers.Manager.I.Game;
+            float minSpeed = 1.5f;
             while (_moveCts != null && !_moveCts.IsCancellationRequested)
             {
-                Vector3 prevPosition = _rigidbody.position;
-                Vector3 direction = (_player.transform.position - prevPosition).normalized;
-                Vector3 nextPosition = (Vector3) _rigidbody.position + direction;
-                Vector3 lerp = Vector3.Lerp(prevPosition, nextPosition, Time.fixedDeltaTime * MoveSpeed);
-                _rigidbody.MovePosition(lerp);
-                SetSpriteFlipX(direction.x >= 0);
-                
-                try
+                Vector3 myPos = transform.position;
+                Vector3 playerPos = _player.Position;
+                //일정거리 밑으로인경우에는 방향으로 밀기
+                if ((myPos - playerPos).sqrMagnitude < 1.5f)
                 {
-                    await UniTask.WaitForFixedUpdate(cancellationToken: token);
+                    Vector3 dir = (playerPos - myPos).normalized;
+                    transform.position = Vector3.Lerp(myPos, myPos + dir, Time.deltaTime * minSpeed);
+                    SetSpriteFlipX(dir.x >= 0);
+                    await UniTask.Yield(cancellationToken: token);
+                    continue;
                 }
-                catch (Exception e) when(!(e is OperationCanceledException))
+
+                // List<Vector3Int> list = new List<Vector3Int>();
+                var list = game.PathFinding(game.WorldToCell(myPos), game.WorldToCell(playerPos));
+                if (list == null || list.Count < 2)
                 {
-                    Debug.LogError($"{nameof(MoveToPlayer)} error {e}");
-                    Dead();
-                    break;
+                    Vector3 dir = (playerPos - myPos).normalized;
+                    transform.position = Vector3.Lerp(myPos, myPos + dir, Time.deltaTime * minSpeed);
                 }
+                else
+                {
+                    var pathQueue = new Queue<Vector3Int>(list);
+                    // _pathQueue.Dequeue();
+                    while (pathQueue.Count > 0)
+                    {
+                        var pos = pathQueue.Dequeue();
+                        _cellPos = game.CellToWorld(pos);
+
+                        //이전과의 거리 차이가 많이 난다면 종료 후에 다시 길 찾기
+                        if ((game.WorldToCell(playerPos) - game.WorldToCell(_player.transform.position)).magnitude > 1)
+                        {
+                            break;
+                        }
+                    
+                        while ((transform.position - _cellPos).sqrMagnitude >= 1f)
+                        {
+                            Vector3 dir = _cellPos - transform.position;
+                            //일관성 있게 이동하기 위해서
+                            float moveDist = Mathf.Min(dir.magnitude, MoveSpeed * Time.deltaTime);
+                            dir.Normalize();
+                            transform.position += dir * moveDist;
+                            SetSpriteFlipX(dir.x >= 0);
+                            await UniTask.Yield();
+                        }
+                    }
+                }
+
+
+                await UniTask.Yield();
             }
         }
 
         private void OnResurrectionPlayer(object value)
         {
-            MoveToPlayer().Forget();
+            FindPathToPlayer().Forget();
         }
 
         private void AllCancelCancellationTokenSource()
@@ -136,9 +174,10 @@ namespace SlimeMaster.InGame.Controller
         public virtual void Spawn(Vector3 spawnPosition, PlayerController player)
         {
             transform.position = spawnPosition;
+            _cellPos = Managers.Manager.I.Game.WorldToCell(spawnPosition);
             _player = player;
             gameObject.SetActive(true);
-            MoveToPlayer().Forget();
+            FindPathToPlayer().Forget();
         }
 
         public override void TakeDamage(float damage, CreatureController attacker)

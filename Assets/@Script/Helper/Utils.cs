@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
@@ -205,6 +206,26 @@ namespace SlimeMaster.Common
             }
 
             return timeSpan;
+        }
+        
+        public static IPAddress GetIpv4Address(string hostAddress)
+        {
+            IPAddress[] ipAddr = Dns.GetHostAddresses(hostAddress);
+
+            if (ipAddr.Length == 0)
+            {
+                return null;
+            }
+			
+            foreach (IPAddress ipAddress in ipAddr)
+            {
+                if (ipAddress.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    return ipAddress;
+                }
+            }
+			
+            return null;
         }
     }
 }

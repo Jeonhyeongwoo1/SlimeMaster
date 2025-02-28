@@ -248,6 +248,7 @@ namespace SlimeMaster.Enum
         FailedGetMissionData,
         NotEnoughAccumulatedValue,
         NotEnoughRewardTime,
+        FailedGenerateToken
     }
 
     public enum WaveType

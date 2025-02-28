@@ -9,9 +9,9 @@ namespace SlimeMaster.Interface
     [ClientSender]
     public interface IEquipmentClientSender : IClientSender
     {
-        UniTask<EquipmentLevelUpResponse> EquipmentLevelUpRequest(string equipmentDataId, string equipmentUID, int level, bool isEquipped);
-        UniTask<UnequipResponse> UnequipRequest(string equipmentUID);
-        UniTask<EquipResponse> EquipRequest(string unequippedItemUID, string equippedItemUID);
-        UniTask<MergeEquipmentResponse> MergeEquipmentRequest(List<AllMergeEquipmentRequestData> requestDataList);
+        UniTask<EquipmentLevelUpResponseBase> EquipmentLevelUpRequest(EquipmentLevelUpRequestBase request);
+        UniTask<UnequipResponseBase> UnequipRequest(UnequipRequestBase request);
+        UniTask<EquipResponseBase> EquipRequest(EquipRequestBase request);
+        UniTask<MergeEquipmentResponseBase> MergeEquipmentRequest(MergeEquipmentRequestBase request);
     }
 }

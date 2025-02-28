@@ -10,10 +10,10 @@ namespace SlimeMaster.Interface
     [ClientSender]
     public interface IUserClientSender : IClientSender
     {
-        UniTask<UserResponse> LoadUserDataRequest(UserRequest request);
-        UniTask<UserResponse> UseStaminaRequest(int staminaCount);
-        UniTask<StageClearResponse> StageClearRequest(int stageIndex);
-        UniTask<RewardResponse> GetWaveClearRewardRequest(int stageIndex, WaveClearType waveClearType);
-        UniTask<Response> CopyNewUser();
+        UniTask<UserResponseBase> LoadUserDataRequest(UserRequest request);
+        UniTask<UserResponseBase> UseStaminaRequest(UseStaminaRequest request);
+        UniTask<StageClearResponseBase> StageClearRequest(StageClearRequest request);
+        UniTask<RewardResponseBase> GetWaveClearRewardRequest(GetWaveClearRewardRequest request);
+        UniTask<ResponseBase> CopyNewUser(RequestBase requestBase);
     }
 }

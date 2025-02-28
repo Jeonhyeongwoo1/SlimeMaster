@@ -262,7 +262,7 @@ namespace SlimeMaster.InGame.View
             _soulShopCloseButton.gameObject.SetActive(false);
             _soulShopBGButton.gameObject.SetActive(false);
             _OwnBattleSkillInfoObject.SetActive(false);
-            InputHandler.onActivateInputHandlerAction.Invoke(true);
+            InputHandler.onActivateInputHandlerAction?.Invoke(true);
             Time.timeScale = 1;
         }
         

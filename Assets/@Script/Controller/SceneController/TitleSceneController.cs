@@ -42,15 +42,15 @@ namespace SlimeMaster.Controller
 
         private async UniTask Initialize()
         {
-            _firebaseController = new FirebaseController();
-            bool isSuccess = await _firebaseController.FirebaseInit();
-            if (!isSuccess)
-            {
-                Debug.LogError("Failed firebase init");
-                return;
-            }
-
             await Manager.I.Resource.LoadResourceAsync<Object>("PreLoad", (v) => _slider.value = v);
+            _firebaseController = new FirebaseController();
+            // bool isSuccess = await _firebaseController.FirebaseInit();
+            // if (!isSuccess)
+            // {
+            //     Debug.LogError("Failed firebase init");
+            //     return;
+            // }
+            
             Manager.I.Initialize();
             ServerHandlerFactory.InitializeServerHandlerRequest(_firebaseController, Manager.I.Data);
 

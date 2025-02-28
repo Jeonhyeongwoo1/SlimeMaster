@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Script.Server.Data;
 using SlimeMaster.Data;
 using SlimeMaster.Enum;
 using SlimeMaster.Factory;
@@ -64,7 +65,10 @@ namespace SlimeMaster.Presenter
 
         private async void OnGetMissionReward(int missionId, MissionType missionType)
         {
-            var response = await ServerHandlerFactory.Get<IMissionClientSender>().GetMissionRewardRequest(missionId, missionType);
+            var response = await ServerHandlerFactory.Get<IMissionClientSender>().GetMissionRewardRequest(new GetMissionRewardRequest()
+            {
+                missionId = missionId, missionType = missionType
+            });
             if (response.responseCode != ServerErrorCode.Success)
             {
                 switch (response.responseCode)

@@ -380,7 +380,6 @@ namespace SlimeMaster.InGame.Skill
         private void AddSkill(SkillData skillData, ref BaseSkill baseSkill)
         {
             SkillType skillType = GetSkillType(skillData.DataId);
-            Debug.Log("SkillType : " + skillType.ToString());
             if (skillType == SkillType.None)
             {
                 Debug.LogWarning("SkillType is None / skill id : " + skillData.DataId);
@@ -389,7 +388,6 @@ namespace SlimeMaster.InGame.Skill
             
             string skillName = $"{typeof(BaseSkill).Namespace}.{skillType}";
             var skill = Activator.CreateInstance(Type.GetType(skillName)) as BaseSkill;
-            // Debug.Log($"{skill} / {skillName} / {skill == null}");
             if (skill == null)
             {
                 Debug.LogWarning("skill is null : " + skillData.DataId);
