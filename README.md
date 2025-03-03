@@ -20,9 +20,8 @@
 - 목표
     - 뱀파이어 서바이벌 장르 게임을 구현한다.
     - 제공받은 리소스을 활용하되 소스 코드는 새롭게 구현하여 프로젝트를 구현한다.
-- Github 주소
-    - 클라이언트 - https://github.com/Jeonhyeongwoo1/SlimeMaster
-    - 서버 - https://github.com/Jeonhyeongwoo1/slime_master_server
+- 서버 Github 주소
+    - https://github.com/Jeonhyeongwoo1/slime_master_server
 - 사용 기술
     - Unity(2022.3.55f1)
 - 게임 설명
