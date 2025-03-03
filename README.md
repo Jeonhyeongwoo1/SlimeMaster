@@ -116,3 +116,52 @@ public static class ModelFactory
 
 - 게임 내에 필요한 데이터(몬스터 체력, 스테이지 등)을 관리하기 위함
 - 더 나아가 필요한 리소스 이름을 시트에 적어 놓으면 미리 로드 시킨 리소스와 이름을 일치시켜서 필요할 때 `ResourcesManager` 통해서 리소스를 불러 올 수 있으므로 유연하게 리소스 변경에 대처할 수 있음.
+
+
+## Client - Server 구조
+
+---
+
+### 개요
+
+- 목표 :
+    - Unity에서 로그인 및 게임 데이터를 관리하기 위해 [ASP.NET](http://ASP.NET) 서버와 Firebase를 활용하는 시스템 구축
+- 목적 :
+    - 클라이언트
+        - 로그인 및 유저 데이터를 UI를 통해 표시
+    - Server
+        - 클라이언트의 요청을 처리하고 인증 및 데이터 검증, 가공
+    - Firebase
+        - 유저 정보를 저장하여 일관된 데이터를 제공
+
+### Login 과정
+
+- Sequence diagram
+
+<div align="center">
+    <img width="1427" alt="Image" src="https://github.com/user-attachments/assets/200524fc-cd24-4c49-879e-fa5d17cb8c7a" />
+</div>
+
+  - 설명
+    1. 클라이언트(Unity)
+        - 클라이언트에서 저장된 UID가 있는지 확인한 다음에 서버로 UID를 전달(없으면 Null로 전달)
+            - UID는 디바이스내에 저장
+    2. 서버(ASP.NET)
+        - 서버는 클라이언트에게 전달받은 UID를 기준으로 UID가 있으면 Firebase를 통해서 UID 검증, UID가 없을 경우에는 Firebase에 새롭게 UID를 생성
+        - Firebase로부터 받은 UID를 기준으로 JWT를 생성
+    3. 서버 → 클라이언트 응답
+        - 생성한 JWT와 UID를 클라이언트에게 전달
+        - 이 후에는 클라이언트는 JWT, UID 저장하여 API 요청에 사용
+    - JWT 발급 이유
+        - 클라이언트로부터 요청이 들어왔을 때 서버는 해당 클라이언트가 유효한지 판단해야하므로 JWT를 발급하여 클라이언트를 인증
+        - 이후 클라이언트는 모든 API 요청에 JWT를 포함하여 서버에 전달하며, 서버는 Firebase 조회 없이 JWT의 서명을 검증하여 클라이언트의 신원을 확인할 수 있음.
+     
+
+
+
+
+
+
+
+
+
