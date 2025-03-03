@@ -62,8 +62,6 @@
     <img width="904" alt="Image" src="https://github.com/user-attachments/assets/8ecf3215-a6c5-4140-8b47-91a257466afc" />
 </div>
 
-<p>
-- `Manager` 클래스는 싱글톤 패턴으로 설계 <br>
+- Manager 클래스는 싱글톤 패턴으로 설계 <br>
 - 메모리 오버헤드 및 인스턴스 생성 비용을 최적화 <br>
 - 전역적으로 단 하나의 인스턴스만 보장하기 위함 <br>
-</p>
