@@ -39,13 +39,10 @@
 <div align="center">
     <img width="445" alt="Image" src="https://github.com/user-attachments/assets/973b5249-ed3b-4a26-a6e2-6e2599094358" />
 </div>
-- Client(Unity)
-    - 로그인, 게임 데이터 업데이트 요청 및 조회
-    - RESTful 방식 사용
-- Server(ASP.NET)
-    - Firebase와 연동 및 게임 데이터 업데이트 및 조회
-    - 사용자 UID 인증
-- Storage(Firebase)
-    - 유저 데이터 관리
-- Client - Server - Storage Sequence Diagram
-- 
+
+<p>
+<b>Client (Unity)</b> - 로그인, 게임 데이터 업데이트 요청 및 조회 - RESTful 방식 사용 <br>
+<b>Server (ASP.NET)</b> - Firebase와 연동 및 게임 데이터 업데이트 및 조회 - 사용자 UID 인증 <br>
+<b>Storage (Firebase)</b> - 유저 데이터 관리 <br>
+<b>Client - Server - Storage</b> - Sequence Diagram <br>
+</p>
