@@ -111,7 +111,7 @@ public static class ModelFactory
 - 씬에 모든 리소스를 배치시키는 방식은 로딩 시간이 오래 걸리고 사용될지도 모르는 상황이기 때문에 메모리 낭비가 발생함
 - 따라서 Addressables를 활용하여 필요할 때 리소스를 로드시키고 필요에 따라 풀링하는 방법으로 구현
 - 각 AssetBundle은 라벨을 추가하여 관리할 수 있으므로 리소스 관리에 용이함.
-
+- 관련 코드 주소 : https://github.com/Jeonhyeongwoo1/SlimeMaster/blob/main/Assets/%40Script/Manager/ResourcesManager.cs
 ### DataSheet를 활용한 게임 데이터 관리
 
 - 게임 내에 필요한 데이터(몬스터 체력, 스테이지 등)을 관리하기 위함
