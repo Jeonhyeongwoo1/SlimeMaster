@@ -36,7 +36,7 @@
     - https://github.com/user-attachments/assets/8d2e1186-03e0-4321-b16f-e11c33b8b20d
 
 ## 프로젝트 아키텍처
-<img width="445" alt="Image" src="https://github.com/user-attachments/assets/973b5249-ed3b-4a26-a6e2-6e2599094358" />
+- <img width="445" alt="Image" src="https://github.com/user-attachments/assets/973b5249-ed3b-4a26-a6e2-6e2599094358" />
 - Client(Unity)
     - 로그인, 게임 데이터 업데이트 요청 및 조회
     - RESTful 방식 사용
