@@ -24,8 +24,7 @@
     - 클라이언트 - https://github.com/Jeonhyeongwoo1/SlimeMaster
     - 서버 - https://github.com/Jeonhyeongwoo1/slime_master_server
 - 사용 기술
-    - Unity
-    - firebase
+    - Unity(2022.3.55f1)
 - 게임 설명
     - 뱀파이어 서바이벌 장르의 모바일용 게임
     - 캐릭터 성장에 따른 스킬 강화 및 캐릭터 능력치 상승하는 방식
