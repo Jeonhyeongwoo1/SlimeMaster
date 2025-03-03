@@ -144,7 +144,7 @@ public static class ModelFactory
 - Sequence diagram
 
 <div align="center">
-    <img width="1427" alt="Image" src="https://github.com/user-attachments/assets/200524fc-cd24-4c49-879e-fa5d17cb8c7a" />
+    <img width="1000" alt="Image" src="https://github.com/user-attachments/assets/200524fc-cd24-4c49-879e-fa5d17cb8c7a" />
 </div>
 
   - 설명
