@@ -91,6 +91,14 @@ public static class ModelFactory
         _modelDict.Clear();
     }
 }
-
+```
 ## UI 구조(MVP 패턴)
+
+<div align="center">
+    <img width="904" alt="Image" src="https://github.com/user-attachments/assets/96eaec8c-900c-43db-b52b-07ae81b4580d" />
+</div>
+
+- Model, View, Presenter간의 명확한 분리를 통해 코드의 구조 개선
+- 각 모듈이 분류되어서 구현되었기 때문에 서로간의 결합도가 낮고 확장성과 유연성이 높아지므로 코드 관리가 쉬움
+- View - Presenter 1 : 1 관계
 
