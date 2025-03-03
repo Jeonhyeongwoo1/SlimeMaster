@@ -92,3 +92,5 @@ public static class ModelFactory
     }
 }
 
+## UI 구조(MVP 패턴)
+
