@@ -45,4 +45,10 @@
 <b>Server (ASP.NET)</b> - Firebase와 연동 및 게임 데이터 업데이트 및 조회 - 사용자 UID 인증 <br>
 <b>Storage (Firebase)</b> - 유저 데이터 관리 <br>
 <b>Client - Server - Storage</b> - Sequence Diagram <br>
+<div align="center">
+    <img width="1126" alt="Image" src="https://github.com/user-attachments/assets/60813373-32a2-4802-9915-02e287f4fd90" />
+</div>
+    
 </p>
+
+
