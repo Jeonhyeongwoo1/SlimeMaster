@@ -95,7 +95,7 @@ public static class ModelFactory
 ## UI 구조(MVP 패턴)
 
 <div align="center">
-    <img width="904" alt="Image" src="https://github.com/user-attachments/assets/96eaec8c-900c-43db-b52b-07ae81b4580d" />
+    <img width="445" alt="Image" src="https://github.com/user-attachments/assets/96eaec8c-900c-43db-b52b-07ae81b4580d" />
 </div>
 
 - Model, View, Presenter간의 명확한 분리를 통해 코드의 구조 개선
