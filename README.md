@@ -25,7 +25,6 @@
     - 서버 - https://github.com/Jeonhyeongwoo1/slime_master_server
 - 사용 기술
     - Unity
-    - ASP.NET
     - firebase
 - 게임 설명
     - 뱀파이어 서바이벌 장르의 모바일용 게임
