@@ -69,7 +69,7 @@
 ## Model, Presenter(팩토리 패턴)
 - Model, Presenter는 전역적으로 접근해야할 수 있으므로 한 곳에서 관리하지 않으면 코드 관리가 어려워지므로 Factory내에서 관리 및 생성
 - 모든 Model, Presenter들을 중앙에서 관리 및 생성하여 중앙 집중화
-'''
+```csharp
 public static class ModelFactory
 {
     private static readonly Dictionary<Type, IModel> _modelDict = new();
@@ -91,3 +91,4 @@ public static class ModelFactory
         _modelDict.Clear();
     }
 }
+
