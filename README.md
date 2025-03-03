@@ -48,7 +48,22 @@
 <div align="center">
     <img width="445" alt="Image" src="https://github.com/user-attachments/assets/60813373-32a2-4802-9915-02e287f4fd90" />
 </div>
-    
 </p>
 
+## 트러블 슈팅
+- 몬스터가 장애물에 걸려서 이동하지 못하는 현상
+   - https://github.com/Jeonhyeongwoo1/SlimeMaster/issues/2
+- 길찾기 알고리즘 적용 후 프레임 드랍 현상
+   - https://github.com/Jeonhyeongwoo1/SlimeMaster/issues/1
+ 
+## Managers 구조(싱글톤 패턴)
 
+<div align="center">
+    <img width="904" alt="Image" src="https://github.com/user-attachments/assets/8ecf3215-a6c5-4140-8b47-91a257466afc" />
+</div>
+
+<p>
+- `Manager` 클래스는 싱글톤 패턴으로 설계 <br>
+- 메모리 오버헤드 및 인스턴스 생성 비용을 최적화 <br>
+- 전역적으로 단 하나의 인스턴스만 보장하기 위함 <br>
+</p>
