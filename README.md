@@ -28,7 +28,7 @@
     - 재화 및 뽑기를 활용해서 캐릭터 장비를 구매하여 캐릭터 강화
 - 게임 화면
   - Title
-    <img width="260" alt="Image" src="https://github.com/user-attachments/assets/e963ca37-b80c-4968-abe5-24bfd56a45e5" />
+    - <img width="260" alt="Image" src="https://github.com/user-attachments/assets/e963ca37-b80c-4968-abe5-24bfd56a45e5" />
 
 
 ## 프로젝트 아키텍처
