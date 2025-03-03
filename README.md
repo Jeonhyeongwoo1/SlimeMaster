@@ -2,9 +2,10 @@
 [1.프로젝트 개요](#프로젝트-개요)<br/>
 [2.프로젝트 아키텍처](#프로젝트-아키텍처)<br/>
 [3.트러블 슈팅](#트러블-슈팅)<br/>
-[4.Managers 구조(싱글톤 패턴)](#Managers-구조(싱글톤-패턴))<br/>
-[5.UI 구조(MVP 패턴)](#UI-구조(MVP-패턴))<br/>
-[6.Client - Server 구조](#Client-Server-구조)<br/>
+[4.Managers 구조(싱글톤 패턴)](#Managers-구조)<br/>
+[5.UI 구조(MVP 패턴)](#UI-구조)<br/>
+[6.팩토리 패턴](#팩토리-패턴)<br/>
+[6.Client-Server 구조](#Client-Server-구조)<br/>
 
 ## 프로젝트 개요
 
@@ -60,7 +61,7 @@
 - 길찾기 알고리즘 적용 후 프레임 드랍 현상
    - https://github.com/Jeonhyeongwoo1/SlimeMaster/issues/1
  
-## Managers 구조(싱글톤 패턴)
+## Managers 구조
 
 <div align="center">
     <img width="904" alt="Image" src="https://github.com/user-attachments/assets/8ecf3215-a6c5-4140-8b47-91a257466afc" />
@@ -70,7 +71,17 @@
 - 메모리 오버헤드 및 인스턴스 생성 비용을 최적화 <br>
 - 전역적으로 단 하나의 인스턴스만 보장하기 위함 <br>
 
-## Model, Presenter(팩토리 패턴)
+## UI 구조
+
+<div align="center">
+    <img width="445" alt="Image" src="https://github.com/user-attachments/assets/96eaec8c-900c-43db-b52b-07ae81b4580d" />
+</div>
+
+- Model, View, Presenter간의 명확한 분리를 통해 코드의 구조 개선
+- 각 모듈이 분류되어서 구현되었기 때문에 서로간의 결합도가 낮고 확장성과 유연성이 높아지므로 코드 관리가 쉬움
+- View - Presenter 1 : 1 관계
+  
+## 팩토리 패턴
 - Model, Presenter는 전역적으로 접근해야할 수 있으므로 한 곳에서 관리하지 않으면 코드 관리가 어려워지므로 Factory내에서 관리 및 생성
 - 모든 Model, Presenter들을 중앙에서 관리 및 생성하여 중앙 집중화
 ```csharp
@@ -96,16 +107,6 @@ public static class ModelFactory
     }
 }
 ```
-## UI 구조(MVP 패턴)
-
-<div align="center">
-    <img width="445" alt="Image" src="https://github.com/user-attachments/assets/96eaec8c-900c-43db-b52b-07ae81b4580d" />
-</div>
-
-- Model, View, Presenter간의 명확한 분리를 통해 코드의 구조 개선
-- 각 모듈이 분류되어서 구현되었기 때문에 서로간의 결합도가 낮고 확장성과 유연성이 높아지므로 코드 관리가 쉬움
-- View - Presenter 1 : 1 관계
-
 ## 리소스 관리
 
 ---
@@ -122,7 +123,7 @@ public static class ModelFactory
 - 더 나아가 필요한 리소스 이름을 시트에 적어 놓으면 미리 로드 시킨 리소스와 이름을 일치시켜서 필요할 때 `ResourcesManager` 통해서 리소스를 불러 올 수 있으므로 유연하게 리소스 변경에 대처할 수 있음.
 
 
-## Client - Server 구조
+## Client-Server 구조
 
 ---
 
