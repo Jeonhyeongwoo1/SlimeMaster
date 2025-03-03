@@ -65,3 +65,29 @@
 - Manager 클래스는 싱글톤 패턴으로 설계 <br>
 - 메모리 오버헤드 및 인스턴스 생성 비용을 최적화 <br>
 - 전역적으로 단 하나의 인스턴스만 보장하기 위함 <br>
+
+## Model, Presenter(팩토리 패턴)
+- Model, Presenter는 전역적으로 접근해야할 수 있으므로 한 곳에서 관리하지 않으면 코드 관리가 어려워지므로 Factory내에서 관리 및 생성
+- 모든 Model, Presenter들을 중앙에서 관리 및 생성하여 중앙 집중화
+'''
+public static class ModelFactory
+{
+    private static readonly Dictionary<Type, IModel> _modelDict = new();
+
+    public static T CreateOrGetModel<T>() where T : IModel, new ()
+    {
+        if (!_modelDict.TryGetValue(typeof(T), out var model))
+        {
+            model = new T();
+            _modelDict.Add(typeof(T), model);
+            return (T) model;
+        }
+
+        return (T)model;
+    }
+
+    public static void ClearCachedDict()
+    {
+        _modelDict.Clear();
+    }
+}
