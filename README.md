@@ -46,7 +46,7 @@
 <b>Storage (Firebase)</b> - 유저 데이터 관리 <br>
 <b>Client - Server - Storage</b> - Sequence Diagram <br>
 <div align="center">
-    <img width="1126" alt="Image" src="https://github.com/user-attachments/assets/60813373-32a2-4802-9915-02e287f4fd90" />
+    <img width="445" alt="Image" src="https://github.com/user-attachments/assets/60813373-32a2-4802-9915-02e287f4fd90" />
 </div>
     
 </p>
