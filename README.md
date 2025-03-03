@@ -29,6 +29,10 @@
 - 게임 화면
   - Title
     - <img width="260" alt="Image" src="https://github.com/user-attachments/assets/e963ca37-b80c-4968-abe5-24bfd56a45e5" />
-
+  - Lobby
+    - <img width="255" alt="Image" src="https://github.com/user-attachments/assets/c26e2de9-6f57-456b-9ca7-d49b871ed3fe" />
+    - <img width="261" alt="Image" src="https://github.com/user-attachments/assets/e2353c77-880d-4434-91a4-a480d4bd1499" />
+  - Game
+    - https://github.com/user-attachments/assets/8d2e1186-03e0-4321-b16f-e11c33b8b20d
 
 ## 프로젝트 아키텍처
